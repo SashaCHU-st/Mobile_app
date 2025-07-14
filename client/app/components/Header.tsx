@@ -13,7 +13,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   app: {
-    backgroundColor: "#A3DC9A",
+    backgroundColor: "#FFD6BA",
     alignItems: "center",
     paddingBottom: 30,
     paddingTop: 30,

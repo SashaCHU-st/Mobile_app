@@ -1,13 +1,10 @@
-import { StyleSheet, Text, View, Button } from "react-native";
-import Auth from "./components/Auth";
-import Header from "./components/Header";
+import { StyleSheet, View } from "react-native";
+import Home from "./screens/Home";
 
 export default function Index() {
-
   return (
     <View style={styles.container}>
-      <Header/>
-      <Auth />
+      <Home />
     </View>
   );
 }
@@ -16,5 +13,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
 });

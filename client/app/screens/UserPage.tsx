@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import Logout from '../components/Logout'
 
 const UserPage = () => {
   return (
     <View>
-      <Text>UserPage</Text>
+      <Logout/>
     </View>
   )
 }

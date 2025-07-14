@@ -14,7 +14,7 @@ export async function signUp(req:FastifyRequest <{Body: SignUpBody}>, reply:Fast
 
     try
     {
-        const newUser = await pool.query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3)", [name, email, password]);
+        const newUser = await pool.query("INSERT INTO users (email,name,  password) VALUES ($1, $2, $3)", [email,name,  password]);
 
         return reply.code(201).send({message: "All good", newUser:newUser})
 

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+import { API_URL } from "../config";
 
 interface AuthProps {
   email: string;
@@ -16,8 +17,8 @@ interface AuthProps {
   setName: (value: string) => void;
   password: string;
   setPassword: (value: string) => void;
-  login:boolean;
-  setLogin:(value: boolean) => void;
+  login: boolean;
+  setLogin: (value: boolean) => void;
 }
 
 const size = Dimensions.get("window").width * 0.1;
@@ -32,6 +33,25 @@ const SignUp = ({
   setLogin,
 }: AuthProps) => {
   const router = useRouter();
+
+  const handleSignUp = async () => {
+    try {
+      const results = await fetch(`${API_URL}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name,
+          password,
+        }),
+      });
+      if (!results.ok) throw new Error(`HTTP error! status: ${results.status}`);
+    } catch (err) {
+      console.error("Error", err);
+    }
+
+    router.push("/screens/UserPage");
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -53,10 +73,7 @@ const SignUp = ({
         onChangeText={setPassword}
       />
 
-      <Pressable
-        style={styles.button}
-        onPress={() => router.push("/screens/UserPage")}
-      >
+      <Pressable style={styles.button} onPress={handleSignUp}>
         <Text style={styles.text}>Sign Up</Text>
       </Pressable>
       <Pressable
@@ -85,7 +102,6 @@ const SignUp = ({
 export default SignUp;
 const styles = StyleSheet.create({
   container: {
-
     alignItems: "center",
   },
   button: {

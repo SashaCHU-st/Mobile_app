@@ -1,15 +1,20 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import Auth from "./components/Auth";
+import Header from "./components/Header";
 
 export default function Index() {
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+    <View style={styles.container}>
+      <Header/>
+      <Auth />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+});

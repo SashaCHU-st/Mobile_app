@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+import { API_URL } from "../config";
 const size = Dimensions.get("window").width * 0.1;
 
 interface LoginProps {
@@ -28,6 +29,29 @@ const Login = ({
   setLogin,
 }: LoginProps) => {
   const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      const results = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      console.log("HHH=>", results);
+      if (!results.ok) {
+        const errorData = await results.json();
+        throw new Error(
+          errorData.message || `HTTP error! status: ${results.status}`
+        );
+      }
+    } catch (err) {
+      console.error("Error", err);
+    }
+    router.push("/screens/UserPage");
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -42,10 +66,7 @@ const Login = ({
         value={password}
         onChangeText={setPassword}
       />
-      <Pressable
-        style={styles.button}
-        onPress={() => router.push("/screens/UserPage")}
-      >
+      <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.text}>Login</Text>
       </Pressable>
       <Pressable

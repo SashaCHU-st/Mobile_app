@@ -1,3 +1,17 @@
+# Usage
+### Backend
+```
+cd server
+npm install
+npm run start
+```
+### Frontend
+```
+cd client
+npm install
+npm start
+```
+
 # Progress of my Mobile app
 
 ### 🔧 Backend

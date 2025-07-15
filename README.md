@@ -29,6 +29,7 @@ npm start
 
 | Feature           | Description                                      | Status         |
 |------------------|--------------------------------------------------|----------------|
+|                  |                  ***Auth***                      |                |
 | SignUp           | Simple SignUp on client                          | ✅ Done         |
 | Login            | Simple Login on client                           | ✅ Done         |
 | Switching Buttons| Switching between Login ⇄ SignUp                 | ✅ Done         |

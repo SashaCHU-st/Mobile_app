@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import fastify, { FastifyInstance } from "fastify";
 import { LoginSchema, SignUpSchema } from "../schema/AuthSchema";
 import { signUp, login } from "../controllers/AuthController";
 

@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import {  FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
 type SignUpBody = {
   email: string;
@@ -8,7 +8,6 @@ type SignUpBody = {
 
 type LoginBody = {
   email: string;
-  // name: string;
   password: string;
 };
 
@@ -18,13 +17,25 @@ export async function signUp(
 ) {
   const { email, name, password } = req.body;
 
+  if (!email || !name || !password) {
+    return reply
+      .status(400)
+      .send({ message: "Email, name, and password are required." });
+  }
+
   try {
     const newUser = await pool.query(
-      "INSERT INTO users (email,name,  password) VALUES ($1, $2, $3)",
+      "INSERT INTO users (email,name,  password) VALUES ($1, $2, $3) RETURNING *",
       [email, name, password]
     );
+    console.log("HHHH=>", newUser.rows[0].id);
 
-    return reply.code(201).send({ message: "All good", newUser: newUser });
+    const user = newUser.rows[0];
+    const token = reply.server.jwt.sign({ id: user.id });
+
+    return reply
+      .code(201)
+      .send({ message: "All good", newUser: newUser.rows[0], token: token });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -38,17 +49,20 @@ export async function login(
   const { email, password } = req.body;
 
   try {
-    const user = await pool.query(`SELECT * FROM users WHERE email = $1`, [
-      email,
-    ]);
-
+    const user = await pool.query(
+      `SELECT * FROM users WHERE email = $1 RETURNING id`,
+      [email]
+    );
     if (user.rowCount === 0) {
       return reply.code(400).send({ message: "No such user" });
     }
     if (user.rows[0].password !== password) {
       return reply.code(400).send({ message: "Wrong password" });
     }
-    return reply.code(200).send({ message: "All good", user: user.rows });
+    const userData = user.rows[0];
+    const token = reply.server.jwt.sign({ id: userData.id });
+
+    return reply.code(200).send({ message: "All good", user: user.rows, token:token });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

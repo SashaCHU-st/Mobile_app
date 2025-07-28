@@ -1,7 +1,8 @@
-import Fastify from "fastify";
+import Fastify, { fastify } from "fastify";
 import cors from "@fastify/cors";
 import {pool} from "./db/db"
 import { AuthRoutes } from "./routes/AuthRoute";
+import jwt from "@fastify/jwt";
 
 const app = Fastify();
 
@@ -10,6 +11,8 @@ app.register(cors, {
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
 });
 
+const jwtSecret = process.env.SECRET || "kuku";
+app.register(jwt, {secret:jwtSecret})
 
 app.register(AuthRoutes)
 pool.connect()

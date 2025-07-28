@@ -13,10 +13,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   app: {
-    backgroundColor: "#FFD6BA",
+    backgroundColor: "#e8e4e2ff",
     alignItems: "center",
     paddingBottom: 30,
-    paddingTop: 30,
+    paddingTop: 50,
     justifyContent: "center",
   },
   text: {

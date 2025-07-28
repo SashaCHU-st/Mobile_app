@@ -6,7 +6,7 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
 const size = Dimensions.get("window").width * 0.1;
@@ -29,6 +29,7 @@ const Login = ({
   setLogin,
 }: LoginProps) => {
   const router = useRouter();
+  const [error, setError] = useState("")
 
   const handleLogin = async () => {
     try {
@@ -40,20 +41,22 @@ const Login = ({
           password,
         }),
       });
+      const errorData = await results.json();
       console.log("HHH=>", results);
       if (!results.ok) {
-        const errorData = await results.json();
         throw new Error(
           errorData.message || `HTTP error! status: ${results.status}`
         );
       }
-    } catch (err) {
+      router.push("/screens/UserPage");
+    } catch (err:any) {
       console.error("Error", err);
+       setError(err.message || "Something went wrong");
     }
-    router.push("/screens/UserPage");
   };
   return (
     <View style={styles.container}>
+      {error ? <Text style={styles.errorText}>{error} </Text> :null}
       <TextInput
         style={styles.input}
         placeholder="Enter a email"
@@ -103,6 +106,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#DEE791",
     justifyContent: "center",
     alignItems: "center",
+  },
+    errorText: {
+    color: "red",
+    marginBottom: 10,
   },
   buttonSwitcher: {
     width: 200,

@@ -5,7 +5,6 @@ import {
 import { useState } from "react";
 import SignUp from "./SignUp";
 import Login from "./Login";
-import { API_URL } from "../config";
 
 
 export default function Auth() {

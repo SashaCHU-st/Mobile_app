@@ -6,7 +6,7 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
 
@@ -33,6 +33,7 @@ const SignUp = ({
   setLogin,
 }: AuthProps) => {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   const handleSignUp = async () => {
     try {
@@ -45,15 +46,22 @@ const SignUp = ({
           password,
         }),
       });
-      if (!results.ok) throw new Error(`HTTP error! status: ${results.status}`);
-    } catch (err) {
-      console.error("Error", err);
-    }
+      const data = await results.json();
 
-    router.push("/screens/UserPage");
+      console.log("User=>", data.newUser)
+      console.log("Token=>", data.token)
+      if (!results.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+      router.push("/screens/UserPage");
+    } catch (err: any) {
+      console.error("Error", err);
+      setError(err.message || "Something went wrong");
+    }
   };
   return (
     <View style={styles.container}>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <TextInput
         style={styles.input}
         placeholder="Enter a email"
@@ -112,6 +120,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
+  },
+
   buttonSwitcher: {
     width: 200,
     height: 40,

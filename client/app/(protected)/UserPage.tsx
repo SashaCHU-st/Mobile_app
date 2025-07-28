@@ -1,0 +1,28 @@
+import { useEffect } from "react";
+import { View, Text } from "react-native";
+import { useRouter } from "expo-router";
+import { useAuth } from "../context/Authcontext";
+import Logout from "../components/Logout";
+import Header from "../components/Header"
+
+export default function UserPage() {
+  const { isAuthorized } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthorized) {
+      router.replace("/screens/Home");
+    }
+  }, [isAuthorized]);
+
+  if (!isAuthorized) {
+    return null;
+  }
+
+  return (
+    <View>
+      <Header />
+      <Logout />
+    </View>
+  );
+}

@@ -1,12 +1,16 @@
 import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
+import { useAuth } from "../context/Authcontext";
 const size = Dimensions.get("window").width * 0.1;
 
 const Logout = () => {
+  const { logout } = useAuth();
   const router = useRouter();
+
   const handleLogout = () => {
-    router.push("/screens/Home")
+    logout();             // меняем состояние isAuthorized на false
+    router.replace("/");  // заменяем страницу, чтобы нельзя было вернуться назад
   };
   return (
     <View style = {styles.container}>

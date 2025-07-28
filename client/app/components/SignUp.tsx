@@ -6,9 +6,11 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
+import { useAuth } from "../context/Authcontext";
 
 interface AuthProps {
   email: string;
@@ -34,6 +36,7 @@ const SignUp = ({
 }: AuthProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const {login:loginUser} = useAuth();
 
   const handleSignUp = async () => {
     try {
@@ -47,13 +50,12 @@ const SignUp = ({
         }),
       });
       const data = await results.json();
-
-      console.log("User=>", data.newUser)
-      console.log("Token=>", data.token)
+      await AsyncStorage.setItem("id", data.id);
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      router.push("/screens/UserPage");
+      loginUser(data.token);
+      router.replace("/(protected)/UserPage");
     } catch (err: any) {
       console.error("Error", err);
       setError(err.message || "Something went wrong");

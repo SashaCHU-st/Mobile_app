@@ -1,16 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { View, Text, Button } from "react-native";
+import { useRouter } from "expo-router";
 import Home from "./screens/Home";
 
 export default function Index() {
+  const router = useRouter();
+
   return (
-    <View style={styles.container}>
-      <Home />
+    <View>
+      <Text>Welcome to Home Page</Text>
+      <Home/>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

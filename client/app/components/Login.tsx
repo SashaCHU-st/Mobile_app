@@ -6,9 +6,11 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
+import { useAuth } from "../context/Authcontext";
 const size = Dimensions.get("window").width * 0.1;
 
 interface LoginProps {
@@ -29,7 +31,8 @@ const Login = ({
   setLogin,
 }: LoginProps) => {
   const router = useRouter();
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const { login: loginUser } = useAuth();
 
   const handleLogin = async () => {
     try {
@@ -41,22 +44,24 @@ const Login = ({
           password,
         }),
       });
-      const errorData = await results.json();
-      console.log("HHH=>", results);
+      const data = await results.json();
+      loginUser(data.token);
+
+      await AsyncStorage.setItem("id", data.id);
       if (!results.ok) {
         throw new Error(
-          errorData.message || `HTTP error! status: ${results.status}`
+          data.message || `HTTP error! status: ${results.status}`
         );
       }
-      router.push("/screens/UserPage");
-    } catch (err:any) {
+      router.replace("/(protected)/UserPage");
+    } catch (err: any) {
       console.error("Error", err);
-       setError(err.message || "Something went wrong");
+      setError(err.message || "Something went wrong");
     }
   };
   return (
     <View style={styles.container}>
-      {error ? <Text style={styles.errorText}>{error} </Text> :null}
+      {error ? <Text style={styles.errorText}>{error} </Text> : null}
       <TextInput
         style={styles.input}
         placeholder="Enter a email"
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-    errorText: {
+  errorText: {
     color: "red",
     marginBottom: 10,
   },

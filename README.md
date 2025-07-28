@@ -1,3 +1,19 @@
+# In progress...
+
+# Usage
+### Backend
+```
+cd server
+npm install
+npm run start
+```
+### Frontend
+```
+cd client
+npm install
+npm start
+```
+
 # Progress of my Mobile app
 
 ### 🔧 Backend
@@ -15,6 +31,7 @@
 
 | Feature           | Description                                      | Status         |
 |------------------|--------------------------------------------------|----------------|
+|                  |                  ***Auth***                      |                |
 | SignUp           | Simple SignUp on client                          | ✅ Done         |
 | Login            | Simple Login on client                           | ✅ Done         |
 | Switching Buttons| Switching between Login ⇄ SignUp                 | ✅ Done         |

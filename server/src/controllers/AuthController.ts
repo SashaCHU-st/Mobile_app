@@ -50,7 +50,7 @@ export async function login(
 
   try {
     const user = await pool.query(
-      `SELECT * FROM users WHERE email = $1 RETURNING id`,
+      `SELECT * FROM users WHERE email = $1`,
       [email]
     );
     if (user.rowCount === 0) {

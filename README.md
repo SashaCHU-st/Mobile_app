@@ -24,7 +24,7 @@ npm start
 | SignUp           | Simple SignUp on server                          | ✅ Done         |
 | Login            | Simple Login on server                           | ✅ Done         |
 | Logout           | Logout user from server                          | 🔧 In Progress          |
-| JWT              | JWT token generation and verification            | 🔧 In Progress  |
+| JWT              | JWT token generation and verification            | ✅ Done  |
 | HashedPass       | Passwords hashed with bcrypt or similar          | 🔧 In Progress  |
 
 ### 🎨 Frontend

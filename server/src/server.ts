@@ -16,9 +16,21 @@ app.register(cors, {
 const jwtSecret = process.env.SECRET || "kuku";
 app.register(jwt, { secret: jwtSecret });
 
+
+
 app.register(AuthRoutes);
-app.register(UsersRoutes);
-app.register(FriendsRoutes);
+app.register(async (instance) => {
+  instance.addHook('preHandler', async (req, reply) => {
+    try {
+      await req.jwtVerify();
+    } catch {
+      return reply.code(401).send({ message: "Unauthorized" });
+    }
+  });
+
+  instance.register(UsersRoutes);
+  instance.register(FriendsRoutes);
+});
 pool
   .connect()
   .then(() => {

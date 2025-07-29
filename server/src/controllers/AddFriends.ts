@@ -7,7 +7,8 @@ export async function addFriend(
   req: FastifyRequest<{ Body: addFriendBody }>,
   reply: FastifyReply
 ) {
-  const { userId, friendsId } = req.body;
+const userId = (req.user as { id: number }).id;
+  const { friendsId } = req.body;
 
   try {
     const addFriend = await pool.query(

@@ -10,6 +10,6 @@ export type LoginBody = {
 };
 
 export type addFriendBody = {
-  userId: number;
+  // userId: number;
   friendsId: number;
 };

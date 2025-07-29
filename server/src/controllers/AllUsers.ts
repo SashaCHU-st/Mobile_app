@@ -3,7 +3,7 @@ import { pool } from "../db/db";
 
 export async function allUsers(request: FastifyRequest, reply: FastifyReply) {
   try {
-    const allUsers = await pool.query(`SELECT name FROM users`);
+    const allUsers = await pool.query(`SELECT name, id FROM users`);
 
     console.log("ALL users=>", allUsers.rows);
 

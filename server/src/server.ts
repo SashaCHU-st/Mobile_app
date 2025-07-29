@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import {pool} from "./db/db"
 import { AuthRoutes } from "./routes/AuthRoute";
 import jwt from "@fastify/jwt";
+import { UsersRoutes } from "./routes/UsersRoutes";
 
 const app = Fastify();
 
@@ -15,6 +16,7 @@ const jwtSecret = process.env.SECRET || "kuku";
 app.register(jwt, {secret:jwtSecret})
 
 app.register(AuthRoutes)
+app.register(UsersRoutes)
 pool.connect()
   .then(() => {
     console.log("✅ DB connected");

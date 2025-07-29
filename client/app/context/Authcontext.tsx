@@ -16,7 +16,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     AsyncStorage.getItem("token").then((token) => {
-      if (token) setIsAuthorized(true);
+      if (token) 
+          setIsAuthorized(true);
       setLoading(false);
     });
   }, []);

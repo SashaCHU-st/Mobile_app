@@ -9,7 +9,7 @@ export default function ProtectedLayout() {
 
   useEffect(() => {
     if (!loading && !isAuthorized) {
-      router.replace("/screens/Home");
+      router.replace("/");
     }
   }, [isAuthorized, loading]);
 

@@ -9,8 +9,8 @@ const Logout = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    logout();             // меняем состояние isAuthorized на false
-    router.replace("/");  // заменяем страницу, чтобы нельзя было вернуться назад
+    logout();
+    router.replace("/");  
   };
   return (
     <View style = {styles.container}>

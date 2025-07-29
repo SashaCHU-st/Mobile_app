@@ -1,15 +1,7 @@
-import {  FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
-type SignUpBody = {
-  email: string;
-  name: string;
-  password: string;
-};
-
-type LoginBody = {
-  email: string;
-  password: string;
-};
+import { notEmptyLogin, notEmptySignup } from "../utils/notEmpty";
+import { SignUpBody, LoginBody } from "../types/types";
 
 export async function signUp(
   req: FastifyRequest<{ Body: SignUpBody }>,
@@ -17,25 +9,28 @@ export async function signUp(
 ) {
   const { email, name, password } = req.body;
 
-  if (!email || !name || !password) {
-    return reply
-      .status(400)
-      .send({ message: "Email, name, and password are required." });
-  }
-
+  const empty = await notEmptySignup(email, name, password, reply);
+  if (empty) return;
   try {
-    const newUser = await pool.query(
-      "INSERT INTO users (email,name,  password) VALUES ($1, $2, $3) RETURNING *",
-      [email, name, password]
+    const userExists = await pool.query(
+      `SELECT email FROM users WHERE email = $1`,
+      [email]
     );
-    console.log("HHHH=>", newUser.rows[0].id);
+    console.log("USER=>", userExists);
+    if (userExists.rowCount === 0) {
+      const newUser = await pool.query(
+        "INSERT INTO users (email,name,  password) VALUES ($1, $2, $3) RETURNING *",
+        [email, name, password]
+      );
+      const user = newUser.rows[0];
+      const token = reply.server.jwt.sign({ id: user.id });
 
-    const user = newUser.rows[0];
-    const token = reply.server.jwt.sign({ id: user.id });
-
-    return reply
-      .code(201)
-      .send({ message: "All good", newUser: newUser.rows[0], token: token });
+      return reply
+        .code(201)
+        .send({ message: "All good", newUser: newUser.rows[0], token: token });
+    } else {
+      return reply.code(400).send({ message: "User already exists" });
+    }
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -48,11 +43,14 @@ export async function login(
 ) {
   const { email, password } = req.body;
 
+  const empty = await notEmptyLogin(email, password, reply);
+  if (empty) 
+    return;
+
   try {
-    const user = await pool.query(
-      `SELECT * FROM users WHERE email = $1`,
-      [email]
-    );
+    const user = await pool.query(`SELECT * FROM users WHERE email = $1`, [
+      email,
+    ]);
     if (user.rowCount === 0) {
       return reply.code(400).send({ message: "No such user" });
     }
@@ -62,7 +60,9 @@ export async function login(
     const userData = user.rows[0];
     const token = reply.server.jwt.sign({ id: userData.id });
 
-    return reply.code(200).send({ message: "All good", user: user.rows, token:token });
+    return reply
+      .code(200)
+      .send({ message: "All good", user: user.rows, token: token });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

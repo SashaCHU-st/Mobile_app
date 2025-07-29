@@ -17,3 +17,8 @@ export interface AuthProps {
   login: boolean;
   setLogin: (value: boolean) => void;
 }
+
+export type User = {
+  id:number,
+  name:string;
+}

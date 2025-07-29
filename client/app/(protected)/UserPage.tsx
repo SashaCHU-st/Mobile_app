@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import { useAuth } from "../context/Authcontext";
 import Logout from "../components/Logout";
 import Header from "../components/Header"
+import Users from "./Users";
 
 export default function UserPage() {
   const { isAuthorized } = useAuth();
@@ -23,6 +24,7 @@ export default function UserPage() {
   return (
     <View>
       <Header />
+      <Users/>
       <Logout />
     </View>
   );

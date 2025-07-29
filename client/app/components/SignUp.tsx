@@ -11,17 +11,7 @@ import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
 import { useAuth } from "../context/Authcontext";
-
-interface AuthProps {
-  email: string;
-  setEmail: (value: string) => void;
-  name: string;
-  setName: (value: string) => void;
-  password: string;
-  setPassword: (value: string) => void;
-  login: boolean;
-  setLogin: (value: boolean) => void;
-}
+import { AuthProps } from "../types/types";
 
 const size = Dimensions.get("window").width * 0.1;
 const SignUp = ({

@@ -11,16 +11,9 @@ import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
 import { useAuth } from "../context/Authcontext";
+import { LoginProps } from "../types/types";
 const size = Dimensions.get("window").width * 0.1;
 
-interface LoginProps {
-  email: string;
-  setEmail: (value: string) => void;
-  password: string;
-  setPassword: (value: string) => void;
-  login: boolean;
-  setLogin: (value: boolean) => void;
-}
 
 const Login = ({
   email,
@@ -45,14 +38,13 @@ const Login = ({
         }),
       });
       const data = await results.json();
-      loginUser(data.token);
-
       await AsyncStorage.setItem("id", data.id);
       if (!results.ok) {
         throw new Error(
           data.message || `HTTP error! status: ${results.status}`
         );
       }
+      loginUser(data.token);
       router.replace("/(protected)/UserPage");
     } catch (err: any) {
       console.error("Error", err);

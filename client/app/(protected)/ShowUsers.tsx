@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
@@ -7,12 +8,18 @@ import Header from "../components/Header";
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
+  const [myId, setId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const results = await fetch(`${API_URL}/users`);
         const data = await results.json();
+
+        const myId = await AsyncStorage.getItem("id");
+
+        console.log("MyIddddd=>", myId);
+        setId(myId);
 
         if (!results.ok) {
           throw new Error(data.message || "Something went wrong");
@@ -40,11 +47,13 @@ const ShowUsers = () => {
       {users.length === 0 ? (
         <Text>No users found.</Text>
       ) : (
-        users.map((user) => (
-          <Text key={user.id} style={styles.userText}>
-            {user.id} : {user.name}
-          </Text>
-        ))
+        users
+          .filter((user) => user.id !== Number(myId))
+          .map((user) => (
+            <Text key={user.id} style={styles.userText}>
+              {user.id} : {user.name}
+            </Text>
+          ))
       )}
     </View>
   );

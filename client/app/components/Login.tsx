@@ -38,8 +38,8 @@ const Login = ({
         }),
       });
       const data = await results.json();
-      await AsyncStorage.setItem("id", data.id);
-      if (!results.ok) {
+      await AsyncStorage.setItem("id", data.newUser.id);
+      if (!results.ok) {https://chatgpt.com/c/6888981a-81a0-832b-9f4b-b31340d3a372
         throw new Error(
           data.message || `HTTP error! status: ${results.status}`
         );

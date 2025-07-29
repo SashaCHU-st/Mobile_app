@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import Header from "../components/Header";
+import AddFriend from "./components/AddFriend";
+const size = Dimensions.get("window").width * 0.1;
 
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -15,12 +17,8 @@ const ShowUsers = () => {
       try {
         const results = await fetch(`${API_URL}/users`);
         const data = await results.json();
-
         const myId = await AsyncStorage.getItem("id");
-
-        console.log("MyIddddd=>", myId);
         setId(myId);
-
         if (!results.ok) {
           throw new Error(data.message || "Something went wrong");
         }
@@ -52,6 +50,7 @@ const ShowUsers = () => {
           .map((user) => (
             <Text key={user.id} style={styles.userText}>
               {user.id} : {user.name}
+              <AddFriend id={user.id} />
             </Text>
           ))
       )}
@@ -65,5 +64,18 @@ const styles = StyleSheet.create({
   userText: {
     fontSize: 20,
     marginVertical: 4,
+  },
+  button: {
+    width: 100,
+    height: 40,
+    borderRadius: size / 4,
+    backgroundColor: "#DEE791",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black",
   },
 });

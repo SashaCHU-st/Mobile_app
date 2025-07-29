@@ -10,10 +10,13 @@ const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
   const handleAddFriends = async (friendsId: number) => {
 
     const myId = await AsyncStorage.getItem("id");
+    const token = await AsyncStorage.getItem("token");
     try {
       const results = await fetch(`${API_URL}/addFriend`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+         },
         body: JSON.stringify({
           userId: Number(myId),
           friendsId,

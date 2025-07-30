@@ -1,22 +1,22 @@
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { API_URL } from "../../config";
+import { API_URL } from "../config";
 import { AddFriendProps } from "@/app/types/types";
 const size = Dimensions.get("window").width * 0.1;
 
 const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
   const [error, setError] = useState<string>("");
   const handleAddFriends = async (friendsId: number) => {
-
     const myId = await AsyncStorage.getItem("id");
     const token = await AsyncStorage.getItem("token");
     try {
       const results = await fetch(`${API_URL}/addFriend`, {
         method: "POST",
-        headers: { "Content-Type": "application/json",
+        headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-         },
+        },
         body: JSON.stringify({
           userId: Number(myId),
           friendsId,

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/Authcontext";
-import Logout from "../components/Logout";
-import Header from "../components/Header"
-import Users from "./components/Users";
-import ShowFriends from "./Friends";
+import Logout from "./Logout";
+import Header from "../components/Header";
+import Users from "../components/Users";
+import ShowFriends from "../components/Friends";
 
 export default function UserPage() {
   const { isAuthorized } = useAuth();
@@ -15,7 +15,6 @@ export default function UserPage() {
     if (!isAuthorized) {
       router.replace("/");
     }
-    
   }, [isAuthorized]);
 
   if (!isAuthorized) {
@@ -25,9 +24,9 @@ export default function UserPage() {
   return (
     <View>
       <Header />
-      <Users/>
-      <ShowFriends/>
-      <Logout />
+      {/* <Users />
+      <ShowFriends /> */}
+      {/* <Logout /> */}
     </View>
   );
 }

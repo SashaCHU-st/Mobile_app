@@ -37,9 +37,11 @@ const Login = ({
           password,
         }),
       });
+      console.log("JJJ=>")
       const data = await results.json();
-      await AsyncStorage.setItem("id", data.newUser.id);
-      if (!results.ok) {https://chatgpt.com/c/6888981a-81a0-832b-9f4b-b31340d3a372
+      console.log("JJJ=>", data.user[0].id)
+      await AsyncStorage.setItem("id", data.user[0].id);
+      if (!results.ok) {
         throw new Error(
           data.message || `HTTP error! status: ${results.status}`
         );

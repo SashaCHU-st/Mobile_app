@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import Header from "../components/Header";
-import AddFriend from "./components/AddFriend";
-import BackButton from "./components/BackButton";
+import AddFriend from "../components/AddFriend";
+import BackButton from "../components/BackButton";
 const size = Dimensions.get("window").width * 0.1;
 
 const ShowUsers = () => {
@@ -62,7 +62,7 @@ const ShowUsers = () => {
               <AddFriend id={user.id} />
             </Text>
           ))
-        )}
+      )}
       <View>
         <BackButton />
       </View>

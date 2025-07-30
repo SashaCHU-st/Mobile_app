@@ -5,6 +5,7 @@ import { useAuth } from "../context/Authcontext";
 import Logout from "../components/Logout";
 import Header from "../components/Header"
 import Users from "./components/Users";
+import ShowFriends from "./Friends";
 
 export default function UserPage() {
   const { isAuthorized } = useAuth();
@@ -25,6 +26,7 @@ export default function UserPage() {
     <View>
       <Header />
       <Users/>
+      <ShowFriends/>
       <Logout />
     </View>
   );

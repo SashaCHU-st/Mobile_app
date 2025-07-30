@@ -23,7 +23,20 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <Drawer>
+    <Drawer
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: "#ec7438ff",
+        },
+        drawerLabelStyle: {
+          color: "white", 
+        },
+        headerStyle: {
+          backgroundColor: "#ec7438ff", 
+        },
+        headerTintColor: "white",
+      }}
+    >
       <Drawer.Screen
         name="UserPage"
         options={{ drawerLabel: "👤 My Page", title: "My Page" }}

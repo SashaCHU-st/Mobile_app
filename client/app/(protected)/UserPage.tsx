@@ -1,32 +1,32 @@
-import { useEffect } from "react";
-import { View } from "react-native";
-import { useRouter } from "expo-router";
-import { useAuth } from "../context/Authcontext";
-import Logout from "./Logout";
-import Header from "../components/Header";
-import Users from "../components/Users";
-import ShowFriends from "../components/Friends";
+import React from "react";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
+import dog from "../../assets/images/dog.jpg";
+
+const { width, height } = Dimensions.get("window");
 
 export default function UserPage() {
-  const { isAuthorized } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isAuthorized) {
-      router.replace("/");
-    }
-  }, [isAuthorized]);
-
-  if (!isAuthorized) {
-    return null;
-  }
-
   return (
-    <View>
-      <Header />
-      {/* <Users />
-      <ShowFriends /> */}
-      {/* <Logout /> */}
+    <View style={styles.container}>
+      <Image
+        source={dog}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      />
+      <View style={styles.overlay} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  backgroundImage: {
+    width: width,     // full device width
+    height: height,   // full device height
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(255, 226, 169, 0.4)",
+  },
+});

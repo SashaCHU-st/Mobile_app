@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
   app: {
     backgroundColor: "#ec7438ff",
     alignItems: "center",
-    paddingBottom: 30,
-    paddingTop: 50,
+    paddingBottom: 10, 
+    paddingTop: 10, 
     justifyContent: "center",
   },
   text: {

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import Header from "../components/Header";
+import BackButton from "./components/BackButton";
 const size = Dimensions.get("window").width * 0.1;
 
 const ShowFriends = () => {
@@ -16,7 +17,7 @@ const ShowFriends = () => {
       try {
         const myId = await AsyncStorage.getItem("id");
         setId(myId);
-        const token = await AsyncStorage.getItem("token"); 
+        const token = await AsyncStorage.getItem("token");
         const results = await fetch(`${API_URL}/myFriends`, {
           method: "POST",
           headers: {
@@ -24,7 +25,7 @@ const ShowFriends = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-           userId: Number(myId),
+            userId: Number(myId),
           }),
         });
         const data = await results.json();
@@ -58,11 +59,13 @@ const ShowFriends = () => {
           .filter((friend) => friend.id !== Number(myId))
           .map((friend) => (
             <Text key={friend.id} style={styles.friendText}>
-               {friend.name}
-              {/* <AddFriend id={user.id} /> */}
+              {friend.name}
             </Text>
           ))
       )}
+      <View>
+        <BackButton />
+      </View>
     </View>
   );
 };

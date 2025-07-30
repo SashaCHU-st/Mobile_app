@@ -25,8 +25,26 @@ export async function addFriend(
     } else {
       return reply.code(400).send({ message: "Alredy friends" });
     }
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
 
-    // console.log("ADD friend=>", addFriend);
+export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
+  const userId = (req.user as { id: number }).id;
+
+  try {
+    const myFriends = await pool.query(
+      `SELECT u.id, u.name
+      FROM friends f
+      JOIN users u ON f.friends_id = u.id
+      WHERE f.user_id = $1 AND f.confirmRequest = 1`,
+      [userId]
+    );
+    console.log("MY friends", myFriends.rows);
+    myFriends.rows.map((row) => row.friends_id);
+    return reply.code(200).send({ friends: myFriends.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

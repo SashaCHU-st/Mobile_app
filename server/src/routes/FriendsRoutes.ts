@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { AddFriendSchema, MyFriendSchema } from "../schema/FriendSchema";
-import { addFriend, myFriend } from "../controllers/Friends";
+import { AddFriendSchema, MyFriendSchema, DeleteFriendSchema } from "../schema/FriendSchema";
+import { addFriend, myFriend, deleteFriend } from "../controllers/Friends";
 
 export async function FriendsRoutes(app: FastifyInstance) {
   app.post("/addFriend", async (req, reply) => {
@@ -20,5 +20,14 @@ export async function FriendsRoutes(app: FastifyInstance) {
       return;
     }
     return myFriend({...req, body:validated.data}, reply)
+  });
+      app.delete("/deleteFriend", async (req, reply) => {
+    const validated = DeleteFriendSchema.safeParse(req.body);
+    if (!validated.success) {
+      const message = validated.error.issues[0]?.message || "Validation failed";
+      reply.code(400).send({ message });
+      return;
+    }
+    return deleteFriend({...req, body:validated.data}, reply)
   });
 }

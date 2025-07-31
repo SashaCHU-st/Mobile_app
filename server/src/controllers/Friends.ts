@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { addFriendBody } from "../types/types";
+import { addFriendBody, deleteFriendBody } from "../types/types";
 import { pool } from "../db/db";
 
 export async function addFriend(
@@ -46,6 +46,23 @@ export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
     myFriends.rows.map((row) => row.friends_id);
     return reply.code(200).send({ friends: myFriends.rows });
   } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+
+export async function deleteFriend(  req: FastifyRequest<{ Body: deleteFriendBody }>,
+  reply: FastifyReply) {
+    const userId = (req.user as { id: number }).id;
+  const { friendsId } = req.body;
+
+  try
+  {
+    await pool.query(`DELETE FROM friends WHERE user_id = $1 AND friends_id = $2`,[userId, friendsId])
+
+    return reply.code(200).send({ message: "friend Deleted"  });
+  }catch (err: any) { 
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
   }

@@ -8,3 +8,7 @@ export const MyFriendSchema = z.object({
   userId: z.number(),
 });
 
+export const DeleteFriendSchema = z.object({
+  userId: z.number(),
+  friendsId: z.number(),
+});

@@ -12,3 +12,7 @@ export type LoginBody = {
 export type addFriendBody = {
   friendsId: number;
 };
+
+export type deleteFriendBody = {
+  friendsId: number;
+};

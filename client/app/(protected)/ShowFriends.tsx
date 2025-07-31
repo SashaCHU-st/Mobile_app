@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
+import DeleteFriends from "../components/DeleteFriends";
 import Header from "../components/Header";
 import BackButton from "../components/BackButton";
 const size = Dimensions.get("window").width * 0.1;
@@ -51,7 +52,7 @@ const ShowFriends = () => {
 
   return (
     <View>
-      <Header />
+      {/* <Header /> */}
       {friends.length === 0 ? (
         <Text>No users found.</Text>
       ) : (
@@ -60,6 +61,8 @@ const ShowFriends = () => {
           .map((friend) => (
             <Text key={friend.id} style={styles.friendText}>
               {friend.name}
+              <DeleteFriends
+              id = {friend.id}/>
             </Text>
           ))
       )}

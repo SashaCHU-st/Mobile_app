@@ -26,3 +26,7 @@ export type User = {
 export interface AddFriendProps {
   id: number;
 }
+
+export interface DeleteFriendProps {
+  id: number;
+}

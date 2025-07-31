@@ -50,7 +50,7 @@ const ShowUsers = () => {
 
   return (
     <View>
-      <Header />
+      {/* <Header /> */}
       {users.length === 0 ? (
         <Text>No users found.</Text>
       ) : (

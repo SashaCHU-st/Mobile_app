@@ -40,7 +40,7 @@ const SignUp = ({
         }),
       });
       const data = await results.json();
-      console.log("Dataaaaa=>", data.newUser.id)
+      console.log("Dataaaaa=>", data)
       const myId = await AsyncStorage.setItem("id", String(data.newUser.id));
       console.log("MyId=>", myId)
       if (!results.ok) {

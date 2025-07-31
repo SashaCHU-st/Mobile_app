@@ -16,7 +16,7 @@ const ShowUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = await AsyncStorage.getItem("token"); // или как ты его хранишь
+        const token = await AsyncStorage.getItem("token");
 
         const results = await fetch(`${API_URL}/users`, {
           headers: {

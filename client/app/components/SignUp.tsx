@@ -40,18 +40,31 @@ const SignUp = ({
         }),
       });
       const data = await results.json();
-      console.log("Dataaaaa=>", data)
       const myId = await AsyncStorage.setItem("id", String(data.newUser.id));
-      console.log("MyId=>", myId)
+      // console.log("MyId=>", myId)
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
       loginUser(data.token);
+      // const results2 = await fetch(`${API_URL}/me`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     userId:myId
+      //   }),
+      // });
+      // const data2 = await results2.json();
+      // await AsyncStorage.setItem("id", String(data2.me));
+      // // console.log("MyId=>", myId)
+      // if (!results2.ok) {
+      //   throw new Error(data2.message || "Something went wrong");
+      // }
       router.replace("/(protected)/UserPage");
     } catch (err: any) {
       console.error("Error", err);
       setError(err.message || "Something went wrong");
     }
+
   };
   return (
     <View style={styles.container}>

@@ -53,6 +53,10 @@ export default function ProtectedLayout() {
         name="Logout"
         options={{ drawerLabel: "Logout", title: "Logout" }}
       />
+        <Drawer.Screen
+        name="EditProfile"
+        options={{ drawerLabel: "⚙️ Edit Profile", title: "Edit Profile" }}
+      />
     </Drawer>
   );
 }

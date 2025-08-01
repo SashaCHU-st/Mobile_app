@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { API_URL } from "../config";
 import { AddFriendProps } from "@/app/types/types";
 const size = Dimensions.get("window").width * 0.1;
 
 const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
   const [error, setError] = useState<string>("");
+  const [sentRequest, setSendRequest] = useState(false);
   const handleAddFriends = async (friendsId: number) => {
     const myId = await AsyncStorage.getItem("id");
     const token = await AsyncStorage.getItem("token");
@@ -35,8 +36,18 @@ const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
   };
   return (
     <View>
-      <Pressable style={styles.button} onPress={() => handleAddFriends(id)}>
-        <Text style={styles.text}>Add friends</Text>
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          handleAddFriends(id);
+          setSendRequest(true);
+        }}
+      >
+        {sentRequest ? (
+          <Text style={styles.text}>Request sent</Text>
+        ) : (
+          <Text style={styles.text}>Add friend</Text>
+        )}
       </Pressable>
     </View>
   );

@@ -2,12 +2,19 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
 
 export async function allUsers(request: FastifyRequest, reply: FastifyReply) {
+  const userId = (request.user as { id: number }).id; 
+
   try {
-    const allUsers = await pool.query(`SELECT name, id FROM users`);
+    const result = await pool.query(
+      `SELECT id, name FROM users
+       WHERE id != $1
+       AND id NOT IN (
+         SELECT friends_id FROM friends WHERE user_id = $1
+       )`,
+      [userId]
+    );
 
-    console.log("ALL users=>", allUsers.rows);
-
-    return reply.code(200).send({ Users: allUsers.rows });
+    return reply.code(200).send({ Users: result.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

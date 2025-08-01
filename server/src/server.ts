@@ -5,6 +5,7 @@ import { AuthRoutes } from "./routes/AuthRoute";
 import jwt from "@fastify/jwt";
 import { UsersRoutes } from "./routes/UsersRoutes";
 import { FriendsRoutes } from "./routes/FriendsRoutes";
+import { ProfileRoutes } from "./routes/ProfileRoutes";
 
 const app = Fastify();
 
@@ -16,11 +17,9 @@ app.register(cors, {
 const jwtSecret = process.env.SECRET || "kuku";
 app.register(jwt, { secret: jwtSecret });
 
-
-
 app.register(AuthRoutes);
 app.register(async (instance) => {
-  instance.addHook('preHandler', async (req, reply) => {
+  instance.addHook("preHandler", async (req, reply) => {
     try {
       await req.jwtVerify();
     } catch {
@@ -30,6 +29,7 @@ app.register(async (instance) => {
 
   instance.register(UsersRoutes);
   instance.register(FriendsRoutes);
+  instance.register(ProfileRoutes);
 });
 pool
   .connect()

@@ -15,11 +15,9 @@ export async function allUsers(request: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function me(req: FastifyRequest, reply: FastifyReply) {
-
-    const userId = (req.user as { id: number }).id;
+  const userId = (req.user as { id: number }).id;
   try {
-
-    const me = await pool.query(`SELECT * FROM users WHERE id = $1`,[userId]);
+    const me = await pool.query(`SELECT * FROM users WHERE id = $1`, [userId]);
     return reply.code(200).send({ me: me.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);

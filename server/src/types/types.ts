@@ -16,3 +16,8 @@ export type addFriendBody = {
 export type deleteFriendBody = {
   friendsId: number;
 };
+
+export type ProfileBody = {
+  name:string;
+  password:string;
+};

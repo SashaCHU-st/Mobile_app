@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Pressable, Dimensions,ScrollView } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import AddFriend from "../components/AddFriend";
@@ -48,7 +48,7 @@ const ShowUsers = () => {
   }
 
   return (
-    <View>
+    <ScrollView>
       {users.length === 0 ? (
         <Text>No users found.</Text>
       ) : (
@@ -64,7 +64,7 @@ const ShowUsers = () => {
       <View>
         <BackButton />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

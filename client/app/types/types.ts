@@ -22,12 +22,14 @@ export type User = {
   id:number,
   name:string;
 }
-export interface Me  {
-  id:number,
-  name:string;
-  email:string;
-  password:string;
+export interface Me {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  image?: string;
 }
+
 
 export interface AddFriendProps {
   id: number;

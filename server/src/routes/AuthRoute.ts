@@ -3,7 +3,7 @@ import { LoginSchema, SignUpSchema } from "../schema/AuthSchema";
 import { signUp, login } from "../controllers/AuthController";
 
 export async function AuthRoutes(app: FastifyInstance) {
-  console.log("In AUTH ROUTES");
+  // console.log("In AUTH ROUTES");
   app.post("/signup", async (req, reply) => {
     const validated = SignUpSchema.safeParse(req.body);
     if (!validated.success) {

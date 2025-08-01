@@ -7,7 +7,10 @@ import { UsersRoutes } from "./routes/UsersRoutes";
 import { FriendsRoutes } from "./routes/FriendsRoutes";
 import { ProfileRoutes } from "./routes/ProfileRoutes";
 
-const app = Fastify();
+const app = Fastify({
+  // logger: true,
+  bodyLimit: 5 * 1024 * 1024,
+});
 
 app.register(cors, {
   origin: "*",
@@ -34,11 +37,8 @@ app.register(async (instance) => {
 pool
   .connect()
   .then(() => {
-    console.log("✅ DB connected");
+    console.log("DB connected");
     return app.listen({ port: 3001, host: "0.0.0.0" });
-  })
-  .then(() => {
-    console.log("kuku");
   })
   .catch((err) => {
     console.error("❌ DB connection error:", err);

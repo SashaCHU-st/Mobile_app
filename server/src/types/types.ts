@@ -18,6 +18,8 @@ export type deleteFriendBody = {
 };
 
 export type ProfileBody = {
-  name:string;
-  password:string;
+  name: string;
+  password: string;
+  image?: string | null;
 };
+

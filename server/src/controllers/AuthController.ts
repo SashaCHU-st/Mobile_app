@@ -16,7 +16,6 @@ export async function signUp(
       `SELECT email FROM users WHERE email = $1`,
       [email]
     );
-    console.log("USER=>", userExists);
     if (userExists.rowCount === 0) {
       const newUser = await pool.query(
         "INSERT INTO users (email,name,  password) VALUES ($1, $2, $3) RETURNING *",

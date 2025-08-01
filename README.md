@@ -16,7 +16,7 @@ npm start
 
 # Progress of my Mobile app
 
-### 🔐 Auth – Backend
+###  Auth – Backend
 
 | Feature           | Description                                      | Status         |
 |------------------|--------------------------------------------------|----------------|
@@ -28,7 +28,7 @@ npm start
 
 ---
 
-### 👥 Friends – Backend
+###  Friends – Backend
 
 | Feature                   | Description                                              | Status         |
 |--------------------------|----------------------------------------------------------|----------------|
@@ -41,7 +41,7 @@ npm start
 
 ---
 
-### 👤 Profile – Backend
+###  Profile – Backend
 
 | Feature                   | Description                                               | Status         |
 |--------------------------|-----------------------------------------------------------|----------------|
@@ -51,9 +51,9 @@ npm start
 
 ---
 
-## 🎨 Frontend Functionality
+##  Frontend Functionality
 
-### 🔐 Auth – Frontend
+###  Auth – Frontend
 
 | Feature           | Description                                      | Status         |
 |------------------|--------------------------------------------------|----------------|
@@ -66,7 +66,7 @@ npm start
 
 ---
 
-### 👥 Friends – Frontend
+###  Friends – Frontend
 
 | Feature                      | Description                                          | Status         |
 |-----------------------------|------------------------------------------------------|----------------|
@@ -78,7 +78,7 @@ npm start
 
 ---
 
-### 👤 Profile – Frontend
+###  Profile – Frontend
 
 | Feature                   | Description                                          | Status         |
 |--------------------------|------------------------------------------------------|----------------|
@@ -88,7 +88,7 @@ npm start
 
 ---
 
-## 🔄 Backend ↔ Frontend Integration
+##  Backend ↔ Frontend Integration
 
 | Integration                        | Status         |
 |-----------------------------------|----------------|
@@ -98,9 +98,9 @@ npm start
 
 ---
 
-## 🛠️ Upcoming Features
+##  Upcoming Features
 
-### 🚧 In Progress
+###  In Progress
 
 | Feature                      | Description                                              |
 |-----------------------------|----------------------------------------------------------|
@@ -112,7 +112,7 @@ npm start
 
 ---
 
-### 🧠 Planned
+###  Planned
 
 | Feature                    | Description                                               |
 |---------------------------|-----------------------------------------------------------|

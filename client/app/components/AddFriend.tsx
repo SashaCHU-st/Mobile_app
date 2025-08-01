@@ -5,7 +5,7 @@ import { API_URL } from "../config";
 import { AddFriendProps } from "@/app/types/types";
 const size = Dimensions.get("window").width * 0.1;
 
-const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
+const AddFriend: React.FC<AddFriendProps> = ({ id ,onFriendAdded}) => {
   const [error, setError] = useState<string>("");
   const [sentRequest, setSendRequest] = useState(false);
   const handleAddFriends = async (friendsId: number) => {
@@ -29,6 +29,8 @@ const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
           data.message || `HTTP error! status: ${results.status}`
         );
       }
+       if (onFriendAdded)
+          onFriendAdded();
     } catch (err: any) {
       console.error("Error", err);
       setError(err.message || "Something went wrong");
@@ -37,11 +39,15 @@ const AddFriend: React.FC<AddFriendProps> = ({ id }) => {
   return (
     <View>
       <Pressable
-        style={styles.button}
+        style={[
+          styles.button,
+          sentRequest && styles.disabledButton, // Apply different style if disabled
+        ]}
         onPress={() => {
           handleAddFriends(id);
           setSendRequest(true);
         }}
+        disabled={sentRequest} // 🔒 disables the button after request is sent
       >
         {sentRequest ? (
           <Text style={styles.text}>Request sent</Text>
@@ -68,6 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  disabledButton: {
+    width: 140,
+    backgroundColor: "#ff8989ff",
+  },
+
   text: {
     fontSize: 18,
     fontWeight: "bold",

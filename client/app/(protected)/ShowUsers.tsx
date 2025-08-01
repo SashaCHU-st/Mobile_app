@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet, Pressable, Dimensions,ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import AddFriend from "../components/AddFriend";
@@ -12,18 +19,17 @@ const ShowUsers = () => {
   const [error, setError] = useState<string>("");
   const [myId, setId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const token = await AsyncStorage.getItem("token");
-
-        const results = await fetch(`${API_URL}/users`, {
+  const fetchUsers = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      
+      const results = await fetch(`${API_URL}/users`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-
+        
         const data = await results.json();
         const myId = await AsyncStorage.getItem("id");
         setId(myId);
@@ -35,7 +41,8 @@ const ShowUsers = () => {
         setError(err.message || "Failed to load users");
       }
     };
-
+    
+    useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -57,7 +64,7 @@ const ShowUsers = () => {
           .map((user) => (
             <Text key={user.id} style={styles.userText}>
               {user.id} : {user.name}
-              <AddFriend id={user.id} />
+              <AddFriend id={user.id} onFriendAdded={fetchUsers} />
             </Text>
           ))
       )}

@@ -33,6 +33,7 @@ export interface Me {
 
 export interface AddFriendProps {
   id: number;
+   onFriendAdded?: () => void;
 }
 
 export interface DeleteFriendProps {

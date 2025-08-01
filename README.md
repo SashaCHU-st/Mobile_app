@@ -63,7 +63,7 @@ npm start
 | Feature                | Description                                             | Status          |
 |------------------------|---------------------------------------------------------|-----------------|
 | Confirm Friend Request  | Implement functionality for friends to confirm requests | 🔧 In Progress  |
-| Profile Picture Upload  | Enable uploading and storing profile pictures           | 🔧 In Progress  |
+| Profile Picture Upload  | Enable uploading and storing profile pictures           | ✅ Done  |
 | Prevent Duplicate Friends | Restrict adding a friend if already friends            | ✅ Done  |
 
 #### Planned

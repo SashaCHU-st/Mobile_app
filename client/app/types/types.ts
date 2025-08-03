@@ -21,6 +21,7 @@ export interface AuthProps {
 export type User = {
   id:number,
   name:string;
+  image?:string;
 }
 export interface Me {
   id: number;

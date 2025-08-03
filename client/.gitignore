@@ -38,5 +38,5 @@ yarn-error.*
 
 app-example
 .gitignore
-app/config.ts
+# app/config.ts
 .env

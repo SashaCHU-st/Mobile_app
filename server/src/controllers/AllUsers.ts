@@ -6,7 +6,7 @@ export async function allUsers(request: FastifyRequest, reply: FastifyReply) {
 
   try {
     const result = await pool.query(
-      `SELECT id, name FROM users
+      `SELECT id, name, image FROM users
        WHERE id != $1
        AND id NOT IN (
          SELECT friends_id FROM friends WHERE user_id = $1

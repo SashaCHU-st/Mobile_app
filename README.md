@@ -34,7 +34,7 @@ npm start
 |--------------------------|----------------------------------------------------------|----------------|
 | **Add Friend**           | Add user to friend list                                  | ✅ Done         |
 | **Remove Friend**        | Remove friend from friend list                           | ✅ Done         |
-| **Remove from Users**    | Exclude existing friends from users list                 | In Progress  |
+| **Remove from Users**    | Exclude existing friends from users list                 | ✅ Done    |
 | **Get All Users**        | Retrieve users excluding self and friends                | ✅ Done         |
 | **Exclude Self**         | Prevent self from appearing in user list                 | ✅ Done         |
 | **Friend Request Logic** | Prevent duplicates and manage request flow               | ✅ Done         |

@@ -38,14 +38,23 @@ export async function addFriend(
 export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
   const userId = (req.user as { id: number }).id;
 
+  console.log("ID", userId);
+
   try {
     const myFriends = await pool.query(
       `SELECT u.id, u.name, u.image
-      FROM friends f
-      JOIN users u ON f.friends_id = u.id
-      WHERE f.user_id = $1 OR f.friends_id = $1 AND f.confirmRequest = 1 AND u.id != $1`,
+        FROM friends f
+        JOIN users u 
+          ON (u.id = CASE 
+                      WHEN f.user_id = $1 THEN f.friends_id 
+                      WHEN f.friends_id = $1 THEN f.user_id 
+                    END)
+        WHERE (f.user_id = $1 OR f.friends_id = $1)
+          AND f.confirmRequest = 1;
+`,
       [userId]
     );
+
     return reply.code(200).send({ friends: myFriends.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);
@@ -73,12 +82,11 @@ export async function deleteFriend(
   }
 }
 
-
 export async function declineFriend(
   req: FastifyRequest<{ Body: declineFriendBody }>,
   reply: FastifyReply
 ) {
-  console.log("WE IN DECLINE")
+  console.log("WE IN DECLINE");
   const userId = (req.user as { id: number }).id;
   const { friendsId } = req.body;
 
@@ -88,7 +96,7 @@ export async function declineFriend(
       [userId, friendsId]
     );
 
-    return reply.code(200).send({message:"Friend request declined"});
+    return reply.code(200).send({ message: "Friend request declined" });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -99,7 +107,7 @@ export async function confirmFriend(
   req: FastifyRequest<{ Body: declineFriendBody }>,
   reply: FastifyReply
 ) {
-  console.log("WE IN confirm")
+  // console.log("WE IN confirm")
   const userId = (req.user as { id: number }).id;
   const { friendsId } = req.body;
 
@@ -109,7 +117,7 @@ export async function confirmFriend(
       [userId, friendsId]
     );
 
-    return reply.code(200).send({message:"Friend request declined"});
+    return reply.code(200).send({ message: "Friend request declined" });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -120,7 +128,7 @@ export async function checkRequests(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  console.log("WE IN CHECK");
+  // console.log("WE IN CHECK");
   const userId = (request.user as { id: number }).id;
 
   try {

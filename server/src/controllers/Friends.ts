@@ -36,14 +36,12 @@ export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
 
   try {
     const myFriends = await pool.query(
-      `SELECT u.id, u.name
+      `SELECT u.id, u.name, u.image
       FROM friends f
       JOIN users u ON f.friends_id = u.id
       WHERE f.user_id = $1 AND f.confirmRequest = 1`,
       [userId]
     );
-    console.log("MY friends", myFriends.rows);
-    myFriends.rows.map((row) => row.friends_id);
     return reply.code(200).send({ friends: myFriends.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);

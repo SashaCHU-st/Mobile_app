@@ -5,12 +5,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeclineFriendProps } from "../types/types";
 const size = Dimensions.get("window").width * 0.1;
 
-const DeclineRequest: React.FC<DeclineFriendProps> = ({id}) => {
+const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
   const [error, setError] = useState("");
   const handleConfirm = async (id: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const fetchDecline = await fetch(`${API_URL}/confirmFriend`, {
+      const fetchDecline = await fetch(`${API_URL}/declineFriend`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,13 +26,19 @@ const DeclineRequest: React.FC<DeclineFriendProps> = ({id}) => {
           data.message || `HTTP error! status: ${fetchDecline.status}`
         );
       }
+      if (onDecline) 
+      {
+        console.log("KUKU")
+        onDecline();
+
+      }
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
   };
   return (
     <Pressable style={styles.button} onPress={() => handleConfirm(id)}>
-      <Text>Confirm</Text>
+      <Text>Decline</Text>
     </Pressable>
   );
 };

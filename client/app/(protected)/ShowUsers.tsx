@@ -22,7 +22,6 @@ const size = Dimensions.get("window").width * 0.1;
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
-  // const [myId, setId] = useState<string | null>(null);
 
   const fetchUsers = async () => {
     try {

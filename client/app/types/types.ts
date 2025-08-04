@@ -19,10 +19,10 @@ export interface AuthProps {
 }
 
 export type User = {
-  id:number,
-  name:string;
-  image?:string;
-}
+  id: number;
+  name: string;
+  image?: string;
+};
 export interface Me {
   id: number;
   name: string;
@@ -31,21 +31,22 @@ export interface Me {
   image?: string;
 }
 
-
 export interface AddFriendProps {
   id: number;
-   onFriendAdded?: () => void;
+  onFriendAdded?: () => void;
 }
 
 export interface DeleteFriendProps {
   id: number;
-     onDeleteFriends?: () => void;
+  onDeleteFriends?: () => void;
 }
 
 export interface DeclineFriendProps {
   id: number;
+  onDecline?: () => void;
 }
 
 export interface ConfirmFriendProps {
   id: number;
+  onConfirm?: () => void;
 }

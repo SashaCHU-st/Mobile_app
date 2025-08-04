@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  Text,
-  FlatList,
-} from "react-native";
+import { View, Image, StyleSheet, Text, FlatList } from "react-native";
 import dog from "../../assets/images/dog.jpg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
@@ -20,6 +14,7 @@ const Notifications = () => {
   const [friendRequests, setFriendRequest] = useState<User[]>([]);
 
   const handleNotifications = async () => {
+    console.log("JJJJJJJJ")
     try {
       const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/checkRequests`, {
@@ -58,9 +53,11 @@ const Notifications = () => {
             <Text style={styles.userName}>{friendRequest.name}</Text>
             <View style={styles.requestButtons}>
               <DeclineRequest
-              id ={friendRequest.id} />
-              <ConfirmRequest
-              id={friendRequest.id} />
+                id={friendRequest.id}
+                onDecline={()=>handleNotifications()}
+              />
+              <ConfirmRequest id={friendRequest.id}
+              onConfirm={()=>handleNotifications()} />
             </View>
           </View>
         )}

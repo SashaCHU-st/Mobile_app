@@ -20,7 +20,6 @@ export async function addFriend(
       [userId, friendsId, friendsId, userId]
     );
 
-    console.log("UUUU=>", alreadyFriend);
     if (alreadyFriend.rowCount === 0) {
       await pool.query(
         `INSERT INTO friends (user_id, friends_id) VALUES ($1, $2)`,
@@ -44,7 +43,7 @@ export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
       `SELECT u.id, u.name, u.image
       FROM friends f
       JOIN users u ON f.friends_id = u.id
-      WHERE f.user_id = $1 AND f.confirmRequest = 1`,
+      WHERE f.user_id = $1 OR f.friends_id = $1 AND f.confirmRequest = 1 AND u.id != $1`,
       [userId]
     );
     return reply.code(200).send({ friends: myFriends.rows });
@@ -86,6 +85,27 @@ export async function declineFriend(
   try {
     await pool.query(
       `UPDATE friends SET confirmRequest = 0 WHERE friends_id = $1 AND user_id = $2`,
+      [userId, friendsId]
+    );
+
+    return reply.code(200).send({message:"Friend request declined"});
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function confirmFriend(
+  req: FastifyRequest<{ Body: declineFriendBody }>,
+  reply: FastifyReply
+) {
+  console.log("WE IN confirm")
+  const userId = (req.user as { id: number }).id;
+  const { friendsId } = req.body;
+
+  try {
+    await pool.query(
+      `UPDATE friends SET confirmRequest = 1 WHERE friends_id = $1 AND user_id = $2`,
       [userId, friendsId]
     );
 

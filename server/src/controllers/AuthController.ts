@@ -1,5 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
+import bcrypt from "bcrypt";
+import { hashedPass } from "../utils/hashedPass";
 import { notEmptyLogin, notEmptySignup } from "../utils/notEmpty";
 import { SignUpBody, LoginBody } from "../types/types";
 
@@ -19,7 +21,7 @@ export async function signUp(
     if (userExists.rowCount === 0) {
       const newUser = await pool.query(
         "INSERT INTO users (email,name,  password) VALUES ($1, $2, $3) RETURNING *",
-        [email, name, password]
+        [email, name, await hashedPass(password)]
       );
       const user = newUser.rows[0];
       const token = reply.server.jwt.sign({ id: user.id });
@@ -53,7 +55,9 @@ export async function login(
     if (user.rowCount === 0) {
       return reply.code(400).send({ message: "No such user" });
     }
-    if (user.rows[0].password !== password) {
+
+    const passMatch = await bcrypt.compare(password,user.rows[0].password )
+    if (!passMatch) {
       return reply.code(400).send({ message: "Wrong password" });
     }
     const userData = user.rows[0];

@@ -75,6 +75,11 @@ npm start
 | **Remove Friend Button**    | Remove friend from list                              | ✅ Done         |
 | **Dynamic List Updates**    | Auto-refresh user/friend list after changes          |  ✅ Done   |
 | **Exclude Friends from Users** | Hide existing friends from addable user list     |  ✅ Done   |
+| **Confirm Friend Request**  | Accept/reject requests instead of instant friendship     |✅ Done |
+| **Dynamic List Updates**    | Update user/friend lists after actions                   |✅ Done|
+| **Profile Picture Display** | Show profile pictures across user lists                  |✅ Done| 
+| **Remove from Users if Friend** | Filter out existing friends from addable users      |✅ Done|
+| **Edit Profile UI**         | Update personal details from the frontend                |✅ Done|
 
 ---
 
@@ -104,11 +109,7 @@ npm start
 
 | Feature                      | Description                                              |
 |-----------------------------|----------------------------------------------------------|
-| **Confirm Friend Request**  | Accept/reject requests instead of instant friendship     |
-| **Dynamic List Updates**    | Update user/friend lists after actions                   |
-| **Profile Picture Display** | Show profile pictures across user lists                  |
-| **Remove from Users if Friend** | Filter out existing friends from addable users      |
-| **Edit Profile UI**         | Update personal details from the frontend                |
+
 
 ---
 

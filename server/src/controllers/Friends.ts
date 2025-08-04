@@ -1,6 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { addFriendBody, deleteFriendBody } from "../types/types";
+import {
+  addFriendBody,
+  deleteFriendBody,
+  confirmFriendBody,
+} from "../types/types";
 import { pool } from "../db/db";
+import { ftruncate } from "fs";
 
 export async function addFriend(
   req: FastifyRequest<{ Body: addFriendBody }>,
@@ -49,18 +54,82 @@ export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
   }
 }
 
-
-export async function deleteFriend(  req: FastifyRequest<{ Body: deleteFriendBody }>,
-  reply: FastifyReply) {
-    const userId = (req.user as { id: number }).id;
+export async function deleteFriend(
+  req: FastifyRequest<{ Body: deleteFriendBody }>,
+  reply: FastifyReply
+) {
+  const userId = (req.user as { id: number }).id;
   const { friendsId } = req.body;
 
-  try
-  {
-    await pool.query(`DELETE FROM friends WHERE user_id = $1 AND friends_id = $2`,[userId, friendsId])
+  try {
+    await pool.query(
+      `DELETE FROM friends WHERE user_id = $1 AND friends_id = $2`,
+      [userId, friendsId]
+    );
 
-    return reply.code(200).send({ message: "friend Deleted"  });
-  }catch (err: any) { 
+    return reply.code(200).send({ message: "friend Deleted" });
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function confirmFriend(
+  req: FastifyRequest<{ Body: confirmFriendBody }>,
+  reply: FastifyReply
+) {
+  const userId = (req.user as { id: number }).id;
+  // const { friendsId } = req.body;
+
+  try {
+    const checkRequest = await pool.query(
+      `SELECT * FROM friends WHERE friends_id = $1 AND confirmRequest = 2`,
+      [userId]
+    );
+    const friendRequest = checkRequest.rowCount;
+    console.log("Check req =>", checkRequest.rows[0].user_id);
+
+    if (friendRequest !== 0) {
+      const friendId = checkRequest.rows[0].user_id;
+      await pool.query(
+        `UPDATE friends SET confirmRequest = 1 WHERE friends_id = $1 AND user_id = $2`,
+        [userId, friendId]
+      );
+    }
+    return reply.code(200).send({ check: checkRequest.rows });
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function checkRequests(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  console.log("WE IN CHECK");
+  const userId = (request.user as { id: number }).id;
+
+  try {
+    const checkRequest = await pool.query(
+      `SELECT * FROM friends WHERE friends_id = $1 AND confirmRequest = 2`,
+      [userId]
+    );
+    const friendRequest = checkRequest.rowCount;
+    console.log("KKKK=>", userId);
+    console.log("TTT=>", friendRequest);
+
+    const userIdRequest = checkRequest.rows[0];
+    console.log("IIII=>", userIdRequest.user_id)
+    const user = await pool.query(
+      `SELECT id, name, image FROM users WHERE id = $1`,
+      [userIdRequest.user_id]
+    );
+    console.log("NNNN=>",user.rows[0] )
+
+
+    return reply.code(200).send({ friend: checkRequest.rows[0], user:user.rows[0] });
+  } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
   }

@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import {
   addFriendBody,
   deleteFriendBody,
-  confirmFriendBody,
+  declineFriendBody,
 } from "../types/types";
 import { pool } from "../db/db";
 import { ftruncate } from "fs";
@@ -74,29 +74,22 @@ export async function deleteFriend(
   }
 }
 
-export async function confirmFriend(
-  req: FastifyRequest<{ Body: confirmFriendBody }>,
+
+export async function declineFriend(
+  req: FastifyRequest<{ Body: declineFriendBody }>,
   reply: FastifyReply
 ) {
+  console.log("WE IN DECLINE")
   const userId = (req.user as { id: number }).id;
-  // const { friendsId } = req.body;
+  const { friendsId } = req.body;
 
   try {
-    const checkRequest = await pool.query(
-      `SELECT * FROM friends WHERE friends_id = $1 AND confirmRequest = 2`,
-      [userId]
+    await pool.query(
+      `UPDATE friends SET confirmRequest = 0 WHERE friends_id = $1 AND user_id = $2`,
+      [userId, friendsId]
     );
-    const friendRequest = checkRequest.rowCount;
-    console.log("Check req =>", checkRequest.rows[0].user_id);
 
-    if (friendRequest !== 0) {
-      const friendId = checkRequest.rows[0].user_id;
-      await pool.query(
-        `UPDATE friends SET confirmRequest = 1 WHERE friends_id = $1 AND user_id = $2`,
-        [userId, friendId]
-      );
-    }
-    return reply.code(200).send({ check: checkRequest.rows });
+    return reply.code(200).send({message:"Friend request declined"});
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

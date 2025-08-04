@@ -23,7 +23,7 @@ export type ProfileBody = {
   image?: string | null;
 };
 
-export type confirmFriendBody={
-    // friendsId: number;
+export type declineFriendBody={
+    friendsId: number;
 }
 

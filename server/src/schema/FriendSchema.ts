@@ -13,7 +13,7 @@ export const DeleteFriendSchema = z.object({
   friendsId: z.number(),
 });
 
-export const ConfirmFriendSchema = z.object({
-  userId: z.number(),
-    // friendsId: z.number(),
+
+export const DeclineFriendSchema = z.object({
+  friendsId: z.number(),
 });

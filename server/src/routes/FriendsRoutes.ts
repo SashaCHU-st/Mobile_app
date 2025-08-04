@@ -3,14 +3,15 @@ import {
   AddFriendSchema,
   MyFriendSchema,
   DeleteFriendSchema,
-  ConfirmFriendSchema,
+  DeclineFriendSchema,
 } from "../schema/FriendSchema";
 import {
   addFriend,
   myFriend,
   deleteFriend,
-  confirmFriend,
+  // confirmFriend,
   checkRequests,
+  declineFriend,
 } from "../controllers/Friends";
 import { check } from "zod";
 
@@ -33,14 +34,16 @@ export async function FriendsRoutes(app: FastifyInstance) {
     }
     return myFriend({ ...req, body: validated.data }, reply);
   });
-  app.post("/confirmFriend", async (req, reply) => {
-    const validated = ConfirmFriendSchema.safeParse(req.body);
+
+  app.post("/declineFriend", async (req, reply) => {
+    const validated = DeclineFriendSchema.safeParse(req.body);
+    console.log(validated)
     if (!validated.success) {
       const message = validated.error.issues[0]?.message || "Validation failed";
       reply.code(400).send({ message });
       return;
     }
-    return confirmFriend({ ...req, body: validated.data }, reply);
+    return declineFriend({ ...req, body: validated.data }, reply);
   });
   app.get("/checkRequests", checkRequests);
   app.delete("/deleteFriend", async (req, reply) => {

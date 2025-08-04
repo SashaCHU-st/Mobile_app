@@ -7,10 +7,10 @@ const size = Dimensions.get("window").width * 0.1;
 
 const DeclineRequest: React.FC<DeclineFriendProps> = ({id}) => {
   const [error, setError] = useState("");
-  const handleDecline = async (id: number) => {
+  const handleConfirm = async (id: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const fetchDecline = await fetch(`${API_URL}/declineFriend`, {
+      const fetchDecline = await fetch(`${API_URL}/confirmFriend`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,8 +31,8 @@ const DeclineRequest: React.FC<DeclineFriendProps> = ({id}) => {
     }
   };
   return (
-    <Pressable style={styles.button} onPress={() => handleDecline(id)}>
-      <Text>Decline</Text>
+    <Pressable style={styles.button} onPress={() => handleConfirm(id)}>
+      <Text>Confirm</Text>
     </Pressable>
   );
 };

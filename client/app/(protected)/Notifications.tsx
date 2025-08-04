@@ -59,7 +59,8 @@ const Notifications = () => {
             <View style={styles.requestButtons}>
               <DeclineRequest
               id ={friendRequest.id} />
-              <ConfirmRequest />
+              <ConfirmRequest
+              id={friendRequest.id} />
             </View>
           </View>
         )}

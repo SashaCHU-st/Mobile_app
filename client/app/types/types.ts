@@ -45,3 +45,7 @@ export interface DeleteFriendProps {
 export interface DeclineFriendProps {
   id: number;
 }
+
+export interface ConfirmFriendProps {
+  id: number;
+}

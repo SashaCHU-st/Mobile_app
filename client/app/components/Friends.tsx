@@ -19,9 +19,6 @@ const Friends = () => {
 
 export default Friends
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "flex-end",
-  },
   button: {
     width: 120,
     height: 40,

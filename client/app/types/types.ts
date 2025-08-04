@@ -39,4 +39,5 @@ export interface AddFriendProps {
 
 export interface DeleteFriendProps {
   id: number;
+     onDeleteFriends?: () => void;
 }

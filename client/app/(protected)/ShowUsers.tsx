@@ -7,9 +7,12 @@ import {
   Pressable,
   Image,
   Dimensions,
-  ScrollView,FlatList
+  ScrollView,
+  FlatList,
 } from "react-native";
 import { API_URL } from "../config";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import { User } from "../types/types";
 import AddFriend from "../components/AddFriend";
 import BackButton from "../components/BackButton";
@@ -33,8 +36,6 @@ const ShowUsers = () => {
       });
 
       const data = await results.json();
-      // const myId = await AsyncStorage.getItem("id");
-      // setId(myId);
       console.log("data=>", data);
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
@@ -45,9 +46,11 @@ const ShowUsers = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+useFocusEffect(
+  useCallback(() => {
+    fetchUsers(); 
+  }, [])
+);
 
   if (error) {
     return (
@@ -58,38 +61,6 @@ const ShowUsers = () => {
   }
 
   return (
-    //////SCROLVIEW
-    // <ScrollView>
-    //   {users.length === 0 ? (
-    //     <Text>No users found.</Text>
-    //   ) : (
-    //     users
-    //       // .filter((user) => user.id !== Number(myId))
-    //       .map((user) => (
-    //         <Text key={user.id} style={styles.userText}>
-    //           {user.image ? (
-    //             <Image
-    //               source={{ uri: user.image }}
-    //               style={styles.userImage}
-    //               resizeMode="cover"
-    //             />
-    //           ) : (
-    //             <Image
-    //               source={dog}
-    //               style={styles.userImage}
-    //               resizeMode="cover"
-    //             />
-    //           )}
-    //           {user.id} : {user.name}
-    //           <AddFriend id={user.id} onFriendAdded={fetchUsers} />
-    //         </Text>
-    //       ))
-    //   )}
-    //   <View>
-    //     <BackButton />
-    //   </View>
-    // </ScrollView>
-
     /////FLATLIST!!!!
     <FlatList
       data={users}
@@ -107,7 +78,13 @@ const ShowUsers = () => {
           <Text style={styles.userName}>
             {user.id} : {user.name}
           </Text>
-          <AddFriend id={user.id} onFriendAdded={fetchUsers} />
+          <AddFriend
+            id={user.id}
+            onFriendAdded={() => {
+              fetchUsers();
+              // fetchFriends(); 
+            }}
+          />
         </View>
       )}
       ListFooterComponent={
@@ -122,11 +99,7 @@ const ShowUsers = () => {
 export default ShowUsers;
 
 const styles = StyleSheet.create({
-  userText: {
-    fontSize: 20,
-    marginVertical: 4,
-  },
-   userItem: {
+  userItem: {
     flex: 1,
     margin: 8,
     backgroundColor: "#fff",
@@ -139,18 +112,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-
   userName: {
     fontSize: 16,
     marginBottom: 8,
-  },
-  button: {
-    width: 100,
-    height: 40,
-    borderRadius: size / 4,
-    backgroundColor: "#DEE791",
-    justifyContent: "center",
-    alignItems: "center",
   },
   userImage: {
     width: 150,
@@ -158,10 +122,5 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     alignSelf: "center",
     marginVertical: 20,
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
   },
 });

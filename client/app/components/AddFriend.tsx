@@ -41,13 +41,13 @@ const AddFriend: React.FC<AddFriendProps> = ({ id ,onFriendAdded}) => {
       <Pressable
         style={[
           styles.button,
-          sentRequest && styles.disabledButton, // Apply different style if disabled
+          sentRequest && styles.disabledButton,
         ]}
         onPress={() => {
           handleAddFriends(id);
           setSendRequest(true);
         }}
-        disabled={sentRequest} // 🔒 disables the button after request is sent
+        disabled={sentRequest} 
       >
         {sentRequest ? (
           <Text style={styles.text}>Request sent</Text>

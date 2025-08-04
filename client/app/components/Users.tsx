@@ -19,9 +19,6 @@ const Users = () => {
 
 export default Users;
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "flex-end",
-  },
   button: {
     width: 100,
     height: 40,

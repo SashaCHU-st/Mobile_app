@@ -3,12 +3,12 @@ import {
   View,
   Image,
   StyleSheet,
-  Dimensions,
   Text,
   FlatList,
-  Pressable,
 } from "react-native";
 import dog from "../../assets/images/dog.jpg";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
 import { User } from "../types/types";
@@ -17,7 +17,6 @@ import ConfirmRequest from "../components/ConfirmRequest";
 
 const Notifications = () => {
   const [error, setError] = useState("");
-  const [showRequests, setShowRequests] = useState(false);
   const [friendRequests, setFriendRequest] = useState<User[]>([]);
 
   const handleNotifications = async () => {
@@ -30,45 +29,41 @@ const Notifications = () => {
         },
       });
       const data = await results.json();
-      console.log("DATa=>", data.user);
-      setFriendRequest([data.user]);
-      setShowRequests(true);
+      setFriendRequest(data.users);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      handleNotifications();
+    }, [])
+  );
   return (
     <View style={styles.container}>
-      <Pressable style={styles.button} onPress={handleNotifications}>
-        <Text style={styles.buttonText}>Notification</Text>
-      </Pressable>
-      {showRequests && (
-        <FlatList
-          data={friendRequests}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={2}
-          contentContainerStyle={{ padding: 10 }}
-          ListEmptyComponent={<Text>No requests</Text>}
-          renderItem={({ item: friendRequest }) => (
-            <View style={styles.userItem}>
-              <Image
-                source={
-                  friendRequest.image ? { uri: friendRequest.image } : dog
-                }
-                style={styles.userImage}
-                resizeMode="cover"
-              />
-              <Text style={styles.userName}>
-                {friendRequest.id}:{friendRequest.name}
-              </Text>
-              <View style={styles.requestButtons}>
-                <DeclineRequest />
-                <ConfirmRequest />
-              </View>
+      <FlatList
+        data={friendRequests}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        contentContainerStyle={{ padding: 10 }}
+        ListEmptyComponent={<Text>No requests</Text>}
+        renderItem={({ item: friendRequest }) => (
+          <View style={styles.userItem}>
+            <Image
+              source={friendRequest.image ? { uri: friendRequest.image } : dog}
+              style={styles.userImage}
+              resizeMode="cover"
+            />
+            <Text style={styles.userName}>{friendRequest.name}</Text>
+            <View style={styles.requestButtons}>
+              <DeclineRequest
+              id ={friendRequest.id} />
+              <ConfirmRequest />
             </View>
-          )}
-        />
-      )}
+          </View>
+        )}
+      />
     </View>
   );
 };

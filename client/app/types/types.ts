@@ -41,3 +41,7 @@ export interface DeleteFriendProps {
   id: number;
      onDeleteFriends?: () => void;
 }
+
+export interface DeclineFriendProps {
+  id: number;
+}

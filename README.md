@@ -47,7 +47,7 @@ npm start
 |--------------------------|-----------------------------------------------------------|----------------|
 | **Edit Profile**         | Update user profile fields                                | ✅ Done    |
 | **Profile Picture Upload** | Upload and store profile picture                         | ✅ Done         |
-| **View Profile Picture** | Retrieve and display profile image of other users                    | In Progress    |
+| **View Profile Picture** | Retrieve and display profile image of other users                    | ✅ Done    |
 
 ---
 
@@ -73,8 +73,8 @@ npm start
 | **Friends Page UI**         | Shows users and current friends                      | ✅ Done         |
 | **Add Friend Button**       | Add friend from users list                           | ✅ Done         |
 | **Remove Friend Button**    | Remove friend from list                              | ✅ Done         |
-| **Dynamic List Updates**    | Auto-refresh user/friend list after changes          |  In Progress  |
-| **Exclude Friends from Users** | Hide existing friends from addable user list     |  In Progress  |
+| **Dynamic List Updates**    | Auto-refresh user/friend list after changes          |  ✅ Done   |
+| **Exclude Friends from Users** | Hide existing friends from addable user list     |  ✅ Done   |
 
 ---
 
@@ -84,7 +84,7 @@ npm start
 |--------------------------|------------------------------------------------------|----------------|
 | **Edit Profile Page**    | UI for updating user details                        | ✅ Done   |
 | **Profile Picture Upload** | Upload image from frontend                        | ✅ Done         |
-| **View Profile Image**   | Display user picture in UI   of other users                      |  In Progress  |
+| **View Profile Image**   | Display user picture in UI   of other users                      |  ✅ Done   |
 
 ---
 

@@ -115,20 +115,21 @@ export async function checkRequests(
       `SELECT * FROM friends WHERE friends_id = $1 AND confirmRequest = 2`,
       [userId]
     );
-    const friendRequest = checkRequest.rowCount;
-    console.log("KKKK=>", userId);
-    console.log("TTT=>", friendRequest);
+    console.log("Number=>", checkRequest.rowCount);
 
-    const userIdRequest = checkRequest.rows[0];
-    console.log("IIII=>", userIdRequest.user_id)
-    const user = await pool.query(
-      `SELECT id, name, image FROM users WHERE id = $1`,
-      [userIdRequest.user_id]
-    );
-    console.log("NNNN=>",user.rows[0] )
-
-
-    return reply.code(200).send({ friend: checkRequest.rows[0], user:user.rows[0] });
+    if (checkRequest.rowCount !== 0) {
+      const requestedUsers = await pool.query(
+        ` 
+        SELECT f.user_id, u.id, u.name, u.image
+        FROM friends f
+        JOIN users u ON f.user_id = u.id
+        WHERE f.friends_id = $1 AND confirmRequest = 2`,
+        [userId]
+      );
+      return reply
+        .code(200)
+        .send({ friend: checkRequest.rows[0], users: requestedUsers.rows });
+    }
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

@@ -24,7 +24,7 @@ npm start
 | **Login**         | User login with credentials                     | ✅ Done         |
 | **Logout**        | Clears session/token                            | ✅ Done         |
 | **JWT**           | Secure authentication via JWT                   | ✅ Done         |
-| **Hashed Passwords** | Passwords hashed securely (e.g., bcrypt)     |  In Progress  |
+| **Hashed Passwords** | Passwords hashed securely (e.g., bcrypt)     |  ✅ Done   |
 
 ---
 

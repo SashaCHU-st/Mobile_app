@@ -29,10 +29,10 @@ export default function ProtectedLayout() {
           backgroundColor: "#ec7438ff",
         },
         drawerLabelStyle: {
-          color: "white", 
+          color: "white",
         },
         headerStyle: {
-          backgroundColor: "#ec7438ff", 
+          backgroundColor: "#ec7438ff",
         },
         headerTintColor: "white",
       }}
@@ -49,13 +49,17 @@ export default function ProtectedLayout() {
         name="ShowUsers"
         options={{ drawerLabel: "🧑‍🤝‍🧑 Users", title: "Users" }}
       />
-      <Drawer.Screen
-        name="Logout"
-        options={{ drawerLabel: "Logout", title: "Logout" }}
-      />
         <Drawer.Screen
+          name="Notifications"
+          options={{ drawerLabel: " 🙋‍♀️Notification", title: "Notifications" }}
+        />
+      <Drawer.Screen
         name="EditProfile"
         options={{ drawerLabel: "⚙️ Edit Profile", title: "Edit Profile" }}
+      />
+      <Drawer.Screen
+        name="Logout"
+        options={{ drawerLabel: " ⬅️ Logout", title: "Logout" }}
       />
     </Drawer>
   );

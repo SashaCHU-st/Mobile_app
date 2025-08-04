@@ -9,7 +9,7 @@ import {
 import { Me } from "../types/types";
 import dog from "../../assets/images/dog.jpg";
 
-const UserInfo: React.FC<Me> = ({ id, name, email, password, image }) => {
+const UserInfo: React.FC<Me> = ({ id, name, email, image }) => {
   return (
     <View style={styles.container}>
       {image ? (
@@ -24,7 +24,7 @@ const UserInfo: React.FC<Me> = ({ id, name, email, password, image }) => {
       <Text style={styles.text}>Id :{id}</Text>
       <Text style={styles.text}>Name :{name}</Text>
       <Text style={styles.text}>Email :{email}</Text>
-      <Text style={styles.text}>Password :{password}</Text>
+      {/* <Text style={styles.text}>Password :{password}</Text> */}
     </View>
   );
 };

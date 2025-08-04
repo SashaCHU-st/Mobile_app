@@ -31,7 +31,7 @@ export default function UserPage() {
           id={me.id}
           name={me.name}
           email={me.email}
-          password={me.password}
+          // password={me.password}
         />
       )}
     </View>

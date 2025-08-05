@@ -14,7 +14,7 @@ import {
   checkRequests,
   declineFriend,
 } from "../controllers/Friends";
-import { check } from "zod";
+
 
 export async function FriendsRoutes(app: FastifyInstance) {
   app.post("/addFriend", async (req, reply) => {

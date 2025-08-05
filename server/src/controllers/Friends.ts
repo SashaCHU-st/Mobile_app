@@ -5,7 +5,6 @@ import {
   declineFriendBody,
 } from "../types/types";
 import { pool } from "../db/db";
-import { ftruncate } from "fs";
 
 export async function addFriend(
   req: FastifyRequest<{ Body: addFriendBody }>,
@@ -16,7 +15,8 @@ export async function addFriend(
 
   try {
     const alreadyFriend = await pool.query(
-      `SELECT * FROM friends WHERE (user_id = $1 AND friends_id = $2) OR (user_id = $3 AND friends_id = $4)`,
+      `SELECT * FROM friends WHERE (user_id = $1 AND friends_id = $2) 
+      OR (user_id = $3 AND friends_id = $4) AND confirmRequest = 1`,
       [userId, friendsId, friendsId, userId]
     );
 
@@ -37,9 +37,6 @@ export async function addFriend(
 
 export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
   const userId = (req.user as { id: number }).id;
-
-  console.log("ID", userId);
-
   try {
     const myFriends = await pool.query(
       `SELECT u.id, u.name, u.image
@@ -54,7 +51,6 @@ export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
 `,
       [userId]
     );
-
     return reply.code(200).send({ friends: myFriends.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);
@@ -71,8 +67,8 @@ export async function deleteFriend(
 
   try {
     await pool.query(
-      `DELETE FROM friends WHERE user_id = $1 AND friends_id = $2`,
-      [userId, friendsId]
+      `DELETE FROM friends WHERE (user_id = $1 AND friends_id = $2) OR (user_id = $3 AND friends_id = $4)`,
+      [userId, friendsId, friendsId, userId]
     );
 
     return reply.code(200).send({ message: "friend Deleted" });
@@ -86,7 +82,6 @@ export async function declineFriend(
   req: FastifyRequest<{ Body: declineFriendBody }>,
   reply: FastifyReply
 ) {
-  console.log("WE IN DECLINE");
   const userId = (req.user as { id: number }).id;
   const { friendsId } = req.body;
 
@@ -95,7 +90,6 @@ export async function declineFriend(
       `UPDATE friends SET confirmRequest = 0 WHERE friends_id = $1 AND user_id = $2`,
       [userId, friendsId]
     );
-
     return reply.code(200).send({ message: "Friend request declined" });
   } catch (err: any) {
     console.error("Database error:", err.message);
@@ -107,7 +101,6 @@ export async function confirmFriend(
   req: FastifyRequest<{ Body: declineFriendBody }>,
   reply: FastifyReply
 ) {
-  // console.log("WE IN confirm")
   const userId = (req.user as { id: number }).id;
   const { friendsId } = req.body;
 
@@ -128,7 +121,6 @@ export async function checkRequests(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  // console.log("WE IN CHECK");
   const userId = (request.user as { id: number }).id;
 
   try {

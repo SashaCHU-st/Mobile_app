@@ -1,22 +1,29 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
 
+
 export async function allUsers(request: FastifyRequest, reply: FastifyReply) {
   const userId = (request.user as { id: number }).id;
 
   try {
     const result = await pool.query(
       `
-      SELECT u.id, u.name, u.image, f.confirmRequest
-        FROM users u
-        LEFT JOIN friends f
-          ON (f.user_id = $1 AND f.friends_id = u.id)
-            OR (f.friends_id = $1 AND f.user_id = u.id)
-        WHERE u.id != $1
-          AND (f.confirmRequest IS NULL OR f.confirmRequest = 2 OR f.confirmRequest = 0)
+      SELECT u.id, u.name, u.image, f.confirmRequest,
+        CASE 
+          WHEN f.user_id = $1 THEN 'sent'
+          WHEN f.friends_id = $1 THEN 'received'
+          ELSE NULL
+        END as "requestFrom"
+      FROM users u
+      LEFT JOIN friends f
+        ON (f.user_id = $1 AND f.friends_id = u.id)
+        OR (f.friends_id = $1 AND f.user_id = u.id)
+      WHERE u.id != $1
+        AND (f.confirmRequest IS NULL OR f.confirmRequest IN (0,2))
       `,
       [userId]
     );
+
     return reply.code(200).send({
       Users: result.rows,
     });
@@ -25,6 +32,8 @@ export async function allUsers(request: FastifyRequest, reply: FastifyReply) {
     return reply.code(500).send({ message: "Something went wrong" });
   }
 }
+
+
 
 
 export async function me(req: FastifyRequest, reply: FastifyReply) {

@@ -14,21 +14,32 @@ export async function addFriend(
   const { friendsId } = req.body;
 
   try {
-    const alreadyFriend = await pool.query(
-      `SELECT * FROM friends WHERE (user_id = $1 AND friends_id = $2) 
-      OR (user_id = $3 AND friends_id = $4) AND confirmRequest = 1`,
-      [userId, friendsId, friendsId, userId]
+
+    const check = await pool.query(
+      `SELECT * FROM friends 
+       WHERE (user_id = $1 AND friends_id = $2) OR (user_id = $2 AND friends_id = $1)`,
+      [userId, friendsId]
     );
 
-    if (alreadyFriend.rowCount === 0) {
-      await pool.query(
-        `INSERT INTO friends (user_id, friends_id) VALUES ($1, $2)`,
-        [userId, friendsId]
-      );
-      return reply.code(201).send({ message: "All good" });
-    } else {
-      return reply.code(400).send({ message: "Alredy friends" });
+    if (check.rowCount !== 0) {
+      const row = check.rows[0];
+      if (row.confirmrequest === 0) {
+        await pool.query(
+          `DELETE FROM friends 
+           WHERE (user_id = $1 AND friends_id = $2) OR (user_id = $2 AND friends_id = $1)`,
+          [userId, friendsId]
+        );
+      } else {
+        return reply.code(400).send({ message: "Request already exists or you are already friends" });
+      }
     }
+    await pool.query(
+      `INSERT INTO friends (user_id, friends_id, confirmRequest)
+       VALUES ($1, $2, 2)`,
+      [userId, friendsId]
+    );
+
+    return reply.code(201).send({ message: "Friend request sent" });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -136,7 +147,7 @@ export async function checkRequests(
         SELECT f.user_id, u.id, u.name, u.image
         FROM friends f
         JOIN users u ON f.user_id = u.id
-        WHERE f.friends_id = $1 AND confirmRequest = 2`,
+        WHERE f.friends_id = $1  AND confirmRequest = 2`,
         [userId]
       );
       return reply

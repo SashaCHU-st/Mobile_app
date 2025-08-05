@@ -3,11 +3,15 @@ import { useState } from "react";
 import { API_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeclineFriendProps } from "../types/types";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 const size = Dimensions.get("window").width * 0.1;
 
 const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
   const [error, setError] = useState("");
-  const handleConfirm = async (id: number) => {
+
+
+  const handleDecline = async (id: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
       const fetchDecline = await fetch(`${API_URL}/declineFriend`, {
@@ -26,18 +30,15 @@ const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
           data.message || `HTTP error! status: ${fetchDecline.status}`
         );
       }
-      if (onDecline) 
-      {
-        console.log("KUKU")
+      if (onDecline) {
         onDecline();
-
       }
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
   };
   return (
-    <Pressable style={styles.button} onPress={() => handleConfirm(id)}>
+    <Pressable style={styles.button} onPress={() => handleDecline(id)}>
       <Text>Decline</Text>
     </Pressable>
   );

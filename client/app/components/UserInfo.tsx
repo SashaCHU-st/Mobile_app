@@ -2,8 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Pressable,
-  Dimensions,
   Image,
 } from "react-native";
 import { Me } from "../types/types";
@@ -24,7 +22,6 @@ const UserInfo: React.FC<Me> = ({ id, name, email, image }) => {
       <Text style={styles.text}>Id :{id}</Text>
       <Text style={styles.text}>Name :{name}</Text>
       <Text style={styles.text}>Email :{email}</Text>
-      {/* <Text style={styles.text}>Password :{password}</Text> */}
     </View>
   );
 };

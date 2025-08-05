@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Image, StyleSheet, Dimensions, Text } from "react-native";
+import React, { useState } from "react";
+import { View, Image, StyleSheet } from "react-native";
 import UserInfo from "../components/UserInfo";
 import dog from "../../assets/images/dog.jpg";
 import { Me } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { API_URL } from "../config";
 import { fetchMe } from "../utils/api";
 
 export default function UserPage() {
@@ -31,7 +29,6 @@ export default function UserPage() {
           id={me.id}
           name={me.name}
           email={me.email}
-          // password={me.password}
         />
       )}
     </View>

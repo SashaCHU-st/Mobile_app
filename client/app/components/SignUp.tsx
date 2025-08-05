@@ -41,7 +41,6 @@ const SignUp = ({
       });
       const data = await results.json();
       await AsyncStorage.setItem("id", String(data.newUser.id));
-      // console.log("MyId=>", myId)
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }

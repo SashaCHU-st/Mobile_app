@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Pressable, Text, Dimensions, StyleSheet } from 'react-native'
+import { Pressable, Text, Dimensions, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 const size = Dimensions.get("window").width * 0.1;
 const BackButton = () => {

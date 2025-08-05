@@ -22,17 +22,19 @@ export type User = {
   id: number;
   name: string;
   image?: string;
+  status?: number | null;
+  confirmrequest?: number | null; 
 };
 export interface Me {
   id: number;
   name: string;
   email: string;
-  // password: string;
   image?: string;
 }
 
 export interface AddFriendProps {
   id: number;
+  status?: number | null;
   onFriendAdded?: () => void;
 }
 

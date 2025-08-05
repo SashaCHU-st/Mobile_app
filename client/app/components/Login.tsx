@@ -38,7 +38,6 @@ const Login = ({
         }),
       });
       const data = await results.json();
-      console.log("JJJ=>", data.user[0])
       await AsyncStorage.setItem("id", data.user[0].id);
       if (!results.ok) {
         throw new Error(

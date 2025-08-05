@@ -36,7 +36,6 @@ const ShowFriends = () => {
         }),
       });
       const data = await results.json();
-      console.log("Data=>", data)
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }

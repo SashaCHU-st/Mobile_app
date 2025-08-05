@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { API_URL } from "../config";
 import { AddFriendProps } from "@/app/types/types";
 const size = Dimensions.get("window").width * 0.1;
 
-const AddFriend: React.FC<AddFriendProps> = ({ id ,onFriendAdded}) => {
+const AddFriend: React.FC<AddFriendProps> = ({ id, onFriendAdded, status }) => {
   const [error, setError] = useState<string>("");
-  const [sentRequest, setSendRequest] = useState(false);
+  const isDisabled = status === 2;
+
   const handleAddFriends = async (friendsId: number) => {
     const myId = await AsyncStorage.getItem("id");
     const token = await AsyncStorage.getItem("token");
@@ -29,31 +30,21 @@ const AddFriend: React.FC<AddFriendProps> = ({ id ,onFriendAdded}) => {
           data.message || `HTTP error! status: ${results.status}`
         );
       }
-       if (onFriendAdded)
-          onFriendAdded();
+      if (onFriendAdded) onFriendAdded();
     } catch (err: any) {
       console.error("Error", err);
       setError(err.message || "Something went wrong");
     }
   };
+  // const isDisabled = status === 'sent' || status === 'friends'
   return (
     <View>
       <Pressable
-        style={[
-          styles.button,
-          sentRequest && styles.disabledButton,
-        ]}
-        onPress={() => {
-          handleAddFriends(id);
-          setSendRequest(true);
-        }}
-        disabled={sentRequest} 
+        style={[styles.button, isDisabled && styles.disabledButton]}
+        onPress={() => handleAddFriends(id)}
+        disabled={isDisabled}
       >
-        {sentRequest ? (
-          <Text style={styles.text}>Request sent</Text>
-        ) : (
-          <Text style={styles.text}>Add friend</Text>
-        )}
+        <Text>{status === 2 ? "Request sent" : "Add friend"}</Text>
       </Pressable>
     </View>
   );

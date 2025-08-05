@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import { fetchMe } from "../utils/api";
 import { Me } from "../types/types";
+
 const size = Dimensions.get("window").width * 0.1;
 
 const EditProfile = () => {

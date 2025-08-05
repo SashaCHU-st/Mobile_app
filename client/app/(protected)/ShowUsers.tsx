@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Image,
-  Dimensions,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { API_URL } from "../config";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
@@ -17,11 +8,12 @@ import { User } from "../types/types";
 import AddFriend from "../components/AddFriend";
 import BackButton from "../components/BackButton";
 import dog from "../../assets/images/dog.jpg";
-const size = Dimensions.get("window").width * 0.1;
 
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
+  const [request, setRequest] = useState(false);
+  const [sentRequests, setSentRequests] = useState<number[]>([]);
 
   const fetchUsers = async () => {
     try {
@@ -35,7 +27,10 @@ const ShowUsers = () => {
       });
 
       const data = await results.json();
-      console.log("data=>", data);
+      if (data.request === 2) {
+        console.log("NNNN");
+        setRequest(true);
+      }
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
@@ -45,11 +40,11 @@ const ShowUsers = () => {
     }
   };
 
-useFocusEffect(
-  useCallback(() => {
-    fetchUsers(); 
-  }, [])
-);
+  useFocusEffect(
+    useCallback(() => {
+      fetchUsers();
+    }, [])
+  );
 
   if (error) {
     return (
@@ -60,7 +55,6 @@ useFocusEffect(
   }
 
   return (
-    /////FLATLIST!!!!
     <FlatList
       data={users}
       keyExtractor={(item) => item.id.toString()}
@@ -79,10 +73,8 @@ useFocusEffect(
           </Text>
           <AddFriend
             id={user.id}
-            onFriendAdded={() => {
-              fetchUsers();
-              // fetchFriends(); 
-            }}
+            status={user.confirmrequest}
+            onFriendAdded={fetchUsers}
           />
         </View>
       )}

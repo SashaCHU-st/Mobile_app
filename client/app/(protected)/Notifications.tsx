@@ -14,7 +14,6 @@ const Notifications = () => {
   const [friendRequests, setFriendRequest] = useState<User[]>([]);
 
   const handleNotifications = async () => {
-    console.log("JJJJJJJJ")
     try {
       const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/checkRequests`, {
@@ -39,6 +38,7 @@ const Notifications = () => {
     <View style={styles.container}>
       <FlatList
         data={friendRequests}
+        extraData={friendRequests}
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         contentContainerStyle={{ padding: 10 }}
@@ -54,10 +54,21 @@ const Notifications = () => {
             <View style={styles.requestButtons}>
               <DeclineRequest
                 id={friendRequest.id}
-                onDecline={()=>handleNotifications()}
+                onDecline={() => {
+                  setFriendRequest((prev) =>
+                    prev.filter((user) => user.id !== friendRequest.id)
+                  );
+                }}
               />
-              <ConfirmRequest id={friendRequest.id}
-              onConfirm={()=>handleNotifications()} />
+
+              <ConfirmRequest
+                id={friendRequest.id}
+                onConfirm={() => {
+                  setFriendRequest((prev) =>
+                    prev.filter((user) => user.id !== friendRequest.id)
+                  );
+                }}
+              />
             </View>
           </View>
         )}

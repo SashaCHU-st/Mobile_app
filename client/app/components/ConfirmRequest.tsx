@@ -7,10 +7,10 @@ import { ConfirmFriendProps } from "../types/types";
 const size = Dimensions.get("window").width * 0.1;
 const ConfirmRequest: React.FC<ConfirmFriendProps> = ({ id, onConfirm }) => {
   const [error, setError] = useState("");
-  const handleDecline = async (id: number) => {
+  const handleConfirm = async (id: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
-      const fetchDecline = await fetch(`${API_URL}/confirmFriend`, {
+      const fetchConfirm = await fetch(`${API_URL}/confirmFriend`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,10 +20,10 @@ const ConfirmRequest: React.FC<ConfirmFriendProps> = ({ id, onConfirm }) => {
           friendsId: Number(id),
         }),
       });
-      const data = await fetchDecline.json();
-      if (!fetchDecline.ok) {
+      const data = await fetchConfirm.json();
+      if (!fetchConfirm.ok) {
         throw new Error(
-          data.message || `HTTP error! status: ${fetchDecline.status}`
+          data.message || `HTTP error! status: ${fetchConfirm.status}`
         );
       }
       if (onConfirm) {
@@ -34,7 +34,7 @@ const ConfirmRequest: React.FC<ConfirmFriendProps> = ({ id, onConfirm }) => {
     }
   };
   return (
-    <Pressable style={styles.button} onPress={() => handleDecline(id)}>
+    <Pressable style={styles.button} onPress={() => handleConfirm(id)}>
       <Text>Confirm</Text>
     </Pressable>
   );

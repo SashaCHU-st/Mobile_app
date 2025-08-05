@@ -1,17 +1,24 @@
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState } from "react";
 import { API_URL } from "../config";
-import { AddFriendProps } from "@/app/types/types";
+import { AddFriendProps } from "../types/types";
+
 const size = Dimensions.get("window").width * 0.1;
 
-const AddFriend: React.FC<AddFriendProps> = ({ id, onFriendAdded, status }) => {
+const AddFriend: React.FC<AddFriendProps & { requestFrom?: "sent" | "received" | null }> = ({
+  id,
+  onFriendAdded,
+  status,
+  requestFrom = null,
+}) => {
   const [error, setError] = useState<string>("");
-  const isDisabled = status === 2;
+  const isDisabled = status === 2 && (requestFrom === "sent" || requestFrom === "received");
 
   const handleAddFriends = async (friendsId: number) => {
     const myId = await AsyncStorage.getItem("id");
     const token = await AsyncStorage.getItem("token");
+
     try {
       const results = await fetch(`${API_URL}/addFriend`, {
         method: "POST",
@@ -24,19 +31,25 @@ const AddFriend: React.FC<AddFriendProps> = ({ id, onFriendAdded, status }) => {
           friendsId,
         }),
       });
+
       const data = await results.json();
+
       if (!results.ok) {
-        throw new Error(
-          data.message || `HTTP error! status: ${results.status}`
-        );
+        throw new Error(data.message || `HTTP error! status: ${results.status}`);
       }
+
       if (onFriendAdded) onFriendAdded();
     } catch (err: any) {
-      console.error("Error", err);
       setError(err.message || "Something went wrong");
     }
   };
-  // const isDisabled = status === 'sent' || status === 'friends'
+
+  const renderButtonText = () => {
+    if (status === 2 && requestFrom === "sent") return "Request Sent";
+    if (status === 2 && requestFrom === "received") return "Requested";
+    return "Add Friend";
+  };
+
   return (
     <View>
       <Pressable
@@ -44,8 +57,9 @@ const AddFriend: React.FC<AddFriendProps> = ({ id, onFriendAdded, status }) => {
         onPress={() => handleAddFriends(id)}
         disabled={isDisabled}
       >
-        <Text>{status === 2 ? "Request sent" : "Add friend"}</Text>
+        <Text>{renderButtonText()}</Text>
       </Pressable>
+      {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
     </View>
   );
 };
@@ -53,12 +67,8 @@ const AddFriend: React.FC<AddFriendProps> = ({ id, onFriendAdded, status }) => {
 export default AddFriend;
 
 const styles = StyleSheet.create({
-  userText: {
-    fontSize: 20,
-    marginVertical: 4,
-  },
   button: {
-    width: 100,
+    width: 120,
     height: 40,
     borderRadius: size / 4,
     backgroundColor: "#DEE791",
@@ -66,10 +76,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   disabledButton: {
-    width: 140,
     backgroundColor: "#ff8989ff",
   },
-
   text: {
     fontSize: 18,
     fontWeight: "bold",

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { API_URL } from "../config";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
 import { User } from "../types/types";
 import AddFriend from "../components/AddFriend";
 import BackButton from "../components/BackButton";
@@ -12,29 +11,21 @@ import dog from "../../assets/images/dog.jpg";
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
-  const [request, setRequest] = useState(false);
-  const [sentRequests, setSentRequests] = useState<number[]>([]);
 
   const fetchUsers = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
-
       const results = await fetch(`${API_URL}/users`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
-
       const data = await results.json();
-      if (data.request === 2) {
-        console.log("NNNN");
-        setRequest(true);
-      }
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      setUsers(data.Users);
+      setUsers([...data.Users]);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
@@ -53,6 +44,15 @@ const ShowUsers = () => {
       </View>
     );
   }
+  const handleFriendAdded = (friendId: number) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === friendId
+          ? { ...user, confirmrequest: 2, requestFrom: "sent" }
+          : user
+      )
+    );
+  };
 
   return (
     <FlatList
@@ -73,8 +73,9 @@ const ShowUsers = () => {
           </Text>
           <AddFriend
             id={user.id}
-            status={user.confirmrequest}
-            onFriendAdded={fetchUsers}
+            status={user.confirmrequest ?? null}
+            requestFrom={user.requestFrom ?? null}
+            onFriendAdded={() => handleFriendAdded(user.id)}
           />
         </View>
       )}

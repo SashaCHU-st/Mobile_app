@@ -22,9 +22,10 @@ export type User = {
   id: number;
   name: string;
   image?: string;
-  status?: number | null;
-  confirmrequest?: number | null; 
+  confirmrequest?: number | null;
+  requestFrom?: "sent" | "received" | null;
 };
+
 export interface Me {
   id: number;
   name: string;

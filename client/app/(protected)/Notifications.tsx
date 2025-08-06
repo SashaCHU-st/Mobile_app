@@ -24,6 +24,7 @@ const Notifications = () => {
       });
       const data = await results.json();
       setFriendRequest(data.users);
+
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }

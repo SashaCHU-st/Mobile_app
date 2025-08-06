@@ -5,11 +5,13 @@ import dog from "../../assets/images/dog.jpg";
 import { Me } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { fetchMe } from "../utils/api";
+import { fetchMe, fetchNotification } from "../utils/api";
+
 
 export default function UserPage() {
   const [error, setError] = useState<string>("");
   const [me, setMe] = useState<Me | null>(null);
+  const [Notifications, setNotifications] = useState<number>()
 
 
   useFocusEffect(
@@ -17,6 +19,9 @@ export default function UserPage() {
       fetchMe()
       .then(setMe)
       .catch((err) => setError(err.message || "Failed to load users"));
+      fetchNotification()
+      .then(setNotifications);
+      console.log("JJJJJ")
   }, [])
   );
   return (

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAuth } from "../context/Authcontext";
 import { View, ActivityIndicator } from "react-native";
 import { Drawer } from "expo-router/drawer";
+const request = 1;
 
 export default function ProtectedLayout() {
   const { isAuthorized, loading } = useAuth();
@@ -51,7 +52,7 @@ export default function ProtectedLayout() {
       />
         <Drawer.Screen
           name="Notifications"
-          options={{ drawerLabel: " 🙋‍♀️Notification", title: "Notifications" }}
+          options={{ drawerLabel: `🙋‍♀️Notification (${request === 1 ?  1 : null})`, title: "Notifications" }}
         />
       <Drawer.Screen
         name="EditProfile"

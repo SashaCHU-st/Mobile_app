@@ -132,7 +132,10 @@ export async function checkRequests(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
+
+  console.log("WE IN CHECKKKK")
   const userId = (request.user as { id: number }).id;
+
 
   try {
     const checkRequest = await pool.query(

@@ -1,18 +1,26 @@
 import { useRouter } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext";
 import { View, ActivityIndicator } from "react-native";
 import { Drawer } from "expo-router/drawer";
+import { notifications } from "../utils/api"; 
 
 export default function ProtectedLayout() {
   const { isAuthorized, loading } = useAuth();
   const router = useRouter();
+  const [pending, setPending] = useState(0);
 
   useEffect(() => {
     if (!loading && !isAuthorized) {
       router.replace("/");
     }
   }, [isAuthorized, loading]);
+
+  useEffect(() => {
+    notifications()
+      .then(setPending)
+      .catch((err) => console.error("Failed to fetch notifications:", err));
+  }, []);
 
   if (loading) {
     return (
@@ -49,17 +57,20 @@ export default function ProtectedLayout() {
         name="ShowUsers"
         options={{ drawerLabel: "🧑‍🤝‍🧑 Users", title: "Users" }}
       />
-        <Drawer.Screen
-          name="Notifications"
-          options={{ drawerLabel: " 🙋‍♀️Notification", title: "Notifications" }}
-        />
+      <Drawer.Screen
+        name="Logout"
+        options={{ drawerLabel: "Logout", title: "Logout" }}
+      />
       <Drawer.Screen
         name="EditProfile"
         options={{ drawerLabel: "⚙️ Edit Profile", title: "Edit Profile" }}
       />
       <Drawer.Screen
-        name="Logout"
-        options={{ drawerLabel: " ⬅️ Logout", title: "Logout" }}
+        name="Notifications"
+        options={{
+          drawerLabel: `🙋‍♀️ Notification (${pending})`,
+          title: "Notifications",
+        }}
       />
     </Drawer>
   );

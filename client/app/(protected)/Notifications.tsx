@@ -23,7 +23,10 @@ const Notifications = () => {
         },
       });
       const data = await results.json();
+      console.log("data=>",data)
       setFriendRequest(data.users);
+      if(data)
+        return 1
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
@@ -33,6 +36,7 @@ const Notifications = () => {
     useCallback(() => {
       handleNotifications();
     }, [])
+  
   );
   return (
     <View style={styles.container}>

@@ -6,30 +6,32 @@ import { Me } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { fetchMe } from "../utils/api";
+import { notifications as fetchNotifications } from "../utils/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function UserPage() {
   const [error, setError] = useState<string>("");
   const [me, setMe] = useState<Me | null>(null);
+const [notificationCount, setNotificationCount] = useState<number>(0);
 
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchMe()
+useFocusEffect(
+  useCallback(() => {
+    fetchMe()
       .then(setMe)
       .catch((err) => setError(err.message || "Failed to load users"));
+
+    // fetchNotifications()
+    //   .then(setNotificationCount)
+    //   .catch((err) => console.error("Failed to fetch notifications:", err));
   }, [])
-  );
+);
+
   return (
     <View style={styles.container}>
       <Image source={dog} style={styles.backgroundImage} resizeMode="cover" />
       <View style={styles.overlay} />
       {me && (
-        <UserInfo
-          image={me.image}
-          id={me.id}
-          name={me.name}
-          email={me.email}
-        />
+        <UserInfo image={me.image} id={me.id} name={me.name} email={me.email} />
       )}
     </View>
   );

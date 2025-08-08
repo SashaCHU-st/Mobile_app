@@ -22,3 +22,39 @@ export async function fetchMe() {
   const data = await response.json();
   return data.me[0];
 }
+
+export async function notifications(): Promise<number> {
+  try {
+    const token = await AsyncStorage.getItem("token");
+
+    const results = await fetch(`${API_URL}/checkRequests`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (results.status === 204) {
+      console.log("No notifications");
+      return 0;
+    }
+
+    const text = await results.text();
+    if (!text) {
+      console.log("Empty response body");
+      return 0; 
+    }
+
+    const data = JSON.parse(text);
+    console.log("dataaaa =>", data);
+
+    if (Array.isArray(data)) {
+      return data.length;
+    }
+    return 1;
+  } catch (error) {
+    console.error("Notifications fetch error:", error);
+    return 0;
+  }
+}
+

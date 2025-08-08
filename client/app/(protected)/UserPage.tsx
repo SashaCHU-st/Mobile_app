@@ -5,14 +5,16 @@ import dog from "../../assets/images/dog.jpg";
 import { Me } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { fetchMe } from "../utils/api";
+import { fetchMe, fetchNotification } from "../utils/api";
 import { notifications as fetchNotifications } from "../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function UserPage() {
   const [error, setError] = useState<string>("");
   const [me, setMe] = useState<Me | null>(null);
-const [notificationCount, setNotificationCount] = useState<number>(0);
+const [notificationCount, setNotificationCount] = useState<number>(0);  const [Notifications, setNotifications] = useState<number>()
+
 
 useFocusEffect(
   useCallback(() => {
@@ -23,6 +25,9 @@ useFocusEffect(
     // fetchNotifications()
     //   .then(setNotificationCount)
     //   .catch((err) => console.error("Failed to fetch notifications:", err));
+      fetchNotification()
+      .then(setNotifications);
+      console.log("JJJJJ")
   }, [])
 );
 

@@ -5,7 +5,7 @@ export async function fetchMe() {
   const myId = await AsyncStorage.getItem("id");
   const token = await AsyncStorage.getItem("token");
 
-  const response = await fetch(`${API_URL}/me`, {
+  const results = await fetch(`${API_URL}/me`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,12 +14,13 @@ export async function fetchMe() {
     body: JSON.stringify({ userId: myId }),
   });
 
-  if (!response.ok) {
-    const data = await response.json();
+  if (!results.ok) {
+    const data = await results.json();
     throw new Error(data.message || "Something went wrong");
   }
 
-  const data = await response.json();
+  const data = await results.json();
+  console.log("DATA=>", data)
   return data.me[0];
 }
 

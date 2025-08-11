@@ -1,5 +1,6 @@
-const adress = process.env.LOCAL_IP;
-export const LOCAL_IP = adress;
+import Constants from "expo-constants";
+
+export const LOCAL_IP = Constants.expoConfig?.extra?.LOCAL_IP ?? "localhost";
 
 export const API_URL =
   typeof navigator !== "undefined" && navigator.product === "ReactNative"

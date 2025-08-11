@@ -53,3 +53,9 @@ export interface ConfirmFriendProps {
   id: number;
   onConfirm?: () => void;
 }
+
+export type Food = {
+  id: number;
+  title: string;
+  image?: string;
+};

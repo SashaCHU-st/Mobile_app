@@ -27,21 +27,3 @@ const Logout = () => {
 };
 
 export default Logout;
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'flex-end',
-  },
-  button: {
-    width: 100,
-    height: 40,
-    borderRadius: size / 4,
-    backgroundColor: "#DEE791",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
-  },
-});

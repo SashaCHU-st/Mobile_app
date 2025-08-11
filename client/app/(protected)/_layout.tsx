@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext";
 import { View, ActivityIndicator } from "react-native";
 import { Drawer } from "expo-router/drawer";
-import { notifications } from "../utils/api"; 
+import { notifications } from "../utils/api";
 
 export default function ProtectedLayout() {
   const { isAuthorized, loading } = useAuth();
@@ -58,8 +58,8 @@ export default function ProtectedLayout() {
         options={{ drawerLabel: "🧑‍🤝‍🧑 Users", title: "Users" }}
       />
       <Drawer.Screen
-        name="Logout"
-        options={{ drawerLabel: "Logout", title: "Logout" }}
+        name="Recepies"
+        options={{ drawerLabel: "🥗 My Recepies", title: "Edit Profile" }}
       />
       <Drawer.Screen
         name="EditProfile"
@@ -68,10 +68,15 @@ export default function ProtectedLayout() {
       <Drawer.Screen
         name="Notifications"
         options={{
-          drawerLabel: pending !== 0 ? `🔔Notification (${pending})` : `🔔Notification  `,
+          drawerLabel:
+            pending !== 0 ? `🔔Notification (${pending})` : `🔔Notification  `,
           title: "Notifications",
         }}
       />
-    </Drawer> 
+      <Drawer.Screen
+        name="Logout"
+        options={{ drawerLabel: "Logout", title: "Logout" }}
+      />
+    </Drawer>
   );
 }

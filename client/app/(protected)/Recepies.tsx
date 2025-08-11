@@ -10,6 +10,7 @@ import {
   Image,
 } from "react-native";
 import dog from "../../assets/images/dog.jpg";
+import { useRouter } from "expo-router";
 import { Food } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_KEY } from "@env";
@@ -18,11 +19,11 @@ const { width } = Dimensions.get("window");
 const size = Dimensions.get("window").width * 0.1;
 
 const Recepies = () => {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [foods, setFood] = useState<Food[]>([]);
 
   const handleSearch = async () => {
-    // console.log("API=>", API)
     const url = `${API}${encodeURIComponent(search)}&addRecipeInformation=true&number=10${API_KEY}`;
 
     const token = await AsyncStorage.getItem("token");
@@ -37,11 +38,13 @@ const Recepies = () => {
     setFood(data.results);
   };
 
-
-  const handleMoreInfo = async (id:number) =>
-  {
-    console.log("JJJJ",id)
-  }
+  const handleMoreInfo = async (recipe: Food) => {
+    // console.log("JJJJ", id);
+    router.replace({
+      pathname: "/components/RecipeDetails",
+      params: { recipe: JSON.stringify(recipe) },
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.searchRow}>
@@ -68,7 +71,7 @@ const Recepies = () => {
               style={styles.userImage}
               resizeMode="cover"
             />
-            <Pressable onPress={()=>handleMoreInfo(food.id)}>
+            <Pressable onPress={() => handleMoreInfo(food)}>
               <Text style={styles.foodTitle}>
                 {food.id} {food.title}
               </Text>

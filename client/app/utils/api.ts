@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
+import { Me } from "../types/types";
 
-export async function fetchMe() {
+export async function fetchMe():Promise<Me> {
   const myId = await AsyncStorage.getItem("id");
   const token = await AsyncStorage.getItem("token");
 
@@ -35,11 +36,6 @@ export async function notifications(): Promise<number> {
       },
     });
 
-    if (results.status === 204) {
-      console.log("No notifications");
-      return 0;
-    }
-
     const text = await results.text();
     if (!text) {
       console.log("Empty response body");
@@ -47,12 +43,11 @@ export async function notifications(): Promise<number> {
     }
 
     const data = JSON.parse(text);
-    console.log("dataaaa =>", data);
 
     if (Array.isArray(data)) {
       return data.length;
     }
-    return 1;
+    return data.users.length;
   } catch (error) {
     console.error("Notifications fetch error:", error);
     return 0;

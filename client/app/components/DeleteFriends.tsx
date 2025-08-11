@@ -51,7 +51,7 @@ const DeleteFriends: React.FC<DeleteFriendProps> = ({
 export default DeleteFriends;
 const styles = StyleSheet.create({
   button: {
-    width: 180,
+    width: 120,
     height: 40,
     borderRadius: size / 4,
     backgroundColor: "#DEE791",

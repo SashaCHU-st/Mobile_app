@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Image, StyleSheet, Text, FlatList } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import dog from "../../assets/images/dog.jpg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
@@ -8,6 +15,8 @@ import { API_URL } from "../config";
 import { User } from "../types/types";
 import DeclineRequest from "../components/DeclineRequest";
 import ConfirmRequest from "../components/ConfirmRequest";
+
+const size = Dimensions.get("window").width * 0.1;
 
 const Notifications = () => {
   const [error, setError] = useState("");
@@ -23,10 +32,9 @@ const Notifications = () => {
         },
       });
       const data = await results.json();
-      console.log("data=>",data)
+      console.log("data=>", data);
       setFriendRequest(data.users);
-      if(data)
-        return 1
+      if (data) return 1;
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
@@ -36,7 +44,6 @@ const Notifications = () => {
     useCallback(() => {
       handleNotifications();
     }, [])
-  
   );
   return (
     <View style={styles.container}>
@@ -84,8 +91,11 @@ const Notifications = () => {
 export default Notifications;
 const styles = StyleSheet.create({
   requestButtons: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
+    alignItems: "center",
+    height: 50,
+    width: "100%",
   },
   userItem: {
     flex: 1,
@@ -112,12 +122,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   button: {
-    marginTop: 20,
-    padding: 15,
-    backgroundColor: "#2196f3",
+    width: 120,
+    height: 40,
+    borderRadius: size / 4,
+    backgroundColor: "#DEE791",
+    justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8,
-    marginHorizontal: 10,
   },
   buttonText: {
     color: "white",

@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import { fetchMe } from "../utils/api";
 import { Me } from "../types/types";
+import dog from "../../assets/images/dog.jpg";
 
 const size = Dimensions.get("window").width * 0.1;
 
@@ -95,11 +96,10 @@ const EditProfile = () => {
     <View style={styles.container}>
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={styles.userImage}
-        />
+      {image ? (
+        <Image source={{ uri: image }} style={styles.userImage} />
+      ) : (
+        <Image source={dog} style={styles.userImage} />
       )}
 
       <Pressable style={styles.button} onPress={pickImage}>
@@ -140,7 +140,7 @@ export default EditProfile;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 200,
+    marginTop: 50,
     alignItems: "center",
   },
   button: {
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
-   userImage: {
+  userImage: {
     width: 200,
     height: 200,
     borderRadius: 75,

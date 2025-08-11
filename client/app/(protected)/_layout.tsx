@@ -68,10 +68,10 @@ export default function ProtectedLayout() {
       <Drawer.Screen
         name="Notifications"
         options={{
-          drawerLabel: `🙋‍♀️ Notification (${pending})`,
+          drawerLabel: pending !== 0 ? `🔔Notification (${pending})` : `🔔Notification  `,
           title: "Notifications",
         }}
       />
-    </Drawer>
+    </Drawer> 
   );
 }

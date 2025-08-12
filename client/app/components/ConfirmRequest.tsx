@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
+import { Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { useState } from "react";
 import { API_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,15 +53,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#DEE791",
     justifyContent: "center",
     alignItems: "center",
-  },
-  disabledButton: {
-    width: 140,
-    backgroundColor: "#ff8989ff",
-  },
-
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
   },
 });

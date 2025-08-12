@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     color: "red",
     marginBottom: 10,
   },
-
   buttonSwitcher: {
     width: 200,
     height: 40,

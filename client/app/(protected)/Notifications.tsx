@@ -114,25 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
   },
-  requestItem: {
-    flex: 1,
-    margin: 5,
-    padding: 10,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 8,
-  },
-  button: {
-    width: 120,
-    height: 40,
-    borderRadius: size / 4,
-    backgroundColor: "#DEE791",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-  },
   userImage: {
     width: 150,
     height: 150,

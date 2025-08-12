@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Dimensions } from "react-native";
+import { View, ScrollView, StyleSheet, Dimensions } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Linking } from "react-native";
 

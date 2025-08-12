@@ -78,9 +78,4 @@ const styles = StyleSheet.create({
   disabledButton: {
     backgroundColor: "#ff8989ff",
   },
-  text: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
-  },
 });

@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   Image,
-  Dimensions,
   FlatList,
 } from "react-native";
 import { API_URL } from "../config";
@@ -15,7 +14,6 @@ import DeleteFriends from "../components/DeleteFriends";
 import BackButton from "../components/BackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-const size = Dimensions.get("window").width * 0.1;
 
 const ShowFriends = () => {
   const [friends, setFriends] = useState<User[]>([]);

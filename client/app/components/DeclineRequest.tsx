@@ -1,10 +1,8 @@
-import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
+import { Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { useState } from "react";
 import { API_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeclineFriendProps } from "../types/types";
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback } from "react";
 const size = Dimensions.get("window").width * 0.1;
 
 const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {

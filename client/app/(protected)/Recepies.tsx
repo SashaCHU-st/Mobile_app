@@ -6,20 +6,15 @@ import {
   Pressable,
   Text,
   Dimensions,
-  FlatList,
-  Image,
 } from "react-native";
-import dog from "../../assets/images/dog.jpg";
-import { useRouter } from "expo-router";
 import { Food } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_KEY } from "@env";
+import FoodCards from "../components/FoodCards";
 
-const { width } = Dimensions.get("window");
 const size = Dimensions.get("window").width * 0.1;
 
 const Recepies = () => {
-  const router = useRouter();
   const [search, setSearch] = useState("");
   const [foods, setFood] = useState<Food[]>([]);
 
@@ -38,13 +33,6 @@ const Recepies = () => {
     setFood(data.results);
   };
 
-  const handleMoreInfo = async (recipe: Food) => {
-    // console.log("JJJJ", id);
-    router.push({
-      pathname: "/recipe-details/RecipeDetails",
-      params: { recipe: JSON.stringify(recipe) },
-    });
-  };
   return (
     <View style={styles.container}>
       <View style={styles.searchRow}>
@@ -58,27 +46,7 @@ const Recepies = () => {
           <Text>Search</Text>
         </Pressable>
       </View>
-      <FlatList
-        data={foods}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={<Text style={styles.emptyText}>No food found</Text>}
-        renderItem={({ item: food }) => (
-          <View style={styles.foodItem}>
-            <Image
-              source={food.image ? { uri: food.image } : dog}
-              style={styles.userImage}
-              resizeMode="cover"
-            />
-            <Pressable onPress={() => handleMoreInfo(food)}>
-              <Text style={styles.foodTitle}>
-                {food.id} {food.title}
-              </Text>
-            </Pressable>
-          </View>
-        )}
-      />
+      <FoodCards foods={foods} />
     </View>
   );
 };
@@ -93,13 +61,6 @@ const styles = StyleSheet.create({
   searchRow: {
     flexDirection: "row",
     marginBottom: 12,
-  },
-  userImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    alignSelf: "center",
-    marginVertical: 20,
   },
   input: {
     flex: 1,
@@ -119,37 +80,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#DEE791",
     justifyContent: "center",
     alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "600",
-    fontSize: 16,
-  },
-  listContent: {
-    paddingBottom: 20,
-  },
-  foodItem: {
-    flex: 1,
-    backgroundColor: "#fff",
-    margin: 6,
-    padding: 12,
-    borderRadius: 12,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
-    minWidth: (width - 48) / 2,
-  },
-  foodTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-  },
-  emptyText: {
-    marginTop: 50,
-    fontSize: 18,
-    color: "#999",
-    textAlign: "center",
   },
 });

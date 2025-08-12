@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 import { Food } from "../types/types";
 
 const { width } = Dimensions.get("window");
+const size = Dimensions.get("window").width * 0.1;
 
 const FoodCards = ({ foods }: { foods: Food[] })=> {
   const router = useRouter();
@@ -21,6 +22,7 @@ const FoodCards = ({ foods }: { foods: Food[] })=> {
       params: { recipe: JSON.stringify(recipe) },
     });
   };
+
   return (
     <FlatList
       data={foods}
@@ -37,7 +39,7 @@ const FoodCards = ({ foods }: { foods: Food[] })=> {
           />
           <Pressable onPress={() => handleMoreInfo(food)}>
             <Text style={styles.foodTitle}>
-              {food.id} {food.title}
+             {food.title}
             </Text>
           </Pressable>
         </View>

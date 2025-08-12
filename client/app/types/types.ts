@@ -59,3 +59,9 @@ export type Food = {
   title: string;
   image?: string;
 };
+
+export type DetailedFood = {
+  id: number;
+  title: string;
+  image?: string;
+};

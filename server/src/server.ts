@@ -6,6 +6,7 @@ import jwt from "@fastify/jwt";
 import { UsersRoutes } from "./routes/UsersRoutes";
 import { FriendsRoutes } from "./routes/FriendsRoutes";
 import { ProfileRoutes } from "./routes/ProfileRoutes";
+import { FavoritesRoutes } from "./routes/FavoritesRoutes";
 
 const app = Fastify({
   // logger: true,
@@ -33,6 +34,7 @@ app.register(async (instance) => {
   instance.register(UsersRoutes);
   instance.register(FriendsRoutes);
   instance.register(ProfileRoutes);
+  instance.register(FavoritesRoutes);
 });
 pool
   .connect()

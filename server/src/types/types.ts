@@ -26,3 +26,11 @@ export type ProfileBody = {
 export type declineFriendBody = {
   friendsId: number;
 };
+
+
+export type addFavoriteBody = {
+  userId: number;
+  image?: string | null;
+  food_id:number;
+  summary:string;
+};

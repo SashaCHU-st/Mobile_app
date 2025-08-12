@@ -65,3 +65,12 @@ export type DetailedFood = {
   title: string;
   image?: string;
 };
+
+export type MyFood = {
+  id: number;
+  user_id: number;
+  food_id: number;
+  summary: string;
+  image?: string;
+  title: string;
+};

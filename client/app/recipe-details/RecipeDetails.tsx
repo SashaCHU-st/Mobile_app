@@ -13,7 +13,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import RenderHTML from "react-native-render-html";
 import { useState } from "react";
 import { API_URL } from "../config";
-import { DetailedFood } from "../types/types";
 
 const size = Dimensions.get("window").width * 0.1;
 const width = Dimensions.get("window").width;
@@ -42,6 +41,7 @@ const RecipeDetails = () => {
           image:recipe.image,
           food_id:recipe.id,
           summary:recipe.summary,
+          title:recipe.title
         }),
       });
       const data = await results.json();

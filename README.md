@@ -1,5 +1,7 @@
 # In progress...
-
+Creating a React Native app for food recipes where users can find meals with nutrition values and recipes.
+Users can add friends, and friends can see each other's recipes.
+Planning to implement chat functionality soon.
 # Usage
 ### Backend
 ```

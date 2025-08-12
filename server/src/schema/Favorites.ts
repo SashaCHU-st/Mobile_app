@@ -15,4 +15,5 @@ export const AddFavoritesSchema = z.object({
   ),
   food_id: z.number(),
   summary: z.string(),
+  title:z.string()
 });

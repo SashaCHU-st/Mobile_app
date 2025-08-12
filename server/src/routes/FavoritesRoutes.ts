@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { AddFavoritesSchema } from "../schema/Favorites";
-import { addFavorites } from "../controllers/Favorites";
+import { addFavorites, myFavorites } from "../controllers/Favorites";
 
 export async function FavoritesRoutes(app: FastifyInstance) {
   app.post("/addFavorites", async (req, reply) => {
@@ -15,4 +15,6 @@ export async function FavoritesRoutes(app: FastifyInstance) {
     }
     return addFavorites({ ...req, body: validated.data }, reply);
   });
+
+    app.get("/myFavorites",myFavorites);
 }

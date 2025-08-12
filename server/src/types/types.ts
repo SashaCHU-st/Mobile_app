@@ -32,5 +32,6 @@ export type addFavoriteBody = {
   userId: number;
   image?: string | null;
   food_id:number;
+  title:string;
   summary:string;
 };

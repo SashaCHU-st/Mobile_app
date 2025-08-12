@@ -12,8 +12,6 @@ import dog from "../../assets/images/dog.jpg";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
 import { useState } from "react";
-import RenderHTML from "react-native-render-html";
-import { Linking } from "react-native";
 import { MyFood } from "../types/types";
 import { useRouter } from "expo-router";
 
@@ -45,7 +43,6 @@ const MyRecepies = () => {
   };
 
   const handleSummary = async (food: MyFood) => {
-    console.log("NNNNNNN")
     router.push({
       pathname: "/summary/Summary",
       params: { recipe: JSON.stringify(food) },

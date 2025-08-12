@@ -11,15 +11,58 @@ import { Food } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_KEY } from "@env";
 import FoodCards from "../components/FoodCards";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const size = Dimensions.get("window").width * 0.1;
 
 const Recepies = () => {
   const [search, setSearch] = useState("");
   const [foods, setFood] = useState<Food[]>([]);
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [diet, setDiet] = useState("");
+  const [intolerance, setIntolerance] = useState("");
+  const [dietItems, setDietItems] = useState([
+    { label: "Gluten Free", value: "Gluten Free" },
+    { label: "Ketogenic", value: "Ketogenic" },
+    { label: "Vegetarian", value: "Vegetarian" },
+    { label: "Lacto-Vegetarian", value: "Lacto-Vegetarian" },
+    { label: "Ovo-Vegetarian", value: "Ovo-Vegetarian" },
+    { label: "Vegan", value: "Vegan" },
+    { label: "Pescetarian", value: "Pescetarian" },
+    { label: "Paleo", value: "Paleo" },
+    { label: "Primal", value: "Primal" },
+    { label: "Low FODMAP", value: "Low FODMAP" },
+    { label: "Whole30", value: "Whole30" },
+  ]);
+  const [intoleranceItems, setIntoleranceItems] = useState([
+    { label: "Dairy", value: "Dairy" },
+    { label: "Egg", value: "Egg" },
+    { label: "Gluten", value: "Gluten" },
+    { label: "Grain", value: "Grain" },
+    { label: "Peanut", value: "Peanut" },
+    { label: "Seafood", value: "Seafood" },
+    { label: "Sesame", value: "Sesame" },
+    { label: "Shellfish", value: "Shellfish" },
+    { label: "Soy", value: "Soy" },
+    { label: "Sulfite", value: "Sulfite" },
+    { label: "Tree Nut", value: "Tree Nut" },
+    { label: "Wheat", value: "Wheat" },
+  ]);
 
   const handleSearch = async () => {
-    const url = `${API}${encodeURIComponent(search)}&addRecipeInformation=true&number=10${API_KEY}`;
+
+    let url = `${API}${encodeURIComponent(search)}&addRecipeInformation=true`;
+
+    if (diet) {
+      url += `&diet=${diet}`;
+    }
+
+    if (intolerance) {
+      url += `&intolerances=${intolerance}`;
+    }
+
+    url += API_KEY;
 
     const token = await AsyncStorage.getItem("token");
     const results = await fetch(`${url}`, {
@@ -46,6 +89,28 @@ const Recepies = () => {
           <Text>Search</Text>
         </Pressable>
       </View>
+      <View style={[styles.container2, { zIndex: 1000 }]}>
+        <View style={{ zIndex: 2000, marginBottom: 10 }}>
+          <DropDownPicker
+            open={open}
+            value={diet}
+            items={dietItems}
+            setOpen={setOpen}
+            setValue={(value) => setDiet(value)}
+            setItems={setDietItems}
+          />
+        </View>
+        <View style={{ zIndex: 1000 }}>
+          <DropDownPicker
+            open={open2}
+            value={intolerance}
+            items={intoleranceItems}
+            setOpen={setOpen2}
+            setValue={setIntolerance}
+            setItems={setIntoleranceItems}
+          />
+        </View>
+      </View>
       <FoodCards foods={foods} />
     </View>
   );
@@ -58,6 +123,14 @@ const styles = StyleSheet.create({
     padding: 1,
     backgroundColor: "#f7f7f7",
   },
+  container2: {
+    width: 160,
+    padding: 3,
+    backgroundColor: "#f7f7f7",
+    marginBottom: 12,
+    flexDirection: "row",
+  },
+
   searchRow: {
     flexDirection: "row",
     marginBottom: 12,

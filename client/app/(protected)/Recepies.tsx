@@ -40,8 +40,8 @@ const Recepies = () => {
 
   const handleMoreInfo = async (recipe: Food) => {
     // console.log("JJJJ", id);
-    router.replace({
-      pathname: "/components/RecipeDetails",
+    router.push({
+      pathname: "/recipe-details/RecipeDetails",
       params: { recipe: JSON.stringify(recipe) },
     });
   };

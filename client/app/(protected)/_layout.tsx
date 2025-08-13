@@ -65,6 +65,10 @@ export default function ProtectedLayout() {
         name="MyRecepies"
         options={{ drawerLabel: "🥗 My Recepies", title: "My Recepies" }}
       />
+            <Drawer.Screen
+        name="SharedRecipies"
+        options={{ drawerLabel: "🥗 Shared Recipies", title: "Shared Recipies" }}
+      />
       <Drawer.Screen
         name="EditProfile"
         options={{ drawerLabel: "⚙️ Edit Profile", title: "Edit Profile" }}

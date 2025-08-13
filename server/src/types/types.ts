@@ -35,3 +35,7 @@ export type addFavoriteBody = {
   title:string;
   summary:string;
 };
+
+export type friendsFavoriteBody = {
+  userId: number;
+};

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { addFavoriteBody } from "../types/types";
+import { addFavoriteBody, friendsFavoriteBody } from "../types/types";
 import { pool } from "../db/db";
 
 export async function addFavorites(
@@ -35,4 +35,33 @@ export async function myFavorites(req: FastifyRequest, reply: FastifyReply) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
   }
+}
+
+
+export async function friendsFavorites(  req: FastifyRequest<{ Body: friendsFavoriteBody }>,
+  reply: FastifyReply) {
+      const userId = (req.user as { id: number }).id;
+    try
+    {
+      const checkFriendsFav = await pool.query(`
+        SELECT 
+          u.name, 
+          f.image, 
+          f.title, 
+          f.id
+      FROM friends fr
+      JOIN users u 
+          ON fr.friends_id = u.id
+      JOIN favorites f 
+          ON f.user_id = u.id
+      WHERE fr.confirmrequest = 1
+        AND fr.user_id = $1;
+      `,
+          [userId])
+    return reply.code(200).send({ checkFriendsFav: checkFriendsFav.rows});
+    }catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+
 }

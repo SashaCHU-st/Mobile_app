@@ -91,6 +91,7 @@ const Recepies = () => {
       </View>
       <View style={[styles.container2, { zIndex: 1000 }]}>
         <View style={{ zIndex: 2000, marginBottom: 10 }}>
+          <Text>Diet</Text>
           <DropDownPicker
             open={open}
             value={diet}
@@ -101,6 +102,7 @@ const Recepies = () => {
           />
         </View>
         <View style={{ zIndex: 1000 }}>
+          <Text>Intolerance</Text>
           <DropDownPicker
             open={open2}
             value={intolerance}
@@ -124,11 +126,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7f7f7",
   },
   container2: {
-    width: 160,
-    padding: 3,
-    backgroundColor: "#f7f7f7",
+ flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: 10,
     marginBottom: 12,
-    flexDirection: "row",
+    backgroundColor: "#f7f7f7",
+    padding: 3,
+    flexWrap: "wrap",
   },
 
   searchRow: {

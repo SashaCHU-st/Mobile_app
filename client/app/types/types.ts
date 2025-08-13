@@ -74,3 +74,12 @@ export type MyFood = {
   image?: string;
   title: string;
 };
+
+
+export type FriendsFood = {
+  id: number;
+  food_id: number;
+  name: string;
+  image?: string;
+  title: string;
+};

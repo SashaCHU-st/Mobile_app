@@ -17,3 +17,8 @@ export const AddFavoritesSchema = z.object({
   summary: z.string(),
   title:z.string()
 });
+
+
+export const FriendsFavoritesSchema = z.object({
+  userId: z.number()
+});

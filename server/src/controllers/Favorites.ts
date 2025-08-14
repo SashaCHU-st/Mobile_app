@@ -37,17 +37,19 @@ export async function myFavorites(req: FastifyRequest, reply: FastifyReply) {
   }
 }
 
-
-export async function friendsFavorites(  req: FastifyRequest<{ Body: friendsFavoriteBody }>,
-  reply: FastifyReply) {
-      const userId = (req.user as { id: number }).id;
-    try
-    {
-      const checkFriendsFav = await pool.query(`
+export async function friendsFavorites(
+  req: FastifyRequest<{ Body: friendsFavoriteBody }>,
+  reply: FastifyReply
+) {
+  const userId = (req.user as { id: number }).id;
+  try {
+    const { rows } = await pool.query(
+      `
         SELECT 
           u.name, 
           f.image, 
           f.title, 
+          f.summary,
           f.id
       FROM friends fr
       JOIN users u 
@@ -55,13 +57,22 @@ export async function friendsFavorites(  req: FastifyRequest<{ Body: friendsFavo
       JOIN favorites f 
           ON f.user_id = u.id
       WHERE fr.confirmrequest = 1
-        AND fr.user_id = $1;
+        AND fr.user_id = $1 OR fr.friends_id = $1;
       `,
-          [userId])
-    return reply.code(200).send({ checkFriendsFav: checkFriendsFav.rows});
-    }catch (err: any) {
+      [userId]
+    );
+
+    const grouped = rows.reduce((acc, row) => {
+      if (!acc[row.name]) acc[row.name] = [];
+      acc[row.name].push({ title: row.title, image: row.image, summary:row.summary });
+      return acc;
+    }, {});
+
+    console.log(grouped);
+
+    return reply.code(200).send({ checkFriendsFav: grouped });
+  } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
   }
-
 }

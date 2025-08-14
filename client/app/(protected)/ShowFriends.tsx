@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-} from "react-native";
+import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import dog from "../../assets/images/dog.jpg";
@@ -43,11 +37,11 @@ const ShowFriends = () => {
     }
   };
 
-useFocusEffect(
-  useCallback(() => {
-    fetchFriends(); 
-  }, [])
-);
+  useFocusEffect(
+    useCallback(() => {
+      fetchFriends();
+    }, [])
+  );
 
   if (error) {
     return (
@@ -63,7 +57,7 @@ useFocusEffect(
       keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       contentContainerStyle={{ padding: 10 }}
-      ListEmptyComponent={<Text>NO friends</Text>}
+      ListEmptyComponent={<Text style={styles.emptyText}>No friends</Text>}
       renderItem={({ item: friend }) => (
         <View style={styles.userItem}>
           <Image
@@ -92,6 +86,12 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     marginBottom: 8,
+  },
+  emptyText: {
+    marginTop: 50,
+    fontSize: 18,
+    color: "#999",
+    textAlign: "center",
   },
   userImage: {
     width: 150,

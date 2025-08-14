@@ -60,7 +60,7 @@ const ShowUsers = () => {
       keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       contentContainerStyle={{ padding: 10 }}
-      ListEmptyComponent={<Text>No users found.</Text>}
+      ListEmptyComponent={<Text style={styles.emptyText}>No users found.</Text>}
       renderItem={({ item: user }) => (
         <View style={styles.userItem}>
           <Image
@@ -103,6 +103,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
+  },
+  emptyText: {
+    marginTop: 50,
+    fontSize: 18,
+    color: "#999",
+    textAlign: "center",
   },
   userName: {
     fontSize: 16,

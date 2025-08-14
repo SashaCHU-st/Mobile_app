@@ -21,6 +21,7 @@ const EditProfile = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string>("");
+  const [updated, setUpdated] = useState<string>("");
   const [image, setImage] = useState<string | null>(null);
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [me, setMe] = useState<Me | null>(null);
@@ -86,6 +87,7 @@ const EditProfile = () => {
       }
       setName(data.name || "");
       setPassword(data.password || "");
+      setUpdated(data.message || "Profile updated");
     } catch (err: any) {
       setError(err.message || "Failed to load users");
       console.error(err.message);
@@ -95,17 +97,16 @@ const EditProfile = () => {
   return (
     <View style={styles.container}>
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {updated ? <Text style={styles.updatedText}>{updated}</Text> : null}
 
       {image ? (
         <Image source={{ uri: image }} style={styles.userImage} />
       ) : (
         <Image source={dog} style={styles.userImage} />
       )}
-
       <Pressable style={styles.button} onPress={pickImage}>
         <Text style={styles.text}>Choose Picture</Text>
       </Pressable>
-
       <TextInput
         style={styles.input}
         placeholder="Change a name"
@@ -153,6 +154,10 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
+    marginBottom: 10,
+  },
+    updatedText: {
+    color: "green",
     marginBottom: 10,
   },
   text: {

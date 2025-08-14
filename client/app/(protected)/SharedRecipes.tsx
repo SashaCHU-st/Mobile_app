@@ -46,7 +46,6 @@ const SharedRecipes = () => {
           foods: foods as { title: string; image: string }[],
         })
       );
-
       setFriendsFood(friendsArray);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
@@ -67,6 +66,7 @@ const SharedRecipes = () => {
   };
   return (
     <ScrollView>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <FlatList
         data={friendsFood}
         keyExtractor={(item) => item.name}
@@ -100,6 +100,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#DEE791",
     justifyContent: "center",
     alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
   },
   emptyText: {
     marginTop: 50,

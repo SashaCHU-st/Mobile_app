@@ -53,7 +53,7 @@ const Notifications = () => {
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={<Text>No requests</Text>}
+        ListEmptyComponent={<Text style={styles.emptyText}>No requests</Text>}
         renderItem={({ item: friendRequest }) => (
           <View style={styles.userItem}>
             <Image
@@ -96,6 +96,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
     width: "100%",
+  },
+  emptyText: {
+    marginTop: 50,
+    fontSize: 18,
+    color: "#999",
+    textAlign: "center",
   },
   userItem: {
     flex: 1,

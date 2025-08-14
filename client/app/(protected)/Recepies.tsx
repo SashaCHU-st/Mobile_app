@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Food } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API, API_KEY } from "@env";
+import {API, API_KEY} from "../config_key"
 import FoodCards from "../components/FoodCards";
 import DropDownPicker from "react-native-dropdown-picker";
 

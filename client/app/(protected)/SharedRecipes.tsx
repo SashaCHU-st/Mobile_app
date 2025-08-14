@@ -1,6 +1,5 @@
 import {
   View,
-  Image,
   ScrollView,
   StyleSheet,
   Dimensions,
@@ -11,77 +10,83 @@ import {
 import { API_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
-import dog from "../../assets/images/dog.jpg";
-import { FriendsFood } from "../types/types";
+import { useRouter } from "expo-router";
 const size = Dimensions.get("window").width * 0.1;
 
-
 const SharedRecipes = () => {
-      const [error, setError] = useState<string>("");
-      const [friendsFood, setFriendsFood] = useState<FriendsFood[]>([])
+  const router = useRouter();
+  const [error, setError] = useState<string>("");
+  const [friendsFood, setFriendsFood] = useState<
+    { name: string; foods: { title: string; image: string }[] }[]
+  >([]);
 
-    const checkFriendsfav = async () =>
-    {
-        try{
-            const myId = await AsyncStorage.getItem("id");
-            console.log("KKK=>", myId)
-            console.log(typeof myId)
-        const token = await AsyncStorage.getItem("token");
-        const results = await fetch(`${API_URL}/friendsFavorites`,
-        {
-            method:"POST",
-            headers:
-            {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-             body: JSON.stringify({
+  const checkFriendsfav = async () => {
+    try {
+      const myId = await AsyncStorage.getItem("id");
+      const token = await AsyncStorage.getItem("token");
+      const results = await fetch(`${API_URL}/friendsFavorites`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
           userId: Number(myId),
-        })  });
+        }),
+      });
       const data = await results.json();
-      console.log("GGGG=>", data.checkFriendsFav)
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      setFriendsFood(data.checkFriendsFav)
+      const friendsArray = Object.entries(data.checkFriendsFav).map(
+        ([name, foods]) => ({
+          name,
+          foods: foods as { title: string; image: string }[],
+        })
+      );
+
+      setFriendsFood(friendsArray);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
-    }
+  };
+
+  const handleDetails = (food: { title: string; image: string }) => {
+    router.push({
+      pathname: "/recipe-details/RecipeDetails",
+      params: { recipe: JSON.stringify(food) },
+    });
+  };
   return (
-    <View>
-        <Pressable style={styles.button}onPress={checkFriendsfav}>
-            <Text>
-                Check Friend fav
+    <ScrollView>
+      <Pressable style={styles.button} onPress={checkFriendsfav}>
+        <Text>Check Friend fav</Text>
+      </Pressable>
+      <FlatList
+        data={friendsFood}
+        keyExtractor={(item) => item.name}
+        renderItem={({ item }) => (
+          <View style={{ marginBottom: 20 }}>
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+              {item.name}
             </Text>
-        </Pressable>
-        <FlatList
-            data={friendsFood}
-            keyExtractor={(item) => item.id.toString()}
-            numColumns={2}
-            contentContainerStyle={{ padding: 10 }}
-            ListEmptyComponent={<Text style={styles.emptyText}>No food found</Text>}
-            renderItem={({ item: food }) => (
-                <View style={styles.foodItem}>
-                    <Text>{food.name}</Text>
-                <Image
-                    source={food.image ? { uri: food.image } : dog}
-                    style={styles.foodImage}
-                    resizeMode="cover"
-                />
-                {/* <Pressable onPress={() => handleMoreInfo(food)}> */}
-                    <Text style={styles.foodTitle}>
-                    {food.title}
-                    </Text>
+            {item.foods.map((food, index) => (
+              <Pressable
+                key={index}
+                style={styles.foodItem}
+                onPress={() => handleDetails(food)}
+              >
+                <Text style={styles.foodTitle}>{food.title}</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+      />
+    </ScrollView>
+  );
+};
 
-                </View>
-            )}
-            />
-    </View>
-  )
-}
-
-export default SharedRecipes
+export default SharedRecipes;
 const styles = StyleSheet.create({
   button: {
     width: 120,
@@ -91,13 +96,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-    emptyText: {
+  emptyText: {
     marginTop: 50,
     fontSize: 18,
     color: "#999",
     textAlign: "center",
   },
-    foodItem: {
+  foodItem: {
     flex: 1,
     margin: 8,
     backgroundColor: "#fff",
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-    foodImage: {
+  foodImage: {
     width: 150,
     height: 150,
     borderRadius: 75,

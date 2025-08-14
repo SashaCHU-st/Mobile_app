@@ -27,15 +27,20 @@ export type declineFriendBody = {
   friendsId: number;
 };
 
-
 export type addFavoriteBody = {
   userId: number;
   image?: string | null;
-  food_id:number;
-  title:string;
-  summary:string;
+  food_id: number;
+  title: string;
+  summary: string;
 };
 
 export type friendsFavoriteBody = {
   userId: number;
+};
+
+export type commentsBody = {
+  id: number;
+  userId: number;
+  comments: string;
 };

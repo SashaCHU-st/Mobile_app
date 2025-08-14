@@ -1,5 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { addFavoriteBody, friendsFavoriteBody } from "../types/types";
+import {
+  addFavoriteBody,
+  friendsFavoriteBody,
+  commentsBody,
+} from "../types/types";
 import { pool } from "../db/db";
 
 export async function addFavorites(
@@ -64,13 +68,37 @@ export async function friendsFavorites(
 
     const grouped = rows.reduce((acc, row) => {
       if (!acc[row.name]) acc[row.name] = [];
-      acc[row.name].push({ title: row.title, image: row.image, summary:row.summary });
+      acc[row.name].push({
+        title: row.title,
+        image: row.image,
+        summary: row.summary,
+      });
       return acc;
     }, {});
 
     console.log(grouped);
 
     return reply.code(200).send({ checkFriendsFav: grouped });
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function commentsFavorites(
+  req: FastifyRequest<{ Body: commentsBody }>,
+  reply: FastifyReply
+) {
+  const userId = (req.user as { id: number }).id;
+  const { comments, id } = req.body;
+
+  try {
+    const addComment = await pool.query(
+      `UPDATE favorites SET comments =$1 WHERE user_id = $2 AND id = $3`,
+      [comments, userId, id]
+    );
+
+    return reply.code(201).send({ comments: addComment });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

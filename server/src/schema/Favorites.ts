@@ -22,3 +22,9 @@ export const AddFavoritesSchema = z.object({
 export const FriendsFavoritesSchema = z.object({
   userId: z.number()
 });
+
+export const CommentsSchema = z.object({
+  id:z.number(),
+  userId: z.number(),
+  comments:z.string()
+});

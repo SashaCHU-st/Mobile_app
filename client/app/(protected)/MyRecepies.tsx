@@ -14,14 +14,16 @@ import { API_URL } from "../config";
 import { useState } from "react";
 import { MyFood } from "../types/types";
 import { useRouter } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 const size = Dimensions.get("window").width * 0.1;
-const { width } = Dimensions.get("window");
 
 const MyRecepies = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const [myFood, setMyFood] = useState<MyFood[]>([]);
+
   const handleCheckFav = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -42,6 +44,11 @@ const MyRecepies = () => {
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      handleCheckFav();
+    }, [])
+  );
   const handleSummary = async (food: MyFood) => {
     router.push({
       pathname: "/summary/Summary",
@@ -50,9 +57,6 @@ const MyRecepies = () => {
   };
   return (
     <ScrollView>
-      <Pressable style={styles.button} onPress={handleCheckFav}>
-        <Text>Check my fav</Text>
-      </Pressable>
       <FlatList
         data={myFood}
         keyExtractor={(item) => item.id.toString()}

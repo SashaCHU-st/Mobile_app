@@ -11,6 +11,8 @@ import { API_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useRouter } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 const size = Dimensions.get("window").width * 0.1;
 
 const SharedRecipes = () => {
@@ -51,6 +53,12 @@ const SharedRecipes = () => {
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      checkFriendsfav();
+    }, [])
+  );
+
   const handleDetails = (food: { title: string; image: string }) => {
     router.push({
       pathname: "/recipe-details/RecipeDetails",
@@ -59,9 +67,6 @@ const SharedRecipes = () => {
   };
   return (
     <ScrollView>
-      <Pressable style={styles.button} onPress={checkFriendsfav}>
-        <Text>Check Friend fav</Text>
-      </Pressable>
       <FlatList
         data={friendsFood}
         keyExtractor={(item) => item.name}
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
-    alignItems: "center",
+    alignItems: "flex-end",
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },

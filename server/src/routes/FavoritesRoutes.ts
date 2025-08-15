@@ -4,7 +4,7 @@ import {
   FriendsFavoritesSchema,
   CommentsSchema,
   OldCommentsSchema,
-} from "../schema/Favorites";
+} from "../schema/FavoritesSchema";
 import {
   addFavorites,
   myFavorites,

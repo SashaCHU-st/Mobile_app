@@ -16,12 +16,18 @@ export async function addFavorites(
   const { image, food_id, summary, title } = req.body;
 
   try {
-    const addFav = await pool.query(
-      `INSERT INTO favorites (user_id, image, food_id,summary, title )
-       VALUES ($1, $2, $3, $4, $5)`,
-      [userId, image, food_id, summary, title]
-    );
-    return reply.code(201).send({ message: "added" });
+    // const checkExists = await pool.query(`SELECT food_id FROM favorites`);
+    // console.log("IIII=>", checkExists)
+    // if (checkExists.rowCount === 0) {
+      const addFav = await pool.query(
+        `INSERT INTO favorites (user_id, image, food_id,summary, title )
+         VALUES ($1, $2, $3, $4, $5)`,
+        [userId, image, food_id, summary, title]
+      );
+      return reply.code(201).send({ message: "added", addFav: addFav });
+    // } else {
+    //   return reply.code(400).send({ message: "Already in Favorite" });
+    // }
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -58,11 +64,12 @@ export async function friendsFavorites(
           f.id
       FROM friends fr
       JOIN users u 
-          ON fr.friends_id = u.id
+          ON fr.friends_id = u.id OR fr.user_id = u.id
       JOIN favorites f 
           ON f.user_id = u.id
-      WHERE fr.confirmrequest = 1
-        AND fr.user_id = $1 OR fr.friends_id = $1;
+      WHERE fr.confirmrequest = 1 AND u.id != $1
+        AND (fr.user_id = $1 OR fr.friends_id = $1);
+
       `,
       [userId]
     );
@@ -70,6 +77,7 @@ export async function friendsFavorites(
     const grouped = rows.reduce((acc, row) => {
       if (!acc[row.name]) acc[row.name] = [];
       acc[row.name].push({
+        id:row.id,
         title: row.title,
         image: row.image,
         summary: row.summary,
@@ -99,8 +107,8 @@ export async function commentsFavorites(
       timeZone: "Europe/Helsinki",
     });
     const addComment = await pool.query(
-      `INSERT INTO comments  (comment_id,comment, time) VALUES ($1, $2, $3)`,
-      [id, comments, localTime]
+      `INSERT INTO comments  (comment_id,comment, time, user_id) VALUES ($1, $2, $3, $4)`,
+      [id, comments, localTime, userId]
     );
 
     return reply.code(201).send({ comments: addComment });
@@ -118,10 +126,13 @@ export async function getOldComments(
 
   try {
     const checkComments = await pool.query(
-      `SELECT * FROM comments WHERE comment_id = $1`,
-      [id]
-    );
-
+      `SELECT u.name,c.id, c.comment, c.time
+        FROM comments c
+        JOIN users u ON c.user_id = u.id
+        WHERE comment_id = $1`,
+        [id]
+      );
+    console.log("YYYY=>", checkComments)
     return reply.code(200).send({ comments: checkComments.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);

@@ -75,11 +75,22 @@ export type MyFood = {
   title: string;
 };
 
-
 export type FriendsFood = {
   id: number;
   food_id: number;
   name: string;
   image?: string;
   title: string;
+};
+
+export type PropsComments = {
+  comments: string;
+  setComments: (value: string) => void;
+  id: number;
+};
+
+export type oldComments = {
+  id: number;
+  comment: string;
+  time: string;
 };

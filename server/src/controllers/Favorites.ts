@@ -3,6 +3,7 @@ import {
   addFavoriteBody,
   friendsFavoriteBody,
   commentsBody,
+  oldCommentsBody,
 } from "../types/types";
 import { pool } from "../db/db";
 
@@ -90,15 +91,38 @@ export async function commentsFavorites(
   reply: FastifyReply
 ) {
   const userId = (req.user as { id: number }).id;
-  const { comments, id } = req.body;
+  const { comments, id, time } = req.body;
 
   try {
+    const now = new Date();
+    const localTime = now.toLocaleString("sv-SE", {
+      timeZone: "Europe/Helsinki",
+    });
     const addComment = await pool.query(
-      `UPDATE favorites SET comments =$1 WHERE user_id = $2 AND id = $3`,
-      [comments, userId, id]
+      `INSERT INTO comments  (comment_id,comment, time) VALUES ($1, $2, $3)`,
+      [id, comments, localTime]
     );
 
     return reply.code(201).send({ comments: addComment });
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function getOldComments(
+  req: FastifyRequest<{ Body: oldCommentsBody }>,
+  reply: FastifyReply
+) {
+  const { id } = req.body;
+
+  try {
+    const checkComments = await pool.query(
+      `SELECT * FROM comments WHERE comment_id = $1`,
+      [id]
+    );
+
+    return reply.code(200).send({ comments: checkComments.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

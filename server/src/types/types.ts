@@ -41,6 +41,11 @@ export type friendsFavoriteBody = {
 
 export type commentsBody = {
   id: number;
-  userId: number;
   comments: string;
+  time: string;
+};
+
+
+export type oldCommentsBody = {
+  id: number;
 };

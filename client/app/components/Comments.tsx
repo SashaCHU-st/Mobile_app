@@ -1,75 +1,80 @@
 import {
   View,
-  TextInput,
+  FlatList,
   StyleSheet,
   Dimensions,
-  Pressable,
   Text,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "../config";
-import { PropsComments } from "../types/types";
-import { useState } from "react";
-const size = Dimensions.get("window").width * 0.1;
+import { OldCommentsProps } from "../types/types";
+const { width } = Dimensions.get("window");
 
-const Comments = ({ comments, setComments, id }: PropsComments) => {
-  const [time, setTime] = useState(new Date().toISOString());
-  const handleAddComment = async (comments: string, id: number) => {
-    // const myId = await AsyncStorage.getItem("id");
-    setTime(new Date().toISOString())
-    const token = await AsyncStorage.getItem("token");
-    const results = await fetch(`${API_URL}/addComments`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        // userId: Number(myId),
-        id,
-        comments,
-        time,
-      }),
-    });
-    const data = await results.json();
-    if (!results.ok) {
-      throw new Error(data.message || "Something went wrong");
-    }
-  };
+const Comments = ({oldComment}:OldCommentsProps) => {
   return (
     <View>
-      <TextInput
-        style={styles.input}
-        placeholder="My comments"
-        value={comments}
-        onChangeText={(text) => {
-          setComments(text);
-        }}
+      <Text>Comments:</Text>
+      <FlatList
+        data={oldComment}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={1}
+        contentContainerStyle={{ padding: 10 }}
+        ListEmptyComponent={<Text style={styles.emptyText}>No food found</Text>}
+        renderItem={({ item: comment }) => (
+          <View style={styles.commentItem}>
+            <Text>{comment.name}:</Text>
+            <Text>{comment.comment}</Text>
+            <Text>
+              {new Date(comment.time).toLocaleTimeString("en-GB", {
+                timeZone: "Europe/Helsinki",
+                year: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Text>
+          </View>
+        )}
       />
-      <Pressable
-        style={styles.button}
-        onPress={() => handleAddComment(comments, id)}
-      >
-        <Text>Add comments</Text>
-      </Pressable>
     </View>
   );
 };
 
 export default Comments;
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  baseText: {
+    fontSize: 15,
+    lineHeight: 20,
   },
-  button: {
-    width: 120,
-    height: 40,
-    borderRadius: size / 4,
-    backgroundColor: "#DEE791",
-    justifyContent: "center",
-    alignItems: "center",
+    container: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    marginVertical: 10,
+  },
+  emptyText: {
+    marginTop: 50,
+    fontSize: 18,
+    color: "#999",
+    textAlign: "center",
+  },
+  commentItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 1,
+    backgroundColor: "#f5ededff",
+    margin: 6,
+    padding: 12,
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    minWidth: (width - 48) / 2,
   },
 });

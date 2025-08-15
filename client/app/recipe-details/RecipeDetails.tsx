@@ -11,8 +11,11 @@ import { useLocalSearchParams } from "expo-router";
 import { Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RenderHTML from "react-native-render-html";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { API_URL } from "../config";
+import Comments from "../components/Comments";
+import { oldComments } from "../types/types";
+import { useFocusEffect } from "@react-navigation/native";
 
 const size = Dimensions.get("window").width * 0.1;
 const width = Dimensions.get("window").width;
@@ -24,6 +27,7 @@ const RecipeDetails = () => {
     : params.recipe;
   const recipe = recipeString ? JSON.parse(recipeString) : null;
   const [error, setError] = useState("");
+  const [oldComment, setOldComment] = useState<oldComments[]>([]);
 
   const handleAddFavorite = async () => {
     try {
@@ -38,21 +42,49 @@ const RecipeDetails = () => {
         },
         body: JSON.stringify({
           userId: Number(myId),
-          image:recipe.image,
-          food_id:recipe.id,
-          summary:recipe.summary,
-          title:recipe.title
+          image: recipe.image,
+          food_id: recipe.id,
+          summary: recipe.summary,
+          title: recipe.title,
         }),
       });
       const data = await results.json();
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      console.log("DAAAA=>",data)
+      console.log("DAAAA=>", data);
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     }
   };
+
+  const handleOldComment = async (id: number) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      const results = await fetch(`${API_URL}/oldComments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
+      const data = await results.json();
+      if (!results.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
+      setOldComment(data.comments);
+    } catch (err: any) {
+      setError(err.message || "Failed to load users");
+    }
+  };
+  useFocusEffect(
+    useCallback(() => {
+      handleOldComment(recipe.id);
+    }, [])
+  );
   return (
     <ScrollView style={{ padding: 15 }}>
       <View style={styles.container}>
@@ -62,6 +94,7 @@ const RecipeDetails = () => {
           resizeMode="cover"
         />
         {/* <Text>sss{recipe.food_id}</Text> */}
+        <Text>sss{recipe.id}</Text>
         <RenderHTML
           contentWidth={width}
           source={{ html: recipe.summary }}
@@ -80,9 +113,13 @@ const RecipeDetails = () => {
           }}
         />
       </View>
-      <Pressable style={styles.button} onPress={handleAddFavorite}>
-        <Text>Add to favorite</Text>
-      </Pressable>
+      <View style={styles.container2}>
+        <Pressable style={styles.button} onPress={handleAddFavorite}>
+          <Text>Add to favorite</Text>
+        </Pressable>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      </View>
+        <Comments oldComment={oldComment} />
     </ScrollView>
   );
 };
@@ -112,11 +149,20 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginVertical: 10,
   },
+  container2: {
+    padding: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   foodImage: {
     width: 150,
     height: 150,
     borderRadius: 75,
     alignSelf: "center",
     marginVertical: 20,
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
   },
 });

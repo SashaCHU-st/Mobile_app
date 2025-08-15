@@ -93,4 +93,9 @@ export type oldComments = {
   id: number;
   comment: string;
   time: string;
+  name: string;
+};
+
+export type OldCommentsProps = {
+  oldComment: oldComments[];
 };

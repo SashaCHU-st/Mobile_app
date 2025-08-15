@@ -82,6 +82,7 @@ const SharedRecipes = () => {
                 onPress={() => handleDetails(food)}
               >
                 <Text style={styles.foodTitle}>{food.title}</Text>
+                {/* <Text style={styles.foodTitle}>{food.id}</Text> */}
               </Pressable>
             ))}
           </View>

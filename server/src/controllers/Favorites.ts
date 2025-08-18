@@ -19,12 +19,12 @@ export async function addFavorites(
     // const checkExists = await pool.query(`SELECT food_id FROM favorites`);
     // console.log("IIII=>", checkExists)
     // if (checkExists.rowCount === 0) {
-      const addFav = await pool.query(
-        `INSERT INTO favorites (user_id, image, food_id,summary, title )
+    const addFav = await pool.query(
+      `INSERT INTO favorites (user_id, image, food_id,summary, title )
          VALUES ($1, $2, $3, $4, $5)`,
-        [userId, image, food_id, summary, title]
-      );
-      return reply.code(201).send({ message: "added", addFav: addFav });
+      [userId, image, food_id, summary, title]
+    );
+    return reply.code(201).send({ message: "added", addFav: addFav });
     // } else {
     //   return reply.code(400).send({ message: "Already in Favorite" });
     // }
@@ -77,7 +77,7 @@ export async function friendsFavorites(
     const grouped = rows.reduce((acc, row) => {
       if (!acc[row.name]) acc[row.name] = [];
       acc[row.name].push({
-        id:row.id,
+        id: row.id,
         title: row.title,
         image: row.image,
         summary: row.summary,
@@ -102,6 +102,9 @@ export async function commentsFavorites(
   const { comments, id, time } = req.body;
 
   try {
+    if (!comments) {
+      return reply.code(400).send({ message:"Comments cannot be empty" });
+    }
     const now = new Date();
     const localTime = now.toLocaleString("sv-SE", {
       timeZone: "Europe/Helsinki",
@@ -130,9 +133,9 @@ export async function getOldComments(
         FROM comments c
         JOIN users u ON c.user_id = u.id
         WHERE comment_id = $1`,
-        [id]
-      );
-    console.log("YYYY=>", checkComments)
+      [id]
+    );
+    // console.log("YYYY=>", checkComments)
     return reply.code(200).send({ comments: checkComments.rows });
   } catch (err: any) {
     console.error("Database error:", err.message);

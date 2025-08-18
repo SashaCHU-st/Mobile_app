@@ -16,18 +16,18 @@ export async function addFavorites(
   const { image, food_id, summary, title } = req.body;
 
   try {
-    // const checkExists = await pool.query(`SELECT food_id FROM favorites`);
-    // console.log("IIII=>", checkExists)
-    // if (checkExists.rowCount === 0) {
+    const checkExists = await pool.query(`SELECT food_id FROM favorites WHERE user_id = $1 AND food_id = $2`,[userId, food_id]);
+    // console.log("IIII=>", checkExists.rows)
+    if (checkExists.rowCount === 0) {
     const addFav = await pool.query(
       `INSERT INTO favorites (user_id, image, food_id,summary, title )
          VALUES ($1, $2, $3, $4, $5)`,
       [userId, image, food_id, summary, title]
     );
     return reply.code(201).send({ message: "added", addFav: addFav });
-    // } else {
-    //   return reply.code(400).send({ message: "Already in Favorite" });
-    // }
+    } else {
+      return reply.code(400).send({ message: "Already in Favorite" });
+    }
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
@@ -85,7 +85,7 @@ export async function friendsFavorites(
       return acc;
     }, {});
 
-    console.log(grouped);
+    // console.log(grouped);
 
     return reply.code(200).send({ checkFriendsFav: grouped });
   } catch (err: any) {

@@ -24,7 +24,7 @@ useFocusEffect(
 
   return (
     <View style={styles.container}>
-      <Image source={dog} style={styles.backgroundImage} resizeMode="cover" />
+      {/* <Image source={dog} style={styles.backgroundImage} resizeMode="cover" /> */}
       <View style={styles.overlay} />
       {me && (
         <UserInfo image={me.image} id={me.id} name={me.name} email={me.email} />
@@ -37,13 +37,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    width: 1200,
-    height: 1500,
-  },
+  // backgroundImage: {
+  //   ...StyleSheet.absoluteFillObject,
+  //   width: 1200,
+  //   height: 1500,
+  // },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(255, 226, 169, 0.4)",
+    backgroundColor: "rgba(255, 255, 255, 0.4)",
   },
 });

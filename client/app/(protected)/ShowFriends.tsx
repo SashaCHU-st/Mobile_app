@@ -66,7 +66,7 @@ const ShowFriends = () => {
             resizeMode="cover"
           />
           <Text style={styles.userName}>
-            {friend.id} {friend.name}
+            {friend.name}
           </Text>
           <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
         </View>

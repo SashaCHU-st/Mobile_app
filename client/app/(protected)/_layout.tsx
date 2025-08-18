@@ -44,53 +44,53 @@ export default function ProtectedLayout() {
         },
         headerTintColor: "white",
       }}
-    >
-      <Drawer.Screen
-        name="UserPage"
-        options={{ drawerLabel: "👤 My Page", title: "My Page" }}
-      />
+      >
       <Drawer.Screen
         name="ShowFriends"
         options={{ drawerLabel: "🧑‍🤝‍🧑 Friends", title: "Friends" }}
-      />
+        />
       <Drawer.Screen
         name="ShowUsers"
-        options={{ drawerLabel: "🧑‍🤝‍🧑 Users", title: "Users" }}
-      />
+        options={{ drawerLabel: "🧑‍🤝‍🧑 All Users", title: "Users" }}
+        />
       <Drawer.Screen
         name="Recepies"
         options={{
           drawerLabel: "🥗 Search Recepies",
           title: "Search Recepies",
         }}
-      />
+        />
       <Drawer.Screen
         name="MyRecepies"
         options={{ drawerLabel: "🥗 My Recepies", title: "My Recepies" }}
-      />
+        />
       <Drawer.Screen
         name="SharedRecipes"
         options={{
           drawerLabel: "🥗 Shared Recipies",
           title: "Shared Recipies",
         }}
-      />
+        />
       <Drawer.Screen
         name="EditProfile"
         options={{ drawerLabel: "⚙️ Edit Profile", title: "Edit Profile" }}
-      />
+        />
       <Drawer.Screen
         name="Notifications"
         options={{
           drawerLabel:
-            pending !== 0 ? `🔔Notification (${pending})` : `🔔Notification  `,
+          pending !== 0 ? `🔔Notification (${pending})` : `🔔Notification  `,
           title: "Notifications",
         }}
-      />
+        />
+        <Drawer.Screen
+          name="UserPage"
+          options={{ drawerLabel: "👤 My Page", title: "My Page" }}
+        />
       <Drawer.Screen
         name="Logout"
         options={{ drawerLabel: "Logout", title: "Logout" }}
-      />
+        />
     </Drawer>
   );
 }

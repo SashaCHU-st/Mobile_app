@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  Dimensions,
   TextInput,
   Image,
 } from "react-native";
@@ -14,8 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import { fetchMe } from "../utils/api";
 import { Me } from "../types/types";
 import dog from "../../assets/images/dog.jpg";
-
-const size = Dimensions.get("window").width * 0.1;
+import { size } from "../utils/size";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     width: 180,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
     color: "red",
     marginBottom: 10,
   },
-    updatedText: {
+  updatedText: {
     color: "green",
     marginBottom: 10,
   },

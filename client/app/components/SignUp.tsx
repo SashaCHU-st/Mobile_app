@@ -6,7 +6,7 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
@@ -26,7 +26,7 @@ const SignUp = ({
 }: AuthProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const {login:loginUser} = useAuth();
+  const { login: loginUser } = useAuth();
 
   const handleSignUp = async () => {
     try {
@@ -50,7 +50,6 @@ const SignUp = ({
       console.error("Error", err);
       setError(err.message || "Something went wrong");
     }
-
   };
   return (
     <View style={styles.container}>
@@ -88,11 +87,11 @@ const SignUp = ({
       >
         {login ? (
           <>
-            <Text style={styles.text}>Switch to SignUp </Text>
+            <Text style={styles.textSwitcher}>Switch to SignUp </Text>
           </>
         ) : (
           <>
-            <Text style={styles.text}>Switch to Login </Text>
+            <Text style={styles.textSwitcher}>Switch to Login </Text>
           </>
         )}
       </Pressable>
@@ -109,7 +108,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#A3DC9A",
+    backgroundColor: "#3B38A0",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -129,6 +128,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "black",
+  },
+  textSwitcher: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
   },
   input: {
     height: 40,

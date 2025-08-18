@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-const size = Dimensions.get("window").width * 0.1;
+import { size } from "../utils/size";
 
 const SharedRecipes = () => {
   const router = useRouter();
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -16,8 +16,6 @@ import { User } from "../types/types";
 import DeclineRequest from "../components/DeclineRequest";
 import ConfirmRequest from "../components/ConfirmRequest";
 
-const size = Dimensions.get("window").width * 0.1;
-
 const Notifications = () => {
   const [error, setError] = useState("");
   const [friendRequests, setFriendRequest] = useState<User[]>([]);

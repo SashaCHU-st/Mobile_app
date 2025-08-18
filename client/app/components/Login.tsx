@@ -6,14 +6,13 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { API_URL } from "../config";
 import { useAuth } from "../context/Authcontext";
 import { LoginProps } from "../types/types";
 const size = Dimensions.get("window").width * 0.1;
-
 
 const Login = ({
   email,
@@ -79,11 +78,11 @@ const Login = ({
       >
         {login ? (
           <>
-            <Text style={styles.text}>Switch to Signup </Text>
+            <Text style={styles.textSwitcher}>Switch to Signup </Text>
           </>
         ) : (
           <>
-            <Text style={styles.text}>Switch to Login </Text>
+            <Text style={styles.textSwitcher}>Switch to Login </Text>
           </>
         )}
       </Pressable>
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#A3DC9A",
+    backgroundColor: "#3B38A0",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -120,6 +119,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "black",
+  },
+  textSwitcher: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
   },
   input: {
     height: 40,

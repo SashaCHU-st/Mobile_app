@@ -16,8 +16,8 @@ import { MyFood } from "../types/types";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import { size } from "../utils/size";
 
-const size = Dimensions.get("window").width * 0.1;
 
 const MyRecepies = () => {
   const router = useRouter();
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, Dimensions } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/Authcontext";

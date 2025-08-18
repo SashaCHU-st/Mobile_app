@@ -15,10 +15,9 @@ const size = Dimensions.get("window").width * 0.1;
 const AddComments = ({ comments, setComments, id }: PropsComments) => {
   const [time, setTime] = useState(new Date().toISOString());
   const handleAddComment = async (comments: string, id: number) => {
-    setTime(new Date().toISOString())
+    setTime(new Date().toISOString());
 
     const token = await AsyncStorage.getItem("token");
-    // const myId = await AsyncStorage.getItem("id");
     const results = await fetch(`${API_URL}/addComments`, {
       method: "POST",
       headers: {
@@ -26,7 +25,6 @@ const AddComments = ({ comments, setComments, id }: PropsComments) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        // userId:Number(myId),
         id,
         comments,
         time,
@@ -36,7 +34,7 @@ const AddComments = ({ comments, setComments, id }: PropsComments) => {
     if (!results.ok) {
       throw new Error(data.message || "Something went wrong");
     }
-    console.log("HHHH=>", data.comments)
+    console.log("HHHH=>", data.comments);
   };
   return (
     <View>
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -8,7 +8,6 @@ const size = Dimensions.get("window").width * 0.1;
 const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
   const [error, setError] = useState("");
 
-
   const handleDecline = async (id: number) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 20,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },

@@ -5,7 +5,7 @@ export default function RecipeDetailsLayout() {
     <Stack
       screenOptions={{
         headerShown: true,
-        headerStyle: { backgroundColor: "#ec7438ff" },
+        headerStyle: { backgroundColor: "#B2B0E8" },
         headerTintColor: "white",
       }}
     >

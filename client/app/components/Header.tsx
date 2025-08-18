@@ -5,7 +5,7 @@ export default function App() {
   return (
     <View style={styles.app}>
       <View style={styles.text}>
-        <Text>My mobile App</Text>
+        <Text>My recipies Mobile App</Text>
       </View>
     </View>
   );
@@ -13,10 +13,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   app: {
-    backgroundColor: "#ec7438ff",
+    backgroundColor: "#B2B0E8",
     alignItems: "center",
-    paddingBottom: 10, 
-    paddingTop: 10, 
+    paddingBottom: 20, 
+    paddingTop: 20, 
     justifyContent: "center",
   },
   text: {

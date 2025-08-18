@@ -34,13 +34,13 @@ export default function ProtectedLayout() {
     <Drawer
       screenOptions={{
         drawerStyle: {
-          backgroundColor: "#ec7438ff",
+          backgroundColor: "#B2B0E8",
         },
         drawerLabelStyle: {
           color: "white",
         },
         headerStyle: {
-          backgroundColor: "#ec7438ff",
+          backgroundColor: "#B2B0E8",
         },
         headerTintColor: "white",
       }}

@@ -6,14 +6,12 @@ import { AddFriendProps } from "../types/types";
 
 const size = Dimensions.get("window").width * 0.1;
 
-const AddFriend: React.FC<AddFriendProps & { requestFrom?: "sent" | "received" | null }> = ({
-  id,
-  onFriendAdded,
-  status,
-  requestFrom = null,
-}) => {
+const AddFriend: React.FC<
+  AddFriendProps & { requestFrom?: "sent" | "received" | null }
+> = ({ id, onFriendAdded, status, requestFrom = null }) => {
   const [error, setError] = useState<string>("");
-  const isDisabled = status === 2 && (requestFrom === "sent" || requestFrom === "received");
+  const isDisabled =
+    status === 2 && (requestFrom === "sent" || requestFrom === "received");
 
   const handleAddFriends = async (friendsId: number) => {
     const myId = await AsyncStorage.getItem("id");
@@ -35,7 +33,9 @@ const AddFriend: React.FC<AddFriendProps & { requestFrom?: "sent" | "received" |
       const data = await results.json();
 
       if (!results.ok) {
-        throw new Error(data.message || `HTTP error! status: ${results.status}`);
+        throw new Error(
+          data.message || `HTTP error! status: ${results.status}`
+        );
       }
 
       if (onFriendAdded) onFriendAdded();
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },

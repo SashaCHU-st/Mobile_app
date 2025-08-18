@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import { Food } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {API, API_KEY} from "../config_key"
+import { API, API_KEY } from "../config_key";
 import FoodCards from "../components/FoodCards";
 import DropDownPicker from "react-native-dropdown-picker";
-import {  diets } from "../utils/diet";
-import {  intolerances } from "../utils/intolerance";
+import { diets } from "../utils/diet";
+import { intolerances } from "../utils/intolerance";
+import { size } from "../utils/size";
 
-const size = Dimensions.get("window").width * 0.1;
 
 const Recepies = () => {
   const [search, setSearch] = useState("");
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7f7f7",
   },
   container2: {
- flexDirection: "row",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
     gap: 10,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 40,
     borderRadius: size / 4,
-    backgroundColor: "#DEE791",
+    backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
   },

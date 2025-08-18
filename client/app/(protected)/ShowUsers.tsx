@@ -16,6 +16,7 @@ import AddFriend from "../components/AddFriend";
 import BackButton from "../components/BackButton";
 import dog from "../../assets/images/dog.jpg";
 import { size } from "../utils/size";
+import SearchUsers from "../components/SearchUsers";
 
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -65,7 +66,6 @@ const ShowUsers = () => {
       )
     );
   };
-
   const handleSearch = (text: string) => {
     setSearch(text);
     if (text === "") {
@@ -77,20 +77,9 @@ const ShowUsers = () => {
       setUsers(filtered);
     }
   };
-
   return (
     <View>
-      <View style={styles.searchRow}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter name"
-          value={search}
-          onChangeText={handleSearch}
-        />
-        <Pressable style={styles.button}>
-          <Text>Search</Text>
-        </Pressable>
-      </View>
+      <SearchUsers value={search} onChange={handleSearch} />
       <FlatList
         data={users}
         keyExtractor={(item) => item.id.toString()}

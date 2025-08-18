@@ -8,10 +8,13 @@ import DeleteFriends from "../components/DeleteFriends";
 import BackButton from "../components/BackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import SearchUsers from "../components/SearchUsers";
 
 const ShowFriends = () => {
   const [friends, setFriends] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [search, setSearch] = useState<string>("");
 
   const fetchFriends = async () => {
     try {
@@ -32,6 +35,7 @@ const ShowFriends = () => {
         throw new Error(data.message || "Something went wrong");
       }
       setFriends(data.friends);
+      setAllUsers(data.friends);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
@@ -51,32 +55,44 @@ const ShowFriends = () => {
     );
   }
 
+  const handleSearch = (text: string) => {
+    setSearch(text);
+    if (text === "") {
+      setFriends(allUsers);
+    } else {
+      const filtered = friends.filter((user) =>
+        user.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setFriends(filtered);
+    }
+  };
   return (
-    <FlatList
-      data={friends}
-      keyExtractor={(item) => item.id.toString()}
-      numColumns={2}
-      contentContainerStyle={{ padding: 10 }}
-      ListEmptyComponent={<Text style={styles.emptyText}>No friends</Text>}
-      renderItem={({ item: friend }) => (
-        <View style={styles.userItem}>
-          <Image
-            source={friend.image ? { uri: friend.image } : dog}
-            style={styles.userImage}
-            resizeMode="cover"
-          />
-          <Text style={styles.userName}>
-            {friend.name}
-          </Text>
-          <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
-        </View>
-      )}
-      ListFooterComponent={
-        <View>
-          <BackButton />
-        </View>
-      }
-    />
+    <View>
+      <SearchUsers value={search} onChange={handleSearch} />
+      <FlatList
+        data={friends}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        contentContainerStyle={{ padding: 10 }}
+        ListEmptyComponent={<Text style={styles.emptyText}>No friends</Text>}
+        renderItem={({ item: friend }) => (
+          <View style={styles.userItem}>
+            <Image
+              source={friend.image ? { uri: friend.image } : dog}
+              style={styles.userImage}
+              resizeMode="cover"
+            />
+            <Text style={styles.userName}>{friend.name}</Text>
+            <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
+          </View>
+        )}
+        ListFooterComponent={
+          <View>
+            <BackButton />
+          </View>
+        }
+      />
+    </View>
   );
 };
 

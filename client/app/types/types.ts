@@ -99,3 +99,9 @@ export type oldComments = {
 export type OldCommentsProps = {
   oldComment: oldComments[];
 };
+
+
+export interface SearchUsersProps {
+  users: User[];
+  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+}

@@ -82,6 +82,7 @@ npm start
 | **Profile Picture Display** | Show profile pictures across user lists                  |✅ Done| 
 | **Remove from Users if Friend** | Filter out existing friends from addable users      |✅ Done|
 | **Edit Profile UI**         | Update personal details from the frontend                |✅ Done|
+| **Friend List Management**| Accept/reject/remove friends from list                    |✅ Done| 
 
 ---
 
@@ -92,6 +93,7 @@ npm start
 | **Edit Profile Page**    | UI for updating user details                        | ✅ Done   |
 | **Profile Picture Upload** | Upload image from frontend                        | ✅ Done         |
 | **View Profile Image**   | Display user picture in UI   of other users                      |  ✅ Done   |
+| **Enhanced Profiles**      | Add bio, interests, and activity tracking                | planned|
 
 ---
 
@@ -119,7 +121,9 @@ npm start
 
 | Feature                    | Description                                               |
 |---------------------------|-----------------------------------------------------------|
-| **Friend List Management**| Accept/reject/remove friends from list                    |
 | **Real-time Notifications** | Alert user on friend activity or messages               |
 | **Chat System**            | Messaging between confirmed friends                      |
-| **Enhanced Profiles**      | Add bio, interests, and activity tracking                |
+| **Clean code**            | make it readable maybe with some comments                     |
+| **Deploy**            | deploy in Vercel                     |
+| **Take pictures**            | uploadd pictures of app to ReadMe              |
+

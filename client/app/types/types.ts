@@ -87,6 +87,7 @@ export type PropsComments = {
   comments: string;
   setComments: (value: string) => void;
   id: number;
+  onAdded:() =>void;
 };
 
 export type oldComments = {

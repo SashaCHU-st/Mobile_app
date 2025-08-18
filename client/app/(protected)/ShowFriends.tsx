@@ -9,6 +9,7 @@ import BackButton from "../components/BackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import SearchUsers from "../components/SearchUsers";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ShowFriends = () => {
   const [friends, setFriends] = useState<User[]>([]);
@@ -67,7 +68,7 @@ const ShowFriends = () => {
     }
   };
   return (
-    <View>
+    <ScrollView>
       <SearchUsers value={search} onChange={handleSearch} />
       <FlatList
         data={friends}
@@ -92,7 +93,7 @@ const ShowFriends = () => {
           </View>
         }
       />
-    </View>
+    </ScrollView>
   );
 };
 

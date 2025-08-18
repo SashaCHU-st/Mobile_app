@@ -94,7 +94,7 @@ const RecipeDetails = () => {
           resizeMode="cover"
         />
         {/* <Text>sss{recipe.food_id}</Text> */}
-        <Text>sss{recipe.id}</Text>
+        {/* <Text>{recipe.id}</Text> */}
         <RenderHTML
           contentWidth={width}
           source={{ html: recipe.summary }}

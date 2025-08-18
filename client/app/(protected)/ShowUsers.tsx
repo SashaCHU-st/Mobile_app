@@ -17,6 +17,7 @@ import BackButton from "../components/BackButton";
 import dog from "../../assets/images/dog.jpg";
 import { size } from "../utils/size";
 import SearchUsers from "../components/SearchUsers";
+import { ScrollView } from "react-native-gesture-handler";
 
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -78,7 +79,7 @@ const ShowUsers = () => {
     }
   };
   return (
-    <View>
+    <ScrollView>
       <SearchUsers value={search} onChange={handleSearch} />
       <FlatList
         data={users}
@@ -110,7 +111,7 @@ const ShowUsers = () => {
           </View>
         }
       />
-    </View>
+    </ScrollView>
   );
 };
 

@@ -129,7 +129,7 @@ const EditProfile = () => {
         style={styles.button}
         onPress={() => handleEditProfile(name, password)}
       >
-        <Text style={styles.text}>Change profile</Text>
+        <Text style={styles.text}>Change </Text>
       </Pressable>
     </View>
   );

@@ -11,8 +11,6 @@ import dog from "../../assets/images/dog.jpg";
 import { useRouter } from "expo-router";
 import { Food } from "../types/types";
 
-const { width } = Dimensions.get("window");
-const size = Dimensions.get("window").width * 0.1;
 
 const FoodCards = ({ foods }: { foods: Food[] })=> {
   const router = useRouter();
@@ -51,11 +49,10 @@ const FoodCards = ({ foods }: { foods: Food[] })=> {
 export default FoodCards;
 const styles = StyleSheet.create({
   foodImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    alignSelf: "center",
-    marginVertical: 20,
+    width: "100%",
+    height: 120,
+    borderRadius: 12,
+    marginBottom: 8,
   },
   foodItem: {
     flex: 1,

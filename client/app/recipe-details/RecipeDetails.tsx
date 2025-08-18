@@ -28,9 +28,12 @@ const RecipeDetails = () => {
   const recipe = recipeString ? JSON.parse(recipeString) : null;
   const [error, setError] = useState("");
   const [oldComment, setOldComment] = useState<oldComments[]>([]);
+  const [confirmed, setConfirmed] = useState<string>("");
 
   const handleAddFavorite = async () => {
     try {
+      setError("")
+      setConfirmed("")
       const token = await AsyncStorage.getItem("token");
       const myId = await AsyncStorage.getItem("id");
 
@@ -53,6 +56,7 @@ const RecipeDetails = () => {
         throw new Error(data.message || "Something went wrong");
       }
       console.log("DAAAA=>", data);
+      setConfirmed(data.message)
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     }
@@ -118,6 +122,9 @@ const RecipeDetails = () => {
           <Text>Add to favorite</Text>
         </Pressable>
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {confirmed ? (
+          <Text style={styles.confirmedText}>{confirmed}</Text>
+        ) : null}
       </View>
       <Comments oldComment={oldComment} />
     </ScrollView>
@@ -163,6 +170,10 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: "red",
+    marginBottom: 10,
+  },
+  confirmedText: {
+    color: "green",
     marginBottom: 10,
   },
 });

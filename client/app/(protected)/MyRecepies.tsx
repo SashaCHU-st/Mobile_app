@@ -114,11 +114,10 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   foodImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    alignSelf: "center",
-    marginVertical: 20,
+    width: "100%",
+    height: 120,
+    borderRadius: 12,
+    marginBottom: 8,
   },
   foodTitle: {
     fontSize: 16,

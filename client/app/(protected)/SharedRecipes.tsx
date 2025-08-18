@@ -2,7 +2,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Dimensions,
+  Image,
   Pressable,
   Text,
   FlatList,
@@ -14,6 +14,7 @@ import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { size } from "../utils/size";
+import dog from "../../assets/images/dog.jpg";
 
 const SharedRecipes = () => {
   const router = useRouter();
@@ -72,19 +73,32 @@ const SharedRecipes = () => {
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
           <View style={{ marginBottom: 20 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-              {item.name}
+            <Text
+              style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}
+            >
+              {item.name}'s favorites
             </Text>
-            {item.foods.map((food, index) => (
-              <Pressable
-                key={index}
-                style={styles.foodItem}
-                onPress={() => handleDetails(food)}
-              >
-                <Text style={styles.foodTitle}>{food.title}</Text>
-                {/* <Text style={styles.foodTitle}>{food.id}</Text> */}
-              </Pressable>
-            ))}
+            <FlatList
+              data={item.foods}
+              keyExtractor={(food, index) => `${item.name}-${index}`}
+              numColumns={2}
+              columnWrapperStyle={{ justifyContent: "space-between" }} // 👉 равномерно по строке
+              renderItem={({ item: food }) => (
+                <Pressable
+                  style={styles.foodCard}
+                  onPress={() => handleDetails(food)}
+                >
+                  <Image
+                    source={food.image ? { uri: food.image } : dog}
+                    style={styles.foodImage}
+                    resizeMode="cover"
+                  />
+                  <Text style={styles.foodTitle} numberOfLines={2}>
+                    {food.title}
+                  </Text>
+                </Pressable>
+              )}
+            />
           </View>
         )}
       />
@@ -125,16 +139,30 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  foodCard: {
+    flex: 1,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    margin: 6,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 3,
+  },
   foodImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    alignSelf: "center",
-    marginVertical: 20,
+    width: "100%",
+    height: 120,
+    borderRadius: 12,
+    marginBottom: 8,
   },
   foodTitle: {
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 14,
+    fontWeight: "600",
     color: "#333",
+    textAlign: "center",
   },
 });

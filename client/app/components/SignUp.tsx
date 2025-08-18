@@ -30,7 +30,7 @@ const SignUp = ({
 
   const handleSignUp = async () => {
     try {
-      const results = await fetch(`1/signup`, {
+      const results = await fetch(`https://xxxx.onrender.com/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

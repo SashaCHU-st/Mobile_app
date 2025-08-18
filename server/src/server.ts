@@ -24,6 +24,7 @@ app.register(jwt, { secret: jwtSecret });
 app.register(AuthRoutes);
 app.register(async (instance) => {
   instance.addHook("preHandler", async (req, reply) => {
+    if (req.method === "OPTIONS") return; 
     try {
       await req.jwtVerify();
     } catch {

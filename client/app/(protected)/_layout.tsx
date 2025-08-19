@@ -44,7 +44,7 @@ export default function ProtectedLayout() {
         },
         headerTintColor: "white",
       }}
-      >
+      >💬
       <Drawer.Screen
         name="ShowFriends"
         options={{ drawerLabel: "🧑‍🤝‍🧑 Friends", title: "Friends" }}
@@ -52,6 +52,10 @@ export default function ProtectedLayout() {
       <Drawer.Screen
         name="ShowUsers"
         options={{ drawerLabel: "🧑‍🤝‍🧑 All Users", title: "Users" }}
+        />
+              <Drawer.Screen
+        name="Chat"
+        options={{ drawerLabel: "💬 Chat", title: "Chat" }}
         />
       <Drawer.Screen
         name="Recepies"

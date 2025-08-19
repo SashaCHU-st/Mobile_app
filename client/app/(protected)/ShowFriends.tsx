@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, Pressable } from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import dog from "../../assets/images/dog.jpg";
@@ -10,12 +10,15 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import SearchUsers from "../components/SearchUsers";
 import { ScrollView } from "react-native-gesture-handler";
+import { size } from "../utils/size";
+import { useRouter } from "expo-router";
 
 const ShowFriends = () => {
   const [friends, setFriends] = useState<User[]>([]);
   const [error, setError] = useState<string>("");
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [search, setSearch] = useState<string>("");
+  const router = useRouter();
 
   const fetchFriends = async () => {
     try {
@@ -67,6 +70,14 @@ const ShowFriends = () => {
       setFriends(filtered);
     }
   };
+
+  const moveToChat = (id: number) => {
+    console.log("ID =>", id);
+    router.push({
+      pathname: "/(protected)/Chat",
+      params: { id: id.toString() },
+    });
+  };
   return (
     <ScrollView>
       <SearchUsers value={search} onChange={handleSearch} />
@@ -84,7 +95,15 @@ const ShowFriends = () => {
               resizeMode="cover"
             />
             <Text style={styles.userName}>{friend.name}</Text>
+            <View style={styles.buttons}>
             <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
+            <Pressable style={styles.button} onPress={()=> moveToChat(friend.id)}>
+              <Text>
+                Chat
+              </Text>
+            </Pressable>
+
+            </View>
           </View>
         )}
         ListFooterComponent={
@@ -130,4 +149,16 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  button: {
+    width: 60,
+    height: 40,
+    borderRadius: size / 4,
+    backgroundColor: "#7A85C1",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttons:{
+    justifyContent:"space-between",
+    flexDirection:"row"
+  }
 });

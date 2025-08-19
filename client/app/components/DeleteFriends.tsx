@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeleteFriendProps } from "../types/types";
 import { API_URL } from "../config";
-const size = Dimensions.get("window").width * 0.1;
+import { size } from "../utils/size";
 
 const DeleteFriends: React.FC<DeleteFriendProps> = ({
   id,
@@ -42,7 +42,7 @@ const DeleteFriends: React.FC<DeleteFriendProps> = ({
   return (
     <View>
       <Pressable style={styles.button} onPress={() => handleDelete(id)}>
-        <Text> Delete Friends</Text>
+        <Text> Delete</Text>
       </Pressable>
     </View>
   );
@@ -51,7 +51,7 @@ const DeleteFriends: React.FC<DeleteFriendProps> = ({
 export default DeleteFriends;
 const styles = StyleSheet.create({
   button: {
-    width: 120,
+    width: 60,
     height: 40,
     borderRadius: size / 4,
     backgroundColor: "#7A85C1",

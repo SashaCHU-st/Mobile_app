@@ -3,7 +3,7 @@ import { useState } from "react";
 import { API_URL } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeclineFriendProps } from "../types/types";
-const size = Dimensions.get("window").width * 0.1;
+import { size } from "../utils/size";
 
 const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
   const [error, setError] = useState("");

@@ -16,6 +16,11 @@ npm install
 npm start
 ```
 
+# Some pictures
+
+<img width="400" height="435" alt="imagfffffffe (1)" src="https://github.com/user-attachments/assets/f39f5d6c-1f6e-43ac-8571-287a8e1c14c3" />
+<img width="490" height="435" alt="imageddddd (2) (1)" src="https://github.com/user-attachments/assets/56666d72-4d7c-433a-8923-9d1e51d0c411" />
+
 # Progress of my Mobile app
 
 ###  Auth – Backend

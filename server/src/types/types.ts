@@ -49,3 +49,10 @@ export type commentsBody = {
 export type oldCommentsBody = {
   id: number;
 };
+
+
+export type ChatBody = {
+  userId: number;
+  friends_id: number;
+  message: string;
+};

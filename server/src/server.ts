@@ -7,6 +7,7 @@ import { UsersRoutes } from "./routes/UsersRoutes";
 import { FriendsRoutes } from "./routes/FriendsRoutes";
 import { ProfileRoutes } from "./routes/ProfileRoutes";
 import { FavoritesRoutes } from "./routes/FavoritesRoutes";
+import { ChatRoutes } from "./routes/ChatRoutes";
 
 const app = Fastify({
   // logger: true,
@@ -36,6 +37,7 @@ app.register(async (instance) => {
   instance.register(FriendsRoutes);
   instance.register(ProfileRoutes);
   instance.register(FavoritesRoutes);
+  instance.register(ChatRoutes);
 });
 pool
   .connect()

@@ -1,0 +1,41 @@
+import { Server } from "http";
+import WebSocket, { WebSocketServer } from "ws";
+import { FastifyInstance } from "fastify";
+import { pool } from "./db/db";
+
+export function initWebSocket(server: Server, app: FastifyInstance) {
+  const wss = new WebSocketServer({ server, path: "/ws" });
+
+  wss.on("connection", async (ws, req) => {
+    const url = new URL(req.url!, `http://${req.headers.host}`);
+    const token = url.searchParams.get("token");
+    if (!token) return ws.close();
+
+    const decoded = app.jwt.verify(token) as any;
+    const userId = decoded.id;
+
+    (ws as any).userId = userId;
+
+    ws.on("message", async (msg: string | Buffer) => {
+      const text = typeof msg === "string" ? msg : msg.toString();
+      const data = JSON.parse(text);
+      if (!data.message || !data.to) return;
+
+      await pool.query(
+        'INSERT INTO messages("from", "to", message) VALUES($1, $2, $3)',
+        [userId, data.to, data.message]
+      );
+
+      const savedMsg = { from: userId, to: data.to, message: data.message };
+
+      wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          const clientUserId = (client as any).userId;
+          if (clientUserId === userId || clientUserId === data.to) {
+            client.send(JSON.stringify(savedMsg));
+          }
+        }
+      });
+    });
+  });
+}

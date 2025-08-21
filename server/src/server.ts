@@ -1,18 +1,11 @@
-import Fastify, { fastify } from "fastify";
+import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { pool } from "./db/db";
-import { AuthRoutes } from "./routes/AuthRoute";
 import jwt from "@fastify/jwt";
-import { UsersRoutes } from "./routes/UsersRoutes";
-import { FriendsRoutes } from "./routes/FriendsRoutes";
-import { ProfileRoutes } from "./routes/ProfileRoutes";
-import { FavoritesRoutes } from "./routes/FavoritesRoutes";
-import { ChatRoutes } from "./routes/ChatRoutes";
+import { pool } from "./db/db";
+import { registerRoutes } from "./routes/indexRoutes";
+import { initWebSocket } from "./ws";
 
-const app = Fastify({
-  // logger: true,
-  bodyLimit: 5 * 1024 * 1024,
-});
+const app = Fastify({ bodyLimit: 5 * 1024 * 1024 });
 
 app.register(cors, {
   origin: "*",
@@ -22,29 +15,14 @@ app.register(cors, {
 const jwtSecret = process.env.SECRET || "kuku";
 app.register(jwt, { secret: jwtSecret });
 
-app.register(AuthRoutes);
-app.register(async (instance) => {
-  instance.addHook("preHandler", async (req, reply) => {
-    if (req.method === "OPTIONS") return; 
-    try {
-      await req.jwtVerify();
-    } catch {
-      return reply.code(401).send({ message: "Unauthorized" });
-    }
-  });
 
-  instance.register(UsersRoutes);
-  instance.register(FriendsRoutes);
-  instance.register(ProfileRoutes);
-  instance.register(FavoritesRoutes);
-  instance.register(ChatRoutes);
-});
+registerRoutes(app);
+
+const server = app.server;
+initWebSocket(server, app); 
+
 pool
   .connect()
-  .then(() => {
-    console.log("DB connected");
-    return app.listen({ port: 3001, host: "0.0.0.0" });
-  })
-  .catch((err) => {
-    console.error("❌ DB connection error:", err);
-  });
+  .then(() => app.listen({ port: 3001, host: "0.0.0.0" }))
+  .then(() => console.log("Server running on 3001"))
+  .catch((err) => console.error("❌ DB connection error:", err));

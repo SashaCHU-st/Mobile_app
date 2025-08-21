@@ -11,7 +11,7 @@ import {
   friendsFavorites,
   commentsFavorites,
   getOldComments,
-} from "../controllers/Favorites";
+} from "../controllers/FavoritesControllers";
 
 export async function FavoritesRoutes(app: FastifyInstance) {
   app.post("/addFavorites", async (req, reply) => {

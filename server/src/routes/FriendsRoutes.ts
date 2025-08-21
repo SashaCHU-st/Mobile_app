@@ -13,7 +13,7 @@ import {
   confirmFriend,
   checkRequests,
   declineFriend,
-} from "../controllers/Friends";
+} from "../controllers/FriendsControllers";
 
 
 export async function FriendsRoutes(app: FastifyInstance) {

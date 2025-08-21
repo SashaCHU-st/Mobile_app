@@ -4,6 +4,7 @@ import { signUp, login } from "../controllers/AuthController";
 
 export async function AuthRoutes(app: FastifyInstance) {
   app.post("/signup", async (req, reply) => {
+    console.log("JJJJ")
     const validated = SignUpSchema.safeParse(req.body);
     if (!validated.success) {
       const message = validated.error.issues[0]?.message || "Validation failed";

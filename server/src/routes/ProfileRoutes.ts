@@ -1,6 +1,6 @@
 import fastify, { FastifyInstance } from "fastify";
 import { ProfileSchema } from "../schema/ProfileSchema";
-import { editProfile } from "../controllers/EditProfile";
+import { editProfile } from "../controllers/EditProfileControllers";
 
 export async function ProfileRoutes(app: FastifyInstance) {
   app.post("/editProfile", async (req, reply) => {

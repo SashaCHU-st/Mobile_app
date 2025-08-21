@@ -56,3 +56,13 @@ export type ChatBody = {
   friends_id: number;
   message: string;
 };
+
+export type ReadChatBody = {
+  userId: number;
+  friends_id: number;
+};
+
+
+export interface GetMessagesParams {
+  userId: string; // параметр из URL
+}

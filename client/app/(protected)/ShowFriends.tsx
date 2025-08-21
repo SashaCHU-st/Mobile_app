@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet, Image, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Pressable,
+} from "react-native";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import dog from "../../assets/images/dog.jpg";
@@ -71,8 +78,10 @@ const ShowFriends = () => {
     }
   };
 
-  const moveToChat = (id: number) => {
+  const moveToChat = async (id: number) => {
     console.log("ID =>", id);
+    const myId = await AsyncStorage.getItem("id");
+    console.log("MYid=>", myId);
     router.push({
       pathname: "/(protected)/Chat",
       params: { id: id.toString() },
@@ -96,13 +105,13 @@ const ShowFriends = () => {
             />
             <Text style={styles.userName}>{friend.name}</Text>
             <View style={styles.buttons}>
-            <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
-            <Pressable style={styles.button} onPress={()=> moveToChat(friend.id)}>
-              <Text>
-                Chat
-              </Text>
-            </Pressable>
-
+              <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
+              <Pressable
+                style={styles.button}
+                onPress={() => moveToChat(friend.id)}
+              >
+                <Text>Chat</Text>
+              </Pressable>
             </View>
           </View>
         )}
@@ -157,8 +166,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  buttons:{
-    justifyContent:"space-between",
-    flexDirection:"row"
-  }
+  buttons: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
 });

@@ -1,121 +1,228 @@
+import { useEffect, useRef, useState } from "react";
 import {
   View,
+  Text,
   TextInput,
+  FlatList,
   StyleSheet,
+  TouchableOpacity,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
-  Pressable,
-  Text,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
-import { size } from "../utils/size";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "../config";
+import { useRoute } from "@react-navigation/native";
+import { ws_address } from "../config_key";
+import { Message } from "../types/types";
 
-const Chat = () => {
-  const { id } = useLocalSearchParams();
-  const [inputHeight, setInputHeight] = useState(60);
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState<string>("");
+export default function Chat() {
+  const route = useRoute();
+  const friendId = Number(route.params?.id);
+  const wsRef = useRef<WebSocket | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [text, setText] = useState("");
+  const [myId, setMyId] = useState<number | null>(null);
 
-  const MAX_HEIGHT = 60; 
-
-  const handleSendMessage = async (message:string) =>
-  {
-    try
-    {
-      const myId = await AsyncStorage.getItem("id");
-      const token = await AsyncStorage.getItem("token");
-      const results = await fetch(`${API_URL}/sendMessage`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          userId: Number(myId),
-          friends_id: Number(id), 
-          message
-        }),
-      });
-      const data = await results.json();
-      if (!results.ok) {
-        throw new Error(data.message || "Something went wrong");
+  const addMessage = async (msg: Message) => {
+    setMessages((prev) => {
+      const newMessages = [...prev, msg];
+      if (myId) {
+        AsyncStorage.setItem(
+          `chat_${myId}_${friendId}`,
+          JSON.stringify(newMessages)
+        );
       }
+      return newMessages;
+    });
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    (async () => {
+      const token = await AsyncStorage.getItem("token");
+      const storedId = await AsyncStorage.getItem("id");
+      if (!token) return console.log("No token");
+      if (storedId && isMounted) {
+        setMyId(Number(storedId));
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+      wsRef.current?.close();
+    };
+  }, []);
+  useEffect(() => {
+    if (!myId) return;
+
+    let isMounted = true;
+
+    (async () => {
+      setMessages([]);
+
+      const token = await AsyncStorage.getItem("token");
+      try {
+        const res = await fetch(`${ws_address}/chat/${myId}/${friendId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (res.ok) {
+          const chatHistory: Message[] = await res.json();
+          if (isMounted) {
+            setMessages(chatHistory);
+          }
+        }
+      } catch (err) {
+        console.log("Error fetching chat history:", err);
+      }
+
+      if (!token) return;
+
+      const ws = new WebSocket(`${ws_address}/ws?token=${token}`);
+      wsRef.current = ws;
+
+      ws.onopen = () => console.log("✅ WS connected");
+
+      ws.onmessage = (e) => {
+        if (!isMounted) return;
+
+        const data: Message | { myId?: number } = JSON.parse(e.data);
+        if ("myId" in data) {
+          setMyId(myId);
+          return;
+        }
+
+        const msg = data as Message;
+        if (msg.from === friendId) {
+          addMessage(msg);
+        }
+      };
+
+      ws.onclose = () => console.log("❌ WS disconnected");
+      ws.onerror = (err) => console.log("WS error", err);
+    })();
+
+    return () => {
+      isMounted = false;
+      wsRef.current?.close();
+    };
+  }, [friendId, myId]);
+
+  const sendMessage = () => {
+    if (!myId || !text.trim()) return;
+
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      const msg: Message = { from: myId, to: friendId, message: text.trim() };
+      wsRef.current.send(JSON.stringify(msg));
+      addMessage(msg);
+      setText("");
     }
-    catch (err: any) {
-      setError(err.message || "Failed to load users");
-    }
-  }
+  };
 
   return (
-    <SafeAreaView style={style.container}>
-      <View style={style.messagesArea}></View>
-
+    <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={80}
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View style={style.inputContainer}>
+        <FlatList
+          data={messages}
+          keyExtractor={(_, i) => i.toString()}
+          renderItem={({ item }) => {
+            const isMe = item.from === myId;
+            return (
+              <View
+                style={[
+                  styles.messageContainer,
+                  isMe ? styles.myMessage : styles.friendMessage,
+                ]}
+              >
+                <Text style={[styles.messageText, !isMe && { color: "#000" }]}>
+                  {item.message}
+                </Text>
+              </View>
+            );
+          }}
+          contentContainerStyle={{ paddingBottom: 70, paddingHorizontal: 8 }}
+        />
+
+        <View style={styles.inputContainer}>
           <TextInput
-            style={[style.input, { height: inputHeight }]}
-            placeholder="Type a message..."
-            multiline
-            scrollEnabled={inputHeight >= MAX_HEIGHT}
-            value={message}
-            onChangeText={setMessage}
-            onContentSizeChange={(e) =>
-              setInputHeight(Math.min(MAX_HEIGHT, e.nativeEvent.contentSize.height + 10))
-            }
+            style={styles.input}
+            value={text}
+            onChangeText={setText}
+            placeholder="Message"
+            placeholderTextColor="#999"
+            blurOnSubmit={false}
+            returnKeyType="send"
+            onSubmitEditing={sendMessage}
           />
-          <Pressable style={style.button} onPress={()=> handleSendMessage(message)}>
-            <Text style={{ color: "#fff", fontWeight: "bold" }}>Send</Text>
-          </Pressable>
+          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-};
+}
 
-export default Chat;
-
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F9F9F9",
   },
-  messagesArea: {
-    flex: 1,
+  messageContainer: {
+    maxWidth: "75%",
+    padding: 10,
+    borderRadius: 16,
+    marginVertical: 4,
+  },
+  myMessage: {
+    alignSelf: "flex-end",
+    backgroundColor: "#b0b0b0ff",
+    borderBottomRightRadius: 0,
+  },
+  friendMessage: {
+    alignSelf: "flex-start",
+    backgroundColor: "#E5E5EA",
+    borderBottomLeftRadius: 0,
+  },
+  messageText: {
+    fontSize: 16,
+    color: "#000000ff",
   },
   inputContainer: {
-    padding: 8,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#f9f9f9",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderColor: "#ddd",
+    backgroundColor: "#fff",
   },
   input: {
     flex: 1,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 20,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 8,
-    backgroundColor: "#fff",
-    textAlignVertical: "top",
-    fontSize: 16,
+    marginRight: 10,
+    backgroundColor: "#fdfdfd",
   },
-  button: {
-    width: 80,
-    height: 40,
-    borderRadius: size / 4,
+  sendButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
     backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 8,
+  },
+  sendButtonText: {
+    color: "#fff",
+    fontWeight: "600",
   },
 });

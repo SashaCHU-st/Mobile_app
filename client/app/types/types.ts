@@ -87,7 +87,7 @@ export type PropsComments = {
   comments: string;
   setComments: (value: string) => void;
   id: number;
-  onAdded:() =>void;
+  onAdded: () => void;
 };
 
 export type oldComments = {
@@ -101,8 +101,26 @@ export type OldCommentsProps = {
   oldComment: oldComments[];
 };
 
-
 export interface SearchUsersProps {
   users: User[];
   setUsers: React.Dispatch<React.SetStateAction<User[]>>;
 }
+
+export type MessageItem = {
+  id: number;
+  message: string;
+};
+
+export type MessageProps = {
+  id: string | string[];
+  onSent: () => void;
+  message:string;
+  recivedMessages: string;
+  setRecivedMessages: React.Dispatch<React.SetStateAction<MessageItem[]>>;
+};
+
+export type Message = {
+  from: number;
+  to: number;
+  message: string;
+};

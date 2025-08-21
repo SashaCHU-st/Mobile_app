@@ -124,3 +124,19 @@ export type Message = {
   to: number;
   message: string;
 };
+
+
+export interface ChatInputProps {
+  text: string;
+  setText: (t: string) => void;
+  sendMessage: (text: string) => void;
+}
+
+export interface ChatMessageProps {
+  message: Message;
+  myId: number | null;
+}
+
+export type ChatRouteParams = {
+  id: string | number;
+};

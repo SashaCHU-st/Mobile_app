@@ -14,24 +14,32 @@ export default function ChatMessage({ message, myId }: ChatMessageProps) {
           isMe ? styles.myMessage : styles.friendMessage,
         ]}
       >
-        <Text style={styles.name}>{message.from.name}</Text>
+        <View style={styles.chatHeader}>
+          <Text style={styles.name}>{message.from.name}              </Text>
+          
+          <Text style={styles.text}>
+            {new Date(message.created_at).toLocaleTimeString("en-GB", {
+              timeZone: "Europe/Helsinki",
+              year: "2-digit",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Text>
+        </View>
         <Text style={styles.text}>{message.message}</Text>
-        <Text style={styles.text}>
-          {new Date(message.created_at).toLocaleTimeString("en-GB", {
-            timeZone: "Europe/Helsinki",
-            year: "2-digit",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </Text>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  chatHeader:
+  {
+    flexDirection:"row",
+    justifyContent:"space-between"
+  },
   wrapper: {
     width: "100%",
     marginVertical: 4,

@@ -22,9 +22,13 @@ export function initWebSocket(server: Server, app: FastifyInstance) {
         const data = JSON.parse(text);
 
         if (!data.message || !data.to) return;
+            const now = new Date();
+    const localTime = now.toLocaleString("sv-SE", {
+      timeZone: "Europe/Helsinki",
+    });
         await pool.query(
-          'INSERT INTO messages("from", "to", message) VALUES($1, $2, $3)',
-          [userId, data.to, data.message]
+          'INSERT INTO messages("from", "to", message, created_at) VALUES($1, $2, $3, $4)',
+          [userId, data.to, data.message, localTime]
         );
         const result = await pool.query(
           "SELECT id, name FROM users WHERE id = ANY($1::int[])",
@@ -40,6 +44,7 @@ export function initWebSocket(server: Server, app: FastifyInstance) {
           from: usersMap[userId],
           to: usersMap[data.to],
           message: data.message,
+          created_at:data.created_at
         };
 
         wss.clients.forEach((client) => {

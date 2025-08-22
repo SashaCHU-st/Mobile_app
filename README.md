@@ -126,6 +126,16 @@ npm start
 | **Friends Integration**           | ✅ Done         |
 
 ---
+## Chat
+| Feature                   | Description                                          | Status         |
+|--------------------------|------------------------------------------------------|----------------|
+| **Real-time Notifications** | Alert user on friend activity or messages               | ✅ Done   |
+| **Chat System**            | Messaging between confirmed friends                      | ✅ Done   |
+
+## Other
+| Feature                   | Description                                          | Status         |
+|--------------------------|------------------------------------------------------|----------------|
+| **Take pictures**            | uploadd pictures of app to ReadMe              | ✅ Done   |
 
 ##  Upcoming Features
 
@@ -141,8 +151,6 @@ npm start
 
 | Feature                    | Description                                               |
 |---------------------------|-----------------------------------------------------------|
-| **Real-time Notifications** | Alert user on friend activity or messages               |
-| **Chat System**            | Messaging between confirmed friends                      |
 | **Clean code**            | make it readable maybe with some comments                     |
 | **Deploy**            | deploy in Vercel                     |
 | **Take pictures**            | uploadd pictures of app to ReadMe              |

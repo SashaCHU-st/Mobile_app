@@ -54,3 +54,29 @@ export async function notifications(): Promise<number> {
   }
 }
 
+export async function chats(): Promise<number> {
+  try {
+    const token = await AsyncStorage.getItem("token");
+
+    const results = await fetch(`${API_URL}/getChats`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const text = await results.text();
+    if (!text) {
+      console.log("Empty response body");
+      return 0; 
+    }
+    const data = JSON.parse(text);
+    if (Array.isArray(data)) {
+      return data.length;
+    }
+    return data.users.length;
+  } catch (error) {
+    console.error("Chat fetch error:", error);
+    return 0;
+  }
+}

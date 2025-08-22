@@ -149,3 +149,9 @@ export interface ChatMessageProps {
 export type ChatRouteParams = {
   id: string | number;
 };
+
+
+export type Chats = {
+  id:number;
+  name:string
+}

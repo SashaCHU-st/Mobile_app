@@ -1,60 +1,122 @@
-import { useState, useEffect, useRef } from "react";
-import {
-  FlatList,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import { useRoute, RouteProp } from "@react-navigation/native";
-import ChatMessage from "../components/Chat/ChatMessage";
-import ChatInput from "../components/Chat/ChatInput";
-import { useChat } from "../hooks/ChatHooks";
-import { ChatRouteParams, Message } from "../types/types";
+import { useState } from "react";
+import { View, Pressable, Text, StyleSheet, FlatList } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { size } from "../utils/size";
+import { API_URL } from "../config";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Chats } from "../types/types";
+import { useRouter } from "expo-router";
+import { ScrollView } from "react-native-gesture-handler";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
-export default function Chat() {
-  const route = useRoute<RouteProp<{ params: ChatRouteParams }, "params">>();
-  const friendId = Number(route.params?.id);
-  const { messages, sendMessage, myId } = useChat(friendId);
-  const [text, setText] = useState("");
+const Chat = () => {
+  const [chats, setChats] = useState<Chats[]>([]);
+  const [error, setError] = useState<string>("");
+  const router = useRouter();
+  const handleChatList = async () => {
+    try {
+      // const myId = await AsyncStorage.getItem("id");
+      const token = await AsyncStorage.getItem("token");
+      const results = await fetch(`${API_URL}/getChats`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await results.json();
+      if (!results.ok) {
+        throw new Error(data.message || "Something went wrong");
+      }
 
-  const flatListRef = useRef<FlatList<Message>>(null);
-  useEffect(() => {
-    if (!flatListRef.current || messages.length === 0) return;
+      console.log("OOOO=>", data.chats);
+      setChats(data.chats);
+    } catch (err: any) {
+      setError(err.message || "Failed to load users");
+    }
+  };
 
-    requestAnimationFrame(() => {
-      (flatListRef.current as any)?.scrollToEnd?.({ animated: true });
-      try {
-        flatListRef.current!.scrollToIndex({
-          index: messages.length - 1,
-          animated: true,
-        });
-      } catch {}
+    useFocusEffect(
+      useCallback(() => {
+        handleChatList();
+      }, [])
+    );
+
+  const moveToChat = async (id: number) => {
+    router.push({
+      pathname: "/components/Chat/Chat",
+      params: { id: id.toString() },
     });
-  }, [messages.length]);
+  };
+
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F9F9" }}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <FlatList
-          ref={flatListRef}
-          data={messages}
-          keyExtractor={(_, i) => i.toString()}
-          renderItem={({ item }) => <ChatMessage message={item} myId={myId} />}
-          contentContainerStyle={{ paddingBottom: 70, paddingHorizontal: 8 }}
-          onScrollToIndexFailed={(info) => {
-            setTimeout(() => {
-              flatListRef.current?.scrollToIndex({
-                index: info.index,
-                animated: true,
-              });
-            }, 50);
-          }}
-        />
-        <ChatInput text={text} setText={setText} sendMessage={sendMessage} />
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+    <ScrollView>
+      <FlatList
+        data={chats}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={1}
+        contentContainerStyle={{ padding: 10 }}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>No messages yet</Text>
+        }
+        renderItem={({ item: chat }) => (
+          <View style={styles.chatItem}>
+            <Text style={styles.chatTitle}>{chat.name}</Text>
+            <Pressable style={styles.chats} onPress={() => moveToChat(chat.id)}>
+              <FontAwesome name="comment" size={20} color="#7A85C1" />
+            </Pressable>
+          </View>
+        )}
+      />
+    </ScrollView>
   );
-}
+};
+
+export default Chat;
+
+const styles = StyleSheet.create({
+  chats: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  button: {
+    width: 120,
+    height: 40,
+    borderRadius: size / 4,
+    backgroundColor: "#7A85C1",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    marginTop: 50,
+    fontSize: 18,
+    color: "#999",
+    textAlign: "center",
+  },
+  chatItem: {
+    flex: 1,
+    margin: 8,
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  chatTitle: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
+    alignItems: "flex-end",
+  },
+});

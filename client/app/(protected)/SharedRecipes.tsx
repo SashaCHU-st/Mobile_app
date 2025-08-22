@@ -82,7 +82,7 @@ const SharedRecipes = () => {
               data={item.foods}
               keyExtractor={(food, index) => `${item.name}-${index}`}
               numColumns={2}
-              columnWrapperStyle={{ justifyContent: "space-between" }} // 👉 равномерно по строке
+              columnWrapperStyle={{ justifyContent: "space-between" }} 
               renderItem={({ item: food }) => (
                 <Pressable
                   style={styles.foodCard}

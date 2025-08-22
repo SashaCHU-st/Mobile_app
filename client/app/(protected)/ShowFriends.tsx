@@ -83,7 +83,7 @@ const ShowFriends = () => {
     const myId = await AsyncStorage.getItem("id");
     console.log("MYid=>", myId);
     router.push({
-      pathname: "/(protected)/Chat",
+      pathname: "/components/Chat/Chat",
       params: { id: id.toString() },
     });
   };

@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
+import { ChatsBody } from "../types/types";
 
 export async function readMessage(
   request: FastifyRequest,
@@ -36,6 +37,33 @@ export async function readMessage(
     return messages;
   } catch (err: any) {
     console.error(err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function getChats(
+  req: FastifyRequest,
+  reply: FastifyReply
+) {
+  const userId = (req.user as { id: number }).id;
+
+  try {
+    console.log("OOOO=>", userId);
+    const getChats = await pool.query(
+      `SELECT DISTINCT u.name, u.id
+        FROM messages m
+        JOIN users u ON m."to" = u.id
+        WHERE m."from" = $1;
+      `,
+      [userId]
+    );
+    // console.log("PPPP=>", getChats.rows);
+
+    return reply.code(200).send({
+      chats: getChats.rows,
+    });
+  } catch (err: any) {
+    console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });
   }
 }

@@ -64,5 +64,9 @@ export type ReadChatBody = {
 
 
 export interface GetMessagesParams {
-  userId: string; // параметр из URL
+  userId: string;
 }
+
+export type ChatsBody = {
+  userId: number;
+};

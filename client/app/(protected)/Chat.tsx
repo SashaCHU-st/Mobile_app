@@ -14,9 +14,10 @@ const Chat = () => {
   const [chats, setChats] = useState<Chats[]>([]);
   const [error, setError] = useState<string>("");
   const router = useRouter();
+  const [id, setId] = useState<number>(0);
+
   const handleChatList = async () => {
     try {
-      // const myId = await AsyncStorage.getItem("id");
       const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/getChats`, {
         method: "GET",
@@ -31,17 +32,21 @@ const Chat = () => {
       }
 
       console.log("OOOO=>", data.chats);
+      const myId = await AsyncStorage.getItem("id");
+
+      console.log("ID=>", myId);
+      setId(Number(myId));
       setChats(data.chats);
     } catch (err: any) {
       setError(err.message || "Failed to load users");
     }
   };
 
-    useFocusEffect(
-      useCallback(() => {
-        handleChatList();
-      }, [])
-    );
+  useFocusEffect(
+    useCallback(() => {
+      handleChatList();
+    }, [])
+  );
 
   const moveToChat = async (id: number) => {
     router.push({
@@ -50,27 +55,25 @@ const Chat = () => {
     });
   };
 
-
   return (
-    <ScrollView>
-      <FlatList
-        data={chats}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={1}
-        contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No messages yet</Text>
-        }
-        renderItem={({ item: chat }) => (
-          <View style={styles.chatItem}>
+    <FlatList
+      data={chats}
+      keyExtractor={(item) => item.id.toString()}
+      contentContainerStyle={{ padding: 10 }}
+      ListEmptyComponent={<Text style={styles.emptyText}>No messages yet</Text>}
+      renderItem={({ item: chat }) => {
+        if (id === chat.id) return null;
+        return (
+          <Pressable
+            style={styles.chatItem}
+            onPress={() => moveToChat(chat.id)}
+          >
             <Text style={styles.chatTitle}>{chat.name}</Text>
-            <Pressable style={styles.chats} onPress={() => moveToChat(chat.id)}>
-              <FontAwesome name="comment" size={20} color="#7A85C1" />
-            </Pressable>
-          </View>
-        )}
-      />
-    </ScrollView>
+            <FontAwesome name="comment" size={20} color="#7A85C1" />
+          </Pressable>
+        );
+      }}
+    />
   );
 };
 

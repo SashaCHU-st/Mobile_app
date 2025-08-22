@@ -17,9 +17,12 @@ npm start
 ```
 
 # Some pictures
+<img width="391" height="429" alt="image" src="https://github.com/user-attachments/assets/5a31e475-5961-49b9-80dd-5d0c2d422a97" />
+<img width="394" height="427" alt="image (1)" src="https://github.com/user-attachments/assets/b466c5e3-8364-4236-8afb-313dafbe56cc" />
+<img width="386" height="425" alt="image (2)" src="https://github.com/user-attachments/assets/0d7cf9b0-9347-4477-b787-e3e2b59160fb" />
+<img width="388" height="425" alt="image (3)" src="https://github.com/user-attachments/assets/8ec91783-1ca0-461d-bd36-0abc04d76e04" />
 
-<img width="400" height="435" alt="imagfffffffe (1)" src="https://github.com/user-attachments/assets/f39f5d6c-1f6e-43ac-8571-287a8e1c14c3" />
-<img width="490" height="435" alt="imageddddd (2) (1)" src="https://github.com/user-attachments/assets/56666d72-4d7c-433a-8923-9d1e51d0c411" />
+
 
 # Progress of my Mobile app
 

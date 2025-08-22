@@ -14,9 +14,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Linking } from "react-native";
 import { useState, useCallback } from "react";
 import { API_URL } from "../config";
-import AddComments from "../components/AddComments";
+import AddComments from "../components/FoodRecipe/AddComments";
 import { oldComments } from "../types/types";
-import Comments from "../components/Comments";
+import Comments from "../components/FoodRecipe/Comments";
 
 const { width } = Dimensions.get("window");
 

@@ -9,39 +9,40 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
-import { API_URL } from "../config";
-import { useAuth } from "../context/Authcontext";
-import { LoginProps } from "../types/types";
-const size = Dimensions.get("window").width * 0.1;
+import { API_URL } from "../../config";
+import { useAuth } from "../../context/Authcontext";
+import { AuthProps } from "../../types/types";
 
-const Login = ({
+const size = Dimensions.get("window").width * 0.1;
+const SignUp = ({
   email,
   setEmail,
+  name,
+  setName,
   password,
   setPassword,
   login,
   setLogin,
-}: LoginProps) => {
+}: AuthProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { login: loginUser } = useAuth();
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     try {
-      const results = await fetch(`${API_URL}/login`, {
+      const results = await fetch(`${API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
+          name,
           password,
         }),
       });
       const data = await results.json();
-      await AsyncStorage.setItem("id", data.user[0].id);
+      await AsyncStorage.setItem("id", String(data.newUser.id));
       if (!results.ok) {
-        throw new Error(
-          data.message || `HTTP error! status: ${results.status}`
-        );
+        throw new Error(data.message || "Something went wrong");
       }
       loginUser(data.token);
       router.replace("/(protected)/UserPage");
@@ -52,7 +53,7 @@ const Login = ({
   };
   return (
     <View style={styles.container}>
-      {error ? <Text style={styles.errorText}>{error} </Text> : null}
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       <TextInput
         style={styles.input}
         placeholder="Enter a email"
@@ -61,24 +62,32 @@ const Login = ({
       />
       <TextInput
         style={styles.input}
+        placeholder="Enter a name"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Enter a password"
         value={password}
         onChangeText={setPassword}
       />
-      <Pressable style={styles.button} onPress={handleLogin}>
-        <Text style={styles.text}>Login</Text>
+
+      <Pressable style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.text}>Sign Up</Text>
       </Pressable>
       <Pressable
         style={styles.buttonSwitcher}
         onPress={() => {
-          setLogin(false);
+          setLogin(true);
           setEmail("");
           setPassword("");
+          setName("");
         }}
       >
         {login ? (
           <>
-            <Text style={styles.textSwitcher}>Switch to Signup </Text>
+            <Text style={styles.textSwitcher}>Switch to SignUp </Text>
           </>
         ) : (
           <>
@@ -90,7 +99,7 @@ const Login = ({
   );
 };
 
-export default Login;
+export default SignUp;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",

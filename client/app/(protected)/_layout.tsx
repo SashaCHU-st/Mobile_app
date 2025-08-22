@@ -55,7 +55,7 @@ export default function ProtectedLayout() {
         />
               <Drawer.Screen
         name="Chat"
-        options={{ drawerLabel: "💬 Chat", title: "Chat" }}
+        options={{ drawerLabel: "💬 Chat (1)", title: "Chat" }}
         />
       <Drawer.Screen
         name="Recepies"

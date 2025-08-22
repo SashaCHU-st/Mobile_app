@@ -7,8 +7,8 @@ import {
   Text,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "../config";
-import { PropsComments } from "../types/types";
+import { API_URL } from "../../config";
+import { PropsComments } from "../../types/types";
 import { useState } from "react";
 const size = Dimensions.get("window").width * 0.1;
 

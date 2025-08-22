@@ -12,11 +12,11 @@ import {
 import { API_URL } from "../config";
 import { useFocusEffect } from "@react-navigation/native";
 import { User } from "../types/types";
-import AddFriend from "../components/AddFriend";
-import BackButton from "../components/BackButton";
+import AddFriend from "../components/Friends/AddFriend";
+import BackButton from "../components/Helpers/BackButton";
 import dog from "../../assets/images/dog.jpg";
 import { size } from "../utils/size";
-import SearchUsers from "../components/SearchUsers";
+import SearchUsers from "../components/Users/SearchUsers";
 import { ScrollView } from "react-native-gesture-handler";
 
 const ShowUsers = () => {

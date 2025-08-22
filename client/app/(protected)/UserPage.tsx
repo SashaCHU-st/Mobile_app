@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Image, StyleSheet } from "react-native";
-import UserInfo from "../components/UserInfo";
-import dog from "../../assets/images/dog.jpg";
+import UserInfo from "../components/UserInfo/UserInfo";
 import { Me } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";

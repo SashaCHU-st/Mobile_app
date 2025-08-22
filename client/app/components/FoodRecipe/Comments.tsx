@@ -5,7 +5,7 @@ import {
   Dimensions,
   Text,
 } from "react-native";
-import { OldCommentsProps } from "../types/types";
+import { OldCommentsProps } from "../../types/types";
 const { width } = Dimensions.get("window");
 
 const Comments = ({oldComment}:OldCommentsProps) => {

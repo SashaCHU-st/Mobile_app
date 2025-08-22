@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import React, { useState } from "react";
-import { size } from "../utils/size";
+import { size } from "../../utils/size";
 
 
 const SearchUsers = ({

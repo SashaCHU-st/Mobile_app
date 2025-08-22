@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DeleteFriendProps } from "../types/types";
-import { API_URL } from "../config";
-import { size } from "../utils/size";
+import { DeleteFriendProps } from "../../types/types";
+import { API_URL } from "../../config";
+import { size } from "../../utils/size";
 
 const DeleteFriends: React.FC<DeleteFriendProps> = ({
   id,

@@ -13,8 +13,8 @@ import { useCallback } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
 import { User } from "../types/types";
-import DeclineRequest from "../components/DeclineRequest";
-import ConfirmRequest from "../components/ConfirmRequest";
+import DeclineRequest from "../components/Friends/DeclineRequest";
+import ConfirmRequest from "../components/Friends/ConfirmRequest";
 
 const Notifications = () => {
   const [error, setError] = useState("");

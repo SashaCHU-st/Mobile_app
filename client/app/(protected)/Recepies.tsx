@@ -10,7 +10,7 @@ import {
 import { Food } from "../types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_KEY } from "../config_key";
-import FoodCards from "../components/FoodCards";
+import FoodCards from "../components/FoodRecipe/FoodCards";
 import DropDownPicker from "react-native-dropdown-picker";
 import { diets } from "../utils/diet";
 import { intolerances } from "../utils/intolerance";

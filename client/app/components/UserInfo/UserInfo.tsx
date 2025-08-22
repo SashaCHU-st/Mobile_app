@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { useRouter } from "expo-router";
-import { Me } from "../types/types";
-import dog from "../../assets/images/dog.jpg";
-import { size } from "../utils/size";
+import { Me } from "../../types/types";
+import dog from "../../../assets/images/dog.jpg";
+import { size } from "../../utils/size";
 
 const UserInfo: React.FC<Me> = ({ id, name, email, image }) => {
   const router = useRouter();

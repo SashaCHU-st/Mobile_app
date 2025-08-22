@@ -9,40 +9,39 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
-import { API_URL } from "../config";
-import { useAuth } from "../context/Authcontext";
-import { AuthProps } from "../types/types";
-
+import { API_URL } from "../../config";
+import { useAuth } from "../../context/Authcontext";
+import { LoginProps } from "../../types/types";
 const size = Dimensions.get("window").width * 0.1;
-const SignUp = ({
+
+const Login = ({
   email,
   setEmail,
-  name,
-  setName,
   password,
   setPassword,
   login,
   setLogin,
-}: AuthProps) => {
+}: LoginProps) => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { login: loginUser } = useAuth();
 
-  const handleSignUp = async () => {
+  const handleLogin = async () => {
     try {
-      const results = await fetch(`${API_URL}/signup`, {
+      const results = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          name,
           password,
         }),
       });
       const data = await results.json();
-      await AsyncStorage.setItem("id", String(data.newUser.id));
+      await AsyncStorage.setItem("id", data.user[0].id);
       if (!results.ok) {
-        throw new Error(data.message || "Something went wrong");
+        throw new Error(
+          data.message || `HTTP error! status: ${results.status}`
+        );
       }
       loginUser(data.token);
       router.replace("/(protected)/UserPage");
@@ -53,7 +52,7 @@ const SignUp = ({
   };
   return (
     <View style={styles.container}>
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? <Text style={styles.errorText}>{error} </Text> : null}
       <TextInput
         style={styles.input}
         placeholder="Enter a email"
@@ -62,32 +61,24 @@ const SignUp = ({
       />
       <TextInput
         style={styles.input}
-        placeholder="Enter a name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
         placeholder="Enter a password"
         value={password}
         onChangeText={setPassword}
       />
-
-      <Pressable style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.text}>Sign Up</Text>
+      <Pressable style={styles.button} onPress={handleLogin}>
+        <Text style={styles.text}>Login</Text>
       </Pressable>
       <Pressable
         style={styles.buttonSwitcher}
         onPress={() => {
-          setLogin(true);
+          setLogin(false);
           setEmail("");
           setPassword("");
-          setName("");
         }}
       >
         {login ? (
           <>
-            <Text style={styles.textSwitcher}>Switch to SignUp </Text>
+            <Text style={styles.textSwitcher}>Switch to Signup </Text>
           </>
         ) : (
           <>
@@ -99,7 +90,7 @@ const SignUp = ({
   );
 };
 
-export default SignUp;
+export default Login;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",

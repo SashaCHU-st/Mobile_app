@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
-import Auth from "../components/Auth";
-import Header from "../components/Header";
+import Auth from "../components/Auth/Auth";
+import Header from "../components/Helpers/Header";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/Authcontext";

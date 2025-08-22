@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
-import Header from "../components/Header";
+import Header from "../components/Helpers/Header";
 
 const Intro = () => {
   const router = useRouter();

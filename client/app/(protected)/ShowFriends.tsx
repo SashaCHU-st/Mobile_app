@@ -11,11 +11,11 @@ import {
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import dog from "../../assets/images/dog.jpg";
-import DeleteFriends from "../components/DeleteFriends";
-import BackButton from "../components/BackButton";
+import DeleteFriends from "../components/Friends/DeleteFriends";
+import BackButton from "../components/Helpers/BackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import SearchUsers from "../components/SearchUsers";
+import SearchUsers from "../components/Users/SearchUsers";
 import { ScrollView } from "react-native-gesture-handler";
 import { size } from "../utils/size";
 import { useRouter } from "expo-router";

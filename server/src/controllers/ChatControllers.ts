@@ -7,11 +7,12 @@ export async function readMessage(
 ) {
   const { userId, friendId } = request.params as any;
 
-
   try {
     const res = await pool.query(
       `
       SELECT 
+        m."from" as from_id,
+        m."to" as to_id,
         m.message,
         m.created_at,
         u_from.name AS from_name,
@@ -26,12 +27,11 @@ export async function readMessage(
     );
 
     const messages = res.rows.map((row: any) => ({
-      from: row.from_name,
-      to: row.to_name,
+      from: { id: row.from_id, name: row.from_name },
+      to: { id: row.to_id, name: row.to_name },
       message: row.message,
       created_at: row.created_at,
     }));
-
 
     return messages;
   } catch (err: any) {

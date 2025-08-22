@@ -1,17 +1,12 @@
 import {
   View,
-  TextInput,
   StyleSheet,
   FlatList,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
   Text,
   Dimensions,
 } from "react-native";
-import { size } from "../utils/size";
-import { MessageProps } from "../types/types";
+import { size } from "../../utils/size";
+import { MessageProps } from "../../types/types";
 const { width } = Dimensions.get("window");
 
 

@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import RenderHTML from "react-native-render-html";
 import { useState, useCallback } from "react";
 import { API_URL } from "../config";
-import Comments from "../components/Comments";
+import Comments from "../components/FoodRecipe/Comments";
 import { oldComments } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "../config";
-import { AddFriendProps } from "../types/types";
+import { API_URL } from "../../config";
+import { AddFriendProps } from "../../types/types";
 
 const size = Dimensions.get("window").width * 0.1;
 

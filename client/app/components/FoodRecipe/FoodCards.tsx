@@ -7,9 +7,9 @@ import {
   Dimensions,
   StyleSheet
 } from "react-native";
-import dog from "../../assets/images/dog.jpg";
+import dog from "../../../assets/images/dog.jpg";
 import { useRouter } from "expo-router";
-import { Food } from "../types/types";
+import { Food } from "../../types/types";
 
 
 const FoodCards = ({ foods }: { foods: Food[] })=> {

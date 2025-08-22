@@ -1,9 +1,9 @@
 import { Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { useState } from "react";
-import { API_URL } from "../config";
+import { API_URL } from "../../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DeclineFriendProps } from "../types/types";
-import { size } from "../utils/size";
+import { DeclineFriendProps } from "../../types/types";
+import { size } from "../../utils/size";
 
 const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
   const [error, setError] = useState("");

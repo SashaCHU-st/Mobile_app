@@ -114,17 +114,26 @@ export type MessageItem = {
 export type MessageProps = {
   id: string | string[];
   onSent: () => void;
-  message:string;
+  message: string;
   recivedMessages: string;
   setRecivedMessages: React.Dispatch<React.SetStateAction<MessageItem[]>>;
 };
 
-export type Message = {
-  from: number;
-  to: number;
+export type UserMessage = { id: number; name: string };
+
+export type RawMessage = {
+  from: number | UserMessage;
+  to: number | UserMessage;
   message: string;
+  from_name?: string;
+  to_name?: string;
 };
 
+export type Message = {
+  from: UserMessage;
+  to: UserMessage;
+  message: string;
+};
 
 export interface ChatInputProps {
   text: string;

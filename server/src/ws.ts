@@ -19,46 +19,39 @@ export function initWebSocket(server: Server, app: FastifyInstance) {
     ws.on("message", async (msg: string | Buffer) => {
       try {
         const text = typeof msg === "string" ? msg : msg.toString();
-        console.log("[DEBUG] Получено сообщение:", text);
-
         const data = JSON.parse(text);
-        if (!data.message || !data.to) {
-          return;
-        }
+
+        if (!data.message || !data.to) return;
         await pool.query(
           'INSERT INTO messages("from", "to", message) VALUES($1, $2, $3)',
           [userId, data.to, data.message]
         );
-        console.log(
-          `[DEBUG] Сообщение сохранено в БД: from=${userId}, to=${data.to}, message=${data.message}`
-        );
-
         const result = await pool.query(
           "SELECT id, name FROM users WHERE id = ANY($1::int[])",
           [[userId, data.to]]
         );
 
-        const usersMap: Record<number, string> = {};
+        const usersMap: Record<number, { id: number; name: string }> = {};
         result.rows.forEach((row) => {
-          usersMap[row.id] = row.name;
+          usersMap[row.id] = { id: row.id, name: row.name };
         });
 
         const savedMsg = {
-          from: usersMap[userId] || "Unknown",
-          to: usersMap[data.to] || "Unknown",
+          from: usersMap[userId],
+          to: usersMap[data.to],
           message: data.message,
         };
+
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             const clientUserId = (client as any).userId;
             if (clientUserId === userId || clientUserId === data.to) {
               client.send(JSON.stringify(savedMsg));
-              console.log(`[DEBUG] Отправлено клиенту userId=${clientUserId}`);
             }
           }
         });
       } catch (err) {
-        console.error( err);
+        console.error(err);
       }
     });
   });

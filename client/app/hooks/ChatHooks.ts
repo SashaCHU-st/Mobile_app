@@ -15,6 +15,7 @@ function normalizeMessage(m: RawMessage): Message {
     from: normalizeSide(m.from, m.from_name),
     to: normalizeSide(m.to, m.to_name),
     message: m.message ?? "",
+    created_at: new Date().toLocaleString(),
   };
 }
 
@@ -24,7 +25,9 @@ export function useChat(friendId: number) {
   const [myId, setMyId] = useState<number | null>(null);
 
   const addMessage = (msg: RawMessage | Message) => {
-    const normalized = (msg as any).from?.id ? (msg as Message) : normalizeMessage(msg as RawMessage);
+    const normalized = (msg as any).from?.id
+      ? (msg as Message)
+      : normalizeMessage(msg as RawMessage);
     setMessages((prev) => [...prev, normalized]);
   };
 
@@ -40,7 +43,9 @@ export function useChat(friendId: number) {
         console.warn("myId not found in storage");
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -104,12 +109,18 @@ export function useChat(friendId: number) {
   const sendMessage = (text: string) => {
     if (!myId || !text.trim()) return;
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      const msg = { from: myId, to: friendId, message: text.trim() };
+      const msg = {
+        from: myId,
+        to: friendId,
+        message: text.trim(),
+        created_at: new Date().toLocaleString(),
+      };
       wsRef.current.send(JSON.stringify(msg));
     } else {
       console.warn("WS not open, cannot send");
     }
   };
+  console.log("JJJJ=<", messages)
 
   return { messages, sendMessage, myId };
 }

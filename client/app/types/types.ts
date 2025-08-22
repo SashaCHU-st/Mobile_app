@@ -127,18 +127,21 @@ export type RawMessage = {
   message: string;
   from_name?: string;
   to_name?: string;
+  created_at: string;
 };
 
 export type Message = {
   from: UserMessage;
   to: UserMessage;
   message: string;
+  created_at: string;
 };
 
 export interface ChatInputProps {
   text: string;
   setText: (t: string) => void;
   sendMessage: (text: string) => void;
+  // created_at:string;
 }
 
 export interface ChatMessageProps {
@@ -150,8 +153,7 @@ export type ChatRouteParams = {
   id: string | number;
 };
 
-
 export type Chats = {
-  id:number;
-  name:string
-}
+  id: number;
+  name: string;
+};

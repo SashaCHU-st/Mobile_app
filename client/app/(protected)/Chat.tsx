@@ -48,10 +48,12 @@ const Chat = () => {
     }, [])
   );
 
-  const moveToChat = async (id: number) => {
+  const moveToChat = async (id: number, message_id:number) => {
+    console.log("MES_ID=>", message_id)
+    console.log("ID=>", id)
     router.push({
       pathname: "/components/Chat/Chat",
-      params: { id: id.toString() },
+      params: { id: id.toString(), message_id: message_id.toString() },
     });
   };
 
@@ -66,10 +68,15 @@ const Chat = () => {
         return (
           <Pressable
             style={styles.chatItem}
-            onPress={() => moveToChat(chat.id)}
+            onPress={() => moveToChat(chat.id, chat.message_id)}
           >
-            <Text style={styles.chatTitle}>{chat.name}</Text>
+            {chat.read === false ? (
+              <Text style={styles.chatTitle}>{chat.name} *</Text>
+            ) : (
+              <Text style={styles.chatTitle}>{chat.name}</Text>
+            )}
             <FontAwesome name="comment" size={20} color="#7A85C1" />
+            {/* <Text style={styles.chatTitle}>{chat.name}</Text> */}
           </Pressable>
         );
       }}

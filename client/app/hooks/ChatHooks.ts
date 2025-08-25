@@ -12,6 +12,7 @@ function normalizeSide(side: number | User, fallbackName?: string): User {
 
 function normalizeMessage(m: RawMessage): Message {
   return {
+    id:m.id,
     from: normalizeSide(m.from, m.from_name),
     to: normalizeSide(m.to, m.to_name),
     message: m.message ?? "",

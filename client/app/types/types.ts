@@ -122,6 +122,7 @@ export type MessageProps = {
 export type UserMessage = { id: number; name: string };
 
 export type RawMessage = {
+  id:number;
   from: number | UserMessage;
   to: number | UserMessage;
   message: string;
@@ -131,6 +132,7 @@ export type RawMessage = {
 };
 
 export type Message = {
+  id:number;
   from: UserMessage;
   to: UserMessage;
   message: string;
@@ -151,9 +153,12 @@ export interface ChatMessageProps {
 
 export type ChatRouteParams = {
   id: string | number;
+  message_id:string | number;
 };
 
 export type Chats = {
   id: number;
+  message_id:number;
   name: string;
+  read:boolean;
 };

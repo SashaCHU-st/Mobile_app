@@ -14,6 +14,7 @@ export default function ChatInput({
   sendMessage,
 }: ChatInputProps) {
   const [inputHeight, setInputHeight] = useState(40);
+  const [read, setRead] = useState(false)
 
   const handleSend = () => {
     sendMessage(text);
@@ -39,7 +40,6 @@ export default function ChatInput({
           }
         }}
       />
-
       <TouchableOpacity style={styles.button} onPress={handleSend}>
         <Text style={styles.buttonText}>Send</Text>
       </TouchableOpacity>
@@ -50,7 +50,7 @@ export default function ChatInput({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "flex-end", // чтобы кнопка выравнивалась по низу input
+    alignItems: "flex-end",
     padding: 8,
     borderTopWidth: 1,
     borderColor: "#ddd",

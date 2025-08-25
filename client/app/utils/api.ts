@@ -57,6 +57,7 @@ export async function notifications(): Promise<number> {
 export async function chats(): Promise<number> {
   try {
     const token = await AsyncStorage.getItem("token");
+    const id = await AsyncStorage.getItem("id");
 
     const results = await fetch(`${API_URL}/getChats`, {
       headers: {
@@ -72,17 +73,13 @@ export async function chats(): Promise<number> {
     }
     const data = JSON.parse(text);
 
-    console.log("GGGGGGG=>", data.chats[0].read)
-    if(data.chats[0].read === false)
+
+    if(data.chats[0].read === false && data.chats[0].from_friend !== Number(id))
     {
       return 1
     }
     else
       return(0)
-    // if (Array.isArray(data)) {
-    //   return data.length;
-    // }
-    // return data.users.length;
   } catch (error) {
     console.error("Chat fetch error:", error);
     return 0;

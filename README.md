@@ -1,7 +1,19 @@
-# In progress...
-Creating a React Native app for food recipes where users can find meals with nutrition values and recipes.
-Users can add friends, and friends can see each other's recipes.
-Planning to implement chat functionality soon.
+# Mobile App: Recipes to Share with Friends  
+
+## Overview  
+A React Native app for food recipes where users can:  
+- Browse meals with nutrition information and recipes  
+- Add friends and view each other's recipes  
+- Chat with friends via WebSocket
+
+## Status  
+***Not deployed yet — always adding new features and fixing bugs.***
+
+
+## Features  
+- Discover recipes with full nutrition details  
+- Social features: add friends and see their shared recipes  
+- Real-time chat functionality (planned)  
 # Usage
 ### Backend
 ```
@@ -114,6 +126,16 @@ npm start
 | **Friends Integration**           | ✅ Done         |
 
 ---
+## Chat
+| Feature                   | Description                                          | Status         |
+|--------------------------|------------------------------------------------------|----------------|
+| **Real-time Notifications** | Alert user on friend activity or messages               | ✅ Done   |
+| **Chat System**            | Messaging between confirmed friends                      | ✅ Done   |
+
+## Other
+| Feature                   | Description                                          | Status         |
+|--------------------------|------------------------------------------------------|----------------|
+| **Take pictures**            | uploadd pictures of app to ReadMe              | ✅ Done   |
 
 ##  Upcoming Features
 
@@ -129,8 +151,6 @@ npm start
 
 | Feature                    | Description                                               |
 |---------------------------|-----------------------------------------------------------|
-| **Real-time Notifications** | Alert user on friend activity or messages               |
-| **Chat System**            | Messaging between confirmed friends                      |
 | **Clean code**            | make it readable maybe with some comments                     |
 | **Deploy**            | deploy in Vercel                     |
 | **Take pictures**            | uploadd pictures of app to ReadMe              |

@@ -34,7 +34,7 @@ const Chat = () => {
       console.log("OOOO=>", data.chats);
       const myId = await AsyncStorage.getItem("id");
 
-      console.log("ID=>", myId);
+      console.log("MY ID=>", myId);
       setId(Number(myId));
       setChats(data.chats);
     } catch (err: any) {
@@ -48,9 +48,9 @@ const Chat = () => {
     }, [])
   );
 
-  const moveToChat = async (id: number, message_id:number) => {
-    console.log("MES_ID=>", message_id)
-    console.log("ID=>", id)
+  const moveToChat = async (id: number, message_id: number) => {
+    console.log("MES_ID=>", message_id);
+    console.log("ID=>", id);
     router.push({
       pathname: "/components/Chat/Chat",
       params: { id: id.toString(), message_id: message_id.toString() },
@@ -70,13 +70,12 @@ const Chat = () => {
             style={styles.chatItem}
             onPress={() => moveToChat(chat.id, chat.message_id)}
           >
-            {chat.read === false ? (
+            {chat.read === false && chat.from_friend !== id ? (
               <Text style={styles.chatTitle}>{chat.name} *</Text>
             ) : (
               <Text style={styles.chatTitle}>{chat.name}</Text>
             )}
             <FontAwesome name="comment" size={20} color="#7A85C1" />
-            {/* <Text style={styles.chatTitle}>{chat.name}</Text> */}
           </Pressable>
         );
       }}

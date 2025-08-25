@@ -71,10 +71,18 @@ export async function chats(): Promise<number> {
       return 0; 
     }
     const data = JSON.parse(text);
-    if (Array.isArray(data)) {
-      return data.length;
+
+    console.log("GGGGGGG=>", data.chats[0].read)
+    if(data.chats[0].read === false)
+    {
+      return 1
     }
-    return data.users.length;
+    else
+      return(0)
+    // if (Array.isArray(data)) {
+    //   return data.length;
+    // }
+    // return data.users.length;
   } catch (error) {
     console.error("Chat fetch error:", error);
     return 0;

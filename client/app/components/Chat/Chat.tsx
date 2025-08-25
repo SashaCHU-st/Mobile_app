@@ -27,6 +27,8 @@ export default function Chat() {
     try {
       const token = await AsyncStorage.getItem("token");
       const myId = await AsyncStorage.getItem("id");
+      console.log("Message ID=>", messageId)
+      console.log("Message ID=>", myId)
       const result = await fetch(`${API_URL}/readChat`, {
         method: "POST",
         headers: {
@@ -89,7 +91,7 @@ export default function Chat() {
             }, 50);
           }}
         />
-        <ChatInput text={text} setText={setText} sendMessage={sendMessage} />
+        <ChatInput text={text} setText={setText} sendMessage={sendMessage} markMessagesAsRead={setRead} />
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

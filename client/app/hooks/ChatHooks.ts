@@ -12,7 +12,7 @@ function normalizeSide(side: number | User, fallbackName?: string): User {
 
 function normalizeMessage(m: RawMessage): Message {
   return {
-    id:m.id,
+    id: m.id,
     from: normalizeSide(m.from, m.from_name),
     to: normalizeSide(m.to, m.to_name),
     message: m.message ?? "",
@@ -88,11 +88,22 @@ export function useChat(friendId: number) {
       ws.onopen = () => console.log("✅ WS connected");
       ws.onmessage = (e) => {
         if (!mounted) return;
-        console.log("WS message raw:", e.data);
+        console.log(" message raw:", e.data);
         try {
           const data: RawMessage = JSON.parse(e.data);
-          console.log("WS message parsed:", data);
-          addMessage(data);
+          console.log("hhhhh",data.from.id)
+          if (
+            (data.from.id === myId && data.to.id === friendId) ||
+            (data.from.id === friendId && data.to.id === myId)
+          ) {
+            addMessage(data);
+          } else {
+            console.log(
+              "⚠️ Сообщение не относится к friendId =",
+              friendId,
+              data
+            );
+          }
         } catch (err) {
           console.error("Failed to parse WS message:", err);
         }
@@ -121,7 +132,7 @@ export function useChat(friendId: number) {
       console.warn("WS not open, cannot send");
     }
   };
-  console.log("JJJJ=<", messages)
+  console.log("JJJJ=<", messages);
 
   return { messages, sendMessage, myId };
 }

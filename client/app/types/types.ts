@@ -122,7 +122,7 @@ export type MessageProps = {
 export type UserMessage = { id: number; name: string };
 
 export type RawMessage = {
-  id:number;
+  id: number;
   from: number | UserMessage;
   to: number | UserMessage;
   message: string;
@@ -132,7 +132,7 @@ export type RawMessage = {
 };
 
 export type Message = {
-  id:number;
+  id: number;
   from: UserMessage;
   to: UserMessage;
   message: string;
@@ -143,7 +143,7 @@ export interface ChatInputProps {
   text: string;
   setText: (t: string) => void;
   sendMessage: (text: string) => void;
-  // created_at:string;
+  markMessagesAsRead: () => void;
 }
 
 export interface ChatMessageProps {
@@ -153,12 +153,13 @@ export interface ChatMessageProps {
 
 export type ChatRouteParams = {
   id: string | number;
-  message_id:string | number;
+  message_id: string | number;
 };
 
 export type Chats = {
   id: number;
-  message_id:number;
+  message_id: number;
   name: string;
-  read:boolean;
+  read: boolean;
+  from_friend: number;
 };

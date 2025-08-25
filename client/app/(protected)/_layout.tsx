@@ -26,6 +26,7 @@ useEffect(() => {
 
       const chatData = await chats();
       setChat(chatData);
+      console.log("BBBBB=>",chatData)
     } catch (err) {
       console.error("Failed to fetch data:", err);
     }
@@ -70,7 +71,7 @@ useEffect(() => {
       <Drawer.Screen
         name="Chat"
         options={{
-          drawerLabel: chat !== 0 ? `💬 Chat(${chat})` : `💬 Chat`,
+          drawerLabel: chat !== 0 ? `💬 Chat  *` : `💬 Chat`,
           title: "Chat",
         }}
       />

@@ -12,9 +12,9 @@ export default function ChatInput({
   text,
   setText,
   sendMessage,
+  markMessagesAsRead,
 }: ChatInputProps) {
   const [inputHeight, setInputHeight] = useState(40);
-  const [read, setRead] = useState(false)
 
   const handleSend = () => {
     sendMessage(text);
@@ -34,6 +34,9 @@ export default function ChatInput({
         onContentSizeChange={(e) =>
           setInputHeight(e.nativeEvent.contentSize.height)
         }
+        onFocus={() => {
+          markMessagesAsRead?.();
+        }}
         onKeyPress={({ nativeEvent }) => {
           if (nativeEvent.key === "Enter") {
             handleSend();

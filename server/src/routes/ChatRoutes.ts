@@ -7,8 +7,7 @@ export async function ChatRoutes(app: FastifyInstance) {
 
   app.get("/getChats", getChats);
   app.post("/readChat", async (req, reply) => {
-    // console.log("Received body:", req.body);
-    // console.log("We in favaaa");
+    console.log("Received body:", req.body);
     const validated = ChatSchema.safeParse(req.body);
     if (!validated.success) {
       console.log("Validation errors:", validated.error.issues);

@@ -49,7 +49,7 @@ export async function getChats(req: FastifyRequest, reply: FastifyReply) {
 
   try {
     const getChats = await pool.query(
-      `SELECT u.id, u.name, m.read, m.id AS message_id
+      `SELECT u.id, u.name, m.read, m.id AS message_id, m.from AS from_friend
         FROM users u
         JOIN (
             SELECT 
@@ -82,6 +82,7 @@ export async function readChat(
   reply: FastifyReply
 ) {
 
+  console.log("JJJJJ")
   const { id, to } = req.body;
   try {
     const readMessage = await pool.query(

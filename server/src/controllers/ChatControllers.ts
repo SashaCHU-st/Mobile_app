@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { pool } from "../db/db";
-import { ChatsBody } from "../types/types";
+import { ReadChatBody } from "../types/types";
 
 export async function readMessage(
   request: FastifyRequest,
@@ -16,6 +16,7 @@ export async function readMessage(
         m."to" as to_id,
         m.message,
         m.created_at,
+        m.id,
         u_from.name AS from_name,
         u_to.name AS to_name
       FROM messages m
@@ -28,12 +29,14 @@ export async function readMessage(
     );
 
     const messages = res.rows.map((row: any) => ({
+      id: row.id,
       from: { id: row.from_id, name: row.from_name },
       to: { id: row.to_id, name: row.to_name },
       message: row.message,
       created_at: row.created_at,
     }));
 
+    console.log("LLLL=>", messages);
     return messages;
   } catch (err: any) {
     console.error(err.message);
@@ -41,26 +44,52 @@ export async function readMessage(
   }
 }
 
-export async function getChats(
-  req: FastifyRequest,
-  reply: FastifyReply
-) {
+export async function getChats(req: FastifyRequest, reply: FastifyReply) {
   const userId = (req.user as { id: number }).id;
 
   try {
-    console.log("OOOO=>", userId);
     const getChats = await pool.query(
-      `SELECT DISTINCT u.name, u.id
-        FROM messages m
-        JOIN users u ON m."to" = u.id
-        WHERE m."from" = $1;
-      `,
+      `SELECT u.id, u.name, m.read, m.id AS message_id
+        FROM users u
+        JOIN (
+            SELECT 
+                CASE 
+                  WHEN m."from" = $1 THEN m."to"
+                  ELSE m."from"
+                END AS other_user_id,
+                MAX(m.id) AS last_message_id
+            FROM messages m
+            WHERE m."from" = $1 OR m."to" = $1
+            GROUP BY other_user_id
+        ) t ON u.id = t.other_user_id
+        JOIN messages m ON m.id = t.last_message_id;
+`,
       [userId]
     );
-    // console.log("PPPP=>", getChats.rows);
+    console.log("OOOO=>", getChats.rows);
 
     return reply.code(200).send({
       chats: getChats.rows,
+    });
+  } catch (err: any) {
+    console.error("Database error:", err.message);
+    return reply.code(500).send({ message: "Something went wrong" });
+  }
+}
+
+export async function readChat(
+  req: FastifyRequest<{ Body: ReadChatBody }>,
+  reply: FastifyReply
+) {
+
+  const { id, to } = req.body;
+  try {
+    const readMessage = await pool.query(
+      `UPDATE messages SET read = true WHERE "to" = $1 AND id = $2`,
+      [to, id]
+    );
+    return reply.code(200).send({
+      chats: readMessage.rows,
     });
   } catch (err: any) {
     console.error("Database error:", err.message);

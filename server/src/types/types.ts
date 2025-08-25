@@ -57,10 +57,10 @@ export type ChatBody = {
   message: string;
 };
 
-export type ReadChatBody = {
-  userId: number;
-  friends_id: number;
-};
+// export type ReadChatBody = {
+//   userId: number;
+//   friends_id: number;
+// };
 
 
 export interface GetMessagesParams {
@@ -70,3 +70,8 @@ export interface GetMessagesParams {
 export type ChatsBody = {
   userId: number;
 };
+
+export type ReadChatBody = {
+  id:number;
+  to:number
+}

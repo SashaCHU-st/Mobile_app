@@ -1,5 +1,6 @@
 import { z } from "zod";
 
 export const ChatSchema = z.object({
-  userId: z.number(),
+  id:z.number(),
+  to: z.number(),
 });

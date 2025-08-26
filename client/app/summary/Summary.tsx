@@ -1,14 +1,10 @@
 import {
   View,
-  FlatList,
   StyleSheet,
   Dimensions,
-  Pressable,
-  Text,
   ScrollView,
 } from "react-native";
 import RenderHTML from "react-native-render-html";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { Linking } from "react-native";
@@ -32,12 +28,11 @@ const Summary = () => {
 
   const handleOldComment = async (id: number) => {
     try {
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/oldComments`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id,

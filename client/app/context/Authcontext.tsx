@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("id");
     setIsAuthorized(false);
   };
 

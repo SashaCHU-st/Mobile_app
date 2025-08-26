@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeleteFriendProps } from "../../types/types";
 import { API_URL } from "../../config";
 import { size } from "../../utils/size";
@@ -12,18 +11,15 @@ const DeleteFriends: React.FC<DeleteFriendProps> = ({
   const [error, setError] = useState("");
 
   const handleDelete = async (id: number) => {
-    const myId = await AsyncStorage.getItem("id");
-    const token = await AsyncStorage.getItem("token");
 
     try {
       const results = await fetch(`${API_URL}/deleteFriend`, {
         method: "DELETE",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          userId: Number(myId),
           friendsId: id,
         }),
       });

@@ -2,12 +2,10 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
-  FlatList,
   TextInput,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { size } from "../../utils/size";
 
 

@@ -6,7 +6,6 @@ import {
   Pressable,
   Text,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../../config";
 import { PropsComments } from "../../types/types";
 import { useState } from "react";
@@ -20,12 +19,11 @@ const AddComments = ({ comments, setComments, id, onAdded }: PropsComments) => {
     setTime(new Date().toISOString());
 
     try {
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/addComments`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id,
@@ -41,7 +39,7 @@ const AddComments = ({ comments, setComments, id, onAdded }: PropsComments) => {
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      console.log("HHHH=>", data.comments);
+      console.log("DATA=>", data.comments);
     } catch (err: any) {
       setError(err.message || "Failed to add comments");
     }

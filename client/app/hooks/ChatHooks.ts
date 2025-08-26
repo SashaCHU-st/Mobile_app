@@ -63,6 +63,7 @@ export function useChat(friendId: number) {
       }
       try {
         const res = await fetch(`${ws_address}/chat/${myId}/${friendId}`, {
+          credentials:"include",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -91,7 +92,7 @@ export function useChat(friendId: number) {
         console.log(" message raw:", e.data);
         try {
           const data: RawMessage = JSON.parse(e.data);
-          console.log("hhhhh",data.from.id)
+          // console.log("hhhhh",data.from.id)
           if (
             (data.from.id === myId && data.to.id === friendId) ||
             (data.from.id === friendId && data.to.id === myId)
@@ -99,7 +100,7 @@ export function useChat(friendId: number) {
             addMessage(data);
           } else {
             console.log(
-              "⚠️ Сообщение не относится к friendId =",
+              "UUUU",
               friendId,
               data
             );

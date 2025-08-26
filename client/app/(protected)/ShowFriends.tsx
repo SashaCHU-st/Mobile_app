@@ -29,17 +29,12 @@ const ShowFriends = () => {
 
   const fetchFriends = async () => {
     try {
-      const myId = await AsyncStorage.getItem("id");
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/myFriends`, {
-        method: "POST",
+        method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          userId: Number(myId),
-        }),
       });
       const data = await results.json();
       if (!results.ok) {

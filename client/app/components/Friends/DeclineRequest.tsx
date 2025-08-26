@@ -1,7 +1,6 @@
 import { Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { useState } from "react";
 import { API_URL } from "../../config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DeclineFriendProps } from "../../types/types";
 import { size } from "../../utils/size";
 
@@ -10,12 +9,11 @@ const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
 
   const handleDecline = async (id: number) => {
     try {
-      const token = await AsyncStorage.getItem("token");
       const fetchDecline = await fetch(`${API_URL}/declineFriend`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           friendsId: Number(id),

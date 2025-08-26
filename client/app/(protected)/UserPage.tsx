@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import UserInfo from "../components/UserInfo/UserInfo";
 import { Me } from "../types/types";
 import { useFocusEffect } from "@react-navigation/native";
@@ -23,7 +23,6 @@ useFocusEffect(
 
   return (
     <View style={styles.container}>
-      {/* <Image source={dog} style={styles.backgroundImage} resizeMode="cover" /> */}
       <View style={styles.overlay} />
       {me && (
         <UserInfo image={me.image} id={me.id} name={me.name} email={me.email} />
@@ -36,11 +35,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  // backgroundImage: {
-  //   ...StyleSheet.absoluteFillObject,
-  //   width: 1200,
-  //   height: 1500,
-  // },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(255, 255, 255, 0.4)",

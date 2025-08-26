@@ -2,17 +2,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
 import { Me } from "../types/types";
 
-export async function fetchMe():Promise<Me> {
-  const myId = await AsyncStorage.getItem("id");
-  const token = await AsyncStorage.getItem("token");
+export async function fetchMe(): Promise<Me> {
 
   const results = await fetch(`${API_URL}/me`, {
-    method: "POST",
+    method: "GET",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ userId: myId }),
   });
 
   if (!results.ok) {
@@ -21,25 +18,24 @@ export async function fetchMe():Promise<Me> {
   }
 
   const data = await results.json();
-  console.log("DATA=>", data)
-  return data.me[0];
+  console.log("DATA=>", data);
+  return data.me;
 }
 
 export async function notifications(): Promise<number> {
   try {
-    const token = await AsyncStorage.getItem("token");
 
     const results = await fetch(`${API_URL}/checkRequests`, {
+      method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
 
     const text = await results.text();
     if (!text) {
-      console.log("Empty response body");
-      return 0; 
+      return 0;
     }
 
     const data = JSON.parse(text);
@@ -56,30 +52,27 @@ export async function notifications(): Promise<number> {
 
 export async function chats(): Promise<number> {
   try {
-    const token = await AsyncStorage.getItem("token");
     const id = await AsyncStorage.getItem("id");
 
     const results = await fetch(`${API_URL}/getChats`, {
+      credentials:"include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
     });
 
     const text = await results.text();
     if (!text) {
-      console.log("Empty response body");
-      return 0; 
+      return 0;
     }
     const data = JSON.parse(text);
 
-
-    if(data.chats[0].read === false && data.chats[0].from_friend !== Number(id))
-    {
-      return 1
-    }
-    else
-      return(0)
+    if (
+      data.chats[0].read === false &&
+      data.chats[0].from_friend !== Number(id)
+    ) {
+      return 1;
+    } else return 0;
   } catch (error) {
     console.error("Chat fetch error:", error);
     return 0;

@@ -123,8 +123,8 @@ export type UserMessage = { id: number; name: string };
 
 export type RawMessage = {
   id: number;
-  from: number | UserMessage;
-  to: number | UserMessage;
+  from: UserMessage;
+  to: UserMessage;
   message: string;
   from_name?: string;
   to_name?: string;

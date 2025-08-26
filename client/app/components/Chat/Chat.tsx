@@ -13,7 +13,6 @@ import { ChatRouteParams, Message } from "../../types/types";
 import { API_URL } from "@/app/config";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Chat() {
   const route = useRoute<RouteProp<{ params: ChatRouteParams }, "params">>();
@@ -25,19 +24,14 @@ export default function Chat() {
 
   const setRead = async () => {
     try {
-      const token = await AsyncStorage.getItem("token");
-      const myId = await AsyncStorage.getItem("id");
-      console.log("Message ID=>", messageId)
-      console.log("Message ID=>", myId)
       const result = await fetch(`${API_URL}/readChat`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id: Number(messageId),
-          to: Number(myId),
         }),
       });
       const data = await result.json();

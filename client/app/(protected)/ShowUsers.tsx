@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback, use } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
   Text,
   StyleSheet,
   Image,
   FlatList,
-  TextInput,
-  Pressable,
 } from "react-native";
 import { API_URL } from "../config";
 import { useFocusEffect } from "@react-navigation/native";
@@ -27,11 +24,11 @@ const ShowUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/users`, {
+        method:"GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
       const data = await results.json();

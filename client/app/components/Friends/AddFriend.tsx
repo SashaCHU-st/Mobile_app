@@ -14,18 +14,16 @@ const AddFriend: React.FC<
     status === 2 && (requestFrom === "sent" || requestFrom === "received");
 
   const handleAddFriends = async (friendsId: number) => {
-    const myId = await AsyncStorage.getItem("id");
-    const token = await AsyncStorage.getItem("token");
+
 
     try {
       const results = await fetch(`${API_URL}/addFriend`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          userId: Number(myId),
           friendsId,
         }),
       });

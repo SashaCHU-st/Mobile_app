@@ -5,12 +5,10 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  Dimensions,
 } from "react-native";
 import dog from "../../assets/images/dog.jpg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
 import { User } from "../types/types";
 import DeclineRequest from "../components/Friends/DeclineRequest";
@@ -22,11 +20,10 @@ const Notifications = () => {
 
   const handleNotifications = async () => {
     try {
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/checkRequests`, {
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
       const data = await results.json();

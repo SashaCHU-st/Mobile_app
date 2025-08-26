@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View} from "react-native";
 import React from "react";
 import Auth from "../components/Auth/Auth";
 import Header from "../components/Helpers/Header";

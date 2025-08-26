@@ -26,7 +26,6 @@ useEffect(() => {
 
       const chatData = await chats();
       setChat(chatData);
-      console.log("BBBBB=>",chatData)
     } catch (err) {
       console.error("Failed to fetch data:", err);
     }

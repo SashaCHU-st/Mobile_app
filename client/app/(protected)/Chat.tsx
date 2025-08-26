@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { View, Pressable, Text, StyleSheet, FlatList } from "react-native";
+import { Pressable, Text, StyleSheet, FlatList } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { size } from "../utils/size";
 import { API_URL } from "../config";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Chats } from "../types/types";
 import { useRouter } from "expo-router";
-import { ScrollView } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 
@@ -18,23 +17,18 @@ const Chat = () => {
 
   const handleChatList = async () => {
     try {
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/getChats`, {
         method: "GET",
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
       const data = await results.json();
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-
-      console.log("OOOO=>", data.chats);
       const myId = await AsyncStorage.getItem("id");
-
-      console.log("MY ID=>", myId);
       setId(Number(myId));
       setChats(data.chats);
     } catch (err: any) {
@@ -49,8 +43,6 @@ const Chat = () => {
   );
 
   const moveToChat = async (id: number, message_id: number) => {
-    console.log("MES_ID=>", message_id);
-    console.log("ID=>", id);
     router.push({
       pathname: "/components/Chat/Chat",
       params: { id: id.toString(), message_id: message_id.toString() },

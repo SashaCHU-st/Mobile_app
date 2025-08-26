@@ -32,6 +32,7 @@ const SignUp = ({
     try {
       const results = await fetch(`${API_URL}/signup`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,

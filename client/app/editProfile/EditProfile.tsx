@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../config";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import { fetchMe } from "../utils/api";
 import { Me } from "../types/types";
@@ -64,16 +63,13 @@ const EditProfile = () => {
 
   const handleEditProfile = async (name: string, password: string) => {
     try {
-      const myId = await AsyncStorage.getItem("id");
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/editProfile`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          userId: Number(myId),
           name,
           password,
           image: imageBase64,

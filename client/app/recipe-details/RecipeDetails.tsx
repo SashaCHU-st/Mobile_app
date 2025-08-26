@@ -32,19 +32,20 @@ const RecipeDetails = () => {
 
   const handleAddFavorite = async () => {
     try {
-      setError("")
-      setConfirmed("")
-      const token = await AsyncStorage.getItem("token");
-      const myId = await AsyncStorage.getItem("id");
+      setError("");
+      setConfirmed("");
+      // const token = await AsyncStorage.getItem("token");
+      // const myId = await AsyncStorage.getItem("id");
 
       const results = await fetch(`${API_URL}/addFavorites`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          userId: Number(myId),
+          // userId: Number(myId),
           image: recipe.image,
           food_id: recipe.id,
           summary: recipe.summary,
@@ -55,8 +56,8 @@ const RecipeDetails = () => {
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      console.log("DAAAA=>", data);
-      setConfirmed(data.message)
+      // console.log("DAAAA=>", data);
+      setConfirmed(data.message);
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     }
@@ -64,12 +65,13 @@ const RecipeDetails = () => {
 
   const handleOldComment = async (id: number) => {
     try {
-      const token = await AsyncStorage.getItem("token");
+      // const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/oldComments`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id,

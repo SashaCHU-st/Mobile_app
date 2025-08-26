@@ -25,17 +25,12 @@ const SharedRecipes = () => {
 
   const checkFriendsfav = async () => {
     try {
-      const myId = await AsyncStorage.getItem("id");
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/friendsFavorites`, {
-        method: "POST",
+        method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          userId: Number(myId),
-        }),
       });
       const data = await results.json();
       if (!results.ok) {
@@ -82,7 +77,7 @@ const SharedRecipes = () => {
               data={item.foods}
               keyExtractor={(food, index) => `${item.name}-${index}`}
               numColumns={2}
-              columnWrapperStyle={{ justifyContent: "space-between" }} 
+              columnWrapperStyle={{ justifyContent: "space-between" }}
               renderItem={({ item: food }) => (
                 <Pressable
                   style={styles.foodCard}

@@ -4,7 +4,6 @@ import {
   Text,
   FlatList,
   Image,
-  Dimensions,
   StyleSheet
 } from "react-native";
 import dog from "../../../assets/images/dog.jpg";

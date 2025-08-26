@@ -3,13 +3,11 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Dimensions,
   Pressable,
   Text,
   FlatList,
 } from "react-native";
 import dog from "../../assets/images/dog.jpg";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_URL } from "../config";
 import { useState } from "react";
 import { MyFood } from "../types/types";
@@ -26,11 +24,10 @@ const MyRecepies = () => {
 
   const handleCheckFav = async () => {
     try {
-      const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/myFavorites`, {
+        credentials:"include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
       });
       const data = await results.json();

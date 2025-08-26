@@ -5,15 +5,16 @@ import {
   declineFriendBody,
 } from "../types/types";
 import { pool } from "../db/db";
+import { authorisation } from "../utils/authorisation";
 
 export async function addFriend(
-  req: FastifyRequest<{ Body: addFriendBody }>,
-  reply: FastifyReply
+  req: FastifyRequest,
+  reply: FastifyReply,
+  validatedBody: addFriendBody
 ) {
-  const userId = (req.user as { id: number }).id;
-  const { friendsId } = req.body;
-
   try {
+   const userId = await authorisation(req);
+    const { friendsId } = validatedBody;
 
     const check = await pool.query(
       `SELECT * FROM friends 
@@ -30,7 +31,9 @@ export async function addFriend(
           [userId, friendsId]
         );
       } else {
-        return reply.code(400).send({ message: "Request already exists or you are already friends" });
+        return reply.code(400).send({
+          message: "Request already exists or you are already friends",
+        });
       }
     }
     await pool.query(
@@ -47,8 +50,9 @@ export async function addFriend(
 }
 
 export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
-  const userId = (req.user as { id: number }).id;
+
   try {
+   const userId = await authorisation(req);
     const myFriends = await pool.query(
       `SELECT u.id, u.name, u.image
         FROM friends f
@@ -70,13 +74,13 @@ export async function myFriend(req: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function deleteFriend(
-  req: FastifyRequest<{ Body: deleteFriendBody }>,
-  reply: FastifyReply
+  req: FastifyRequest,
+  reply: FastifyReply,
+  validatedBody: deleteFriendBody
 ) {
-  const userId = (req.user as { id: number }).id;
-  const { friendsId } = req.body;
-
   try {
+   const userId = await authorisation(req);
+    const { friendsId } = validatedBody;
     await pool.query(
       `DELETE FROM friends WHERE (user_id = $1 AND friends_id = $2) OR (user_id = $3 AND friends_id = $4)`,
       [userId, friendsId, friendsId, userId]
@@ -90,13 +94,13 @@ export async function deleteFriend(
 }
 
 export async function declineFriend(
-  req: FastifyRequest<{ Body: declineFriendBody }>,
-  reply: FastifyReply
+  req: FastifyRequest,
+  reply: FastifyReply,
+  validatedBody: declineFriendBody
 ) {
-  const userId = (req.user as { id: number }).id;
-  const { friendsId } = req.body;
-
   try {
+   const userId = await authorisation(req);
+    const { friendsId } = validatedBody;
     await pool.query(
       `UPDATE friends SET confirmRequest = 0 WHERE friends_id = $1 AND user_id = $2`,
       [userId, friendsId]
@@ -109,13 +113,13 @@ export async function declineFriend(
 }
 
 export async function confirmFriend(
-  req: FastifyRequest<{ Body: declineFriendBody }>,
-  reply: FastifyReply
+  req: FastifyRequest,
+  reply: FastifyReply,
+  validatedBody: declineFriendBody
 ) {
-  const userId = (req.user as { id: number }).id;
-  const { friendsId } = req.body;
-
   try {
+   const userId = await authorisation(req);
+    const { friendsId } = validatedBody;
     await pool.query(
       `UPDATE friends SET confirmRequest = 1 WHERE friends_id = $1 AND user_id = $2`,
       [userId, friendsId]
@@ -129,18 +133,16 @@ export async function confirmFriend(
 }
 
 export async function checkRequests(
-  request: FastifyRequest,
+  req: FastifyRequest,
   reply: FastifyReply
 ) {
-  const userId = (request.user as { id: number }).id;
-
-
+  
   try {
+   const userId = await authorisation(req);
     const checkRequest = await pool.query(
       `SELECT * FROM friends WHERE friends_id = $1 AND confirmRequest = 2`,
       [userId]
     );
-    console.log("Number=>", checkRequest.rowCount);
 
     if (checkRequest.rowCount !== 0) {
       const requestedUsers = await pool.query(

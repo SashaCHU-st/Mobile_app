@@ -2,27 +2,28 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { ProfileBody } from "../types/types";
 import { pool } from "../db/db";
 import { hashedPass } from "../utils/hashedPass";
+import { authorisation } from "../utils/authorisation";
 
 export async function editProfile(
-  req: FastifyRequest<{ Body: ProfileBody }>,
-  reply: FastifyReply
+  req: FastifyRequest,
+  reply: FastifyReply,
+  validatedBody:ProfileBody
 ) {
-  const userId = (req.user as { id: number }).id;
-  const { name, password, image } = req.body;
-
-  if (!name && !password && !image) {
-    return reply.code(400).send({
-      message: "At least one field must be provided",
-    });
-  }
-
   try {
-    if(name && password && image)
-    {
-      await pool.query(`UPDATE users SET name = $1, password = $2, image = $3 WHERE id = $4`, [
-        name,await hashedPass(password), image,
-        userId,
-      ]);
+   const userId = await authorisation(req);
+    const { name, password, image } = validatedBody;
+
+    if (!name && !password && !image) {
+      return reply.code(400).send({
+        message: "At least one field must be provided",
+      });
+    }
+
+    if (name && password && image) {
+      await pool.query(
+        `UPDATE users SET name = $1, password = $2, image = $3 WHERE id = $4`,
+        [name, await hashedPass(password), image, userId]
+      );
       return reply.code(200).send({
         message: "Profile updated",
       });
@@ -56,7 +57,6 @@ export async function editProfile(
         message: "Image updated",
       });
     }
-
   } catch (err: any) {
     console.error("Database error:", err.message);
     return reply.code(500).send({ message: "Something went wrong" });

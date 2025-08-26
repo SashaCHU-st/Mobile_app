@@ -4,22 +4,41 @@ import jwt from "@fastify/jwt";
 import { pool } from "./db/db";
 import { registerRoutes } from "./routes/indexRoutes";
 import { initWebSocket } from "./ws";
+import cookie from '@fastify/cookie';
 
 const app = Fastify({ bodyLimit: 5 * 1024 * 1024 });
 
-app.register(cors, {
-  origin: "*",
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+if (!process.env.COOKIE_SECRET) {
+  throw new Error(" NO COOKIE_SECRET");
+}
+
+app.register(cookie, {
+  secret: process.env.COOKIE_SECRET,
+  parseOptions: {}
+});
+if (!process.env.JWT_SECRET_KEY) {
+  throw new Error("NO JWT_SECRET_KEY");
+}
+
+const jwtSecret = process.env.JWT_SECRET_KEY;
+app.register(jwt, {
+  secret: jwtSecret,
+  cookie: {
+    cookieName: "auth_token",
+    signed: false
+  }
 });
 
-const jwtSecret = process.env.SECRET || "kuku";
-app.register(jwt, { secret: jwtSecret });
-
+app.register(cors, {
+  origin: "http://localhost:8081",
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+  credentials: true,
+});
 
 registerRoutes(app);
 
 const server = app.server;
-initWebSocket(server, app); 
+initWebSocket(server, app);
 
 pool
   .connect()

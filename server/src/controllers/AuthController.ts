@@ -26,7 +26,13 @@ export async function signUp(
       const user = newUser.rows[0];
       const token = reply.server.jwt.sign({ id: user.id });
 
-      return reply
+      reply
+        .setCookie("auth_token", token, {
+          httpOnly: true,
+          secure: false,
+          path: "/",
+          maxAge: 24 * 60 * 60, 
+        })
         .code(201)
         .send({ message: "All good", newUser: newUser.rows[0], token: token });
     } else {
@@ -45,8 +51,7 @@ export async function login(
   const { email, password } = req.body;
 
   const empty = await notEmptyLogin(email, password, reply);
-  if (empty) 
-    return;
+  if (empty) return;
 
   try {
     const user = await pool.query(`SELECT * FROM users WHERE email = $1`, [
@@ -56,14 +61,20 @@ export async function login(
       return reply.code(400).send({ message: "No such user" });
     }
 
-    const passMatch = await bcrypt.compare(password,user.rows[0].password )
+    const passMatch = await bcrypt.compare(password, user.rows[0].password);
     if (!passMatch) {
       return reply.code(400).send({ message: "Wrong password" });
     }
     const userData = user.rows[0];
     const token = reply.server.jwt.sign({ id: userData.id });
 
-    return reply
+    reply
+      .setCookie("auth_token", token, {
+        httpOnly: true, 
+        secure: false, 
+        path: "/",
+        maxAge: 24 * 60 * 60, 
+      })
       .code(200)
       .send({ message: "All good", user: user.rows, token: token });
   } catch (err: any) {

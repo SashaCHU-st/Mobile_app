@@ -28,7 +28,6 @@ export type declineFriendBody = {
 };
 
 export type addFavoriteBody = {
-  userId: number;
   image?: string | null;
   food_id: number;
   title: string;
@@ -57,11 +56,6 @@ export type ChatBody = {
   message: string;
 };
 
-// export type ReadChatBody = {
-//   userId: number;
-//   friends_id: number;
-// };
-
 
 export interface GetMessagesParams {
   userId: string;
@@ -73,5 +67,4 @@ export type ChatsBody = {
 
 export type ReadChatBody = {
   id:number;
-  to:number
 }

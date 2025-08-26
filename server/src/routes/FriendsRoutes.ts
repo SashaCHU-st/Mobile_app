@@ -1,10 +1,9 @@
 import { FastifyInstance } from "fastify";
 import {
   AddFriendSchema,
-  MyFriendSchema,
   DeleteFriendSchema,
   DeclineFriendSchema,
-  ConfirmFriendSchema
+  ConfirmFriendSchema,
 } from "../schema/FriendSchema";
 import {
   addFriend,
@@ -14,56 +13,42 @@ import {
   checkRequests,
   declineFriend,
 } from "../controllers/FriendsControllers";
-
+import { handleValidationError } from "../utils/validation";
 
 export async function FriendsRoutes(app: FastifyInstance) {
   app.post("/addFriend", async (req, reply) => {
     const validated = AddFriendSchema.safeParse(req.body);
     if (!validated.success) {
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return addFriend({ ...req, body: validated.data }, reply);
+    return addFriend(req, reply, validated.data);
   });
-  app.post("/myFriends", async (req, reply) => {
-    const validated = MyFriendSchema.safeParse(req.body);
-    if (!validated.success) {
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
-    }
-    return myFriend({ ...req, body: validated.data }, reply);
-  });
+
+  app.get("/myFriends", myFriend);
 
   app.post("/declineFriend", async (req, reply) => {
     const validated = DeclineFriendSchema.safeParse(req.body);
-    console.log(validated)
     if (!validated.success) {
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return declineFriend({ ...req, body: validated.data }, reply);
+    return declineFriend(req, reply, validated.data);
   });
-    app.post("/confirmFriend", async (req, reply) => {
+
+  app.post("/confirmFriend", async (req, reply) => {
     const validated = ConfirmFriendSchema.safeParse(req.body);
-    console.log(validated)
     if (!validated.success) {
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return confirmFriend({ ...req, body: validated.data }, reply);
+    return confirmFriend(req, reply, validated.data);
   });
+
   app.get("/checkRequests", checkRequests);
+
   app.delete("/deleteFriend", async (req, reply) => {
     const validated = DeleteFriendSchema.safeParse(req.body);
     if (!validated.success) {
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return deleteFriend({ ...req, body: validated.data }, reply);
+    return deleteFriend(req, reply, validated.data);
   });
 }

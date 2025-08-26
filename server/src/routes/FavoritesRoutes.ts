@@ -12,52 +12,34 @@ import {
   commentsFavorites,
   getOldComments,
 } from "../controllers/FavoritesControllers";
+import { handleValidationError } from "../utils/validation";
 
 export async function FavoritesRoutes(app: FastifyInstance) {
   app.post("/addFavorites", async (req, reply) => {
-    // console.log("Received body:", req.body);
-    // console.log("We in favaaa");
     const validated = AddFavoritesSchema.safeParse(req.body);
     if (!validated.success) {
-      console.log("Validation errors:", validated.error.issues);
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return addFavorites({ ...req, body: validated.data }, reply);
+    return addFavorites(req, reply, validated.data);
   });
 
   app.get("/myFavorites", myFavorites);
 
-  app.post("/friendsFavorites", async (req, reply) => {
-    const validated = FriendsFavoritesSchema.safeParse(req.body);
-    if (!validated.success) {
-      // console.log("Validation errors:", validated.error.issues);
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
-    }
-    return friendsFavorites({ ...req, body: validated.data }, reply);
-  });
+  app.get("/friendsFavorites", friendsFavorites);
+
   app.post("/addComments", async (req, reply) => {
     const validated = CommentsSchema.safeParse(req.body);
     if (!validated.success) {
-      // console.log("Validation errors:", validated.error.issues);
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return commentsFavorites({ ...req, body: validated.data }, reply);
+    return commentsFavorites(req, reply, validated.data);
   });
 
   app.post("/oldComments", async (req, reply) => {
     const validated = OldCommentsSchema.safeParse(req.body);
     if (!validated.success) {
-      // console.log("Validation errors:", validated.error.issues);
-      const message = validated.error.issues[0]?.message || "Validation failed";
-      reply.code(400).send({ message });
-      return;
+      return handleValidationError(reply, validated.error.issues[0]?.message);
     }
-    return getOldComments({ ...req, body: validated.data }, reply);
+    return getOldComments(req, reply, validated.data);
   });
 }

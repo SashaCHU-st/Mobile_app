@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const AddFavoritesSchema = z.object({
-  userId: z.number(),
   image: z
     .string()
     .optional()
@@ -17,7 +16,6 @@ export const AddFavoritesSchema = z.object({
 });
 
 export const FriendsFavoritesSchema = z.object({
-  userId: z.number(),
 });
 
 export const CommentsSchema = z.object({
@@ -30,6 +28,4 @@ export const CommentsSchema = z.object({
 
 export const OldCommentsSchema = z.object({
   id: z.number(),
-  // userId: z.number(),
-  // comments:z.string()
 });

@@ -7,7 +7,7 @@ A React Native app for food recipes where users can:
 - Chat with friends via WebSocket
 
 ## Status  
-***Not deployed yet — always adding new features and fixing bugs.***
+***Not deployed yet***
 
 
 ## Features  

@@ -7,7 +7,7 @@ A React Native app for food recipes where users can:
 - Chat with friends via WebSocket
 
 ## Status  
-***Not deployed yet — always adding new features and fixing bugs.***
+***Not deployed yet***
 
 
 ## Features  
@@ -137,21 +137,4 @@ npm start
 |--------------------------|------------------------------------------------------|----------------|
 | **Take pictures**            | uploadd pictures of app to ReadMe              | ✅ Done   |
 
-##  Upcoming Features
-
-###  In Progress
-
-| Feature                      | Description                                              |
-|-----------------------------|----------------------------------------------------------|
-
-
----
-
-###  Planned
-
-| Feature                    | Description                                               |
-|---------------------------|-----------------------------------------------------------|
-| **Clean code**            | make it readable maybe with some comments                     |
-| **Deploy**            | deploy in Vercel                     |
-| **Take pictures**            | uploadd pictures of app to ReadMe              |
 

@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/Authcontext";
 import { View, ActivityIndicator } from "react-native";
 import { Drawer } from "expo-router/drawer";
-import { notifications } from "../utils/api";
-import { chats } from "../utils/api";
+import { notifications, chats } from "../utils/api";
 
 export default function ProtectedLayout() {
   const { isAuthorized, loading } = useAuth();
@@ -32,6 +31,10 @@ useEffect(() => {
   };
 
   fetchData();
+
+  const interval = setInterval(fetchData, 5000);
+
+  return () => clearInterval(interval); 
 }, []);
 
 

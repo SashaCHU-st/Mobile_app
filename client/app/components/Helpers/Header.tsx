@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#B2B0E8",
     alignItems: "center",
     paddingBottom: 20,
-    paddingTop: 20,
+    paddingTop: 60,
     justifyContent: "center",
   },
   textContainer: {

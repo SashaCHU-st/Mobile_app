@@ -137,21 +137,4 @@ npm start
 |--------------------------|------------------------------------------------------|----------------|
 | **Take pictures**            | uploadd pictures of app to ReadMe              | ✅ Done   |
 
-##  Upcoming Features
-
-###  In Progress
-
-| Feature                      | Description                                              |
-|-----------------------------|----------------------------------------------------------|
-
-
----
-
-###  Planned
-
-| Feature                    | Description                                               |
-|---------------------------|-----------------------------------------------------------|
-| **Clean code**            | make it readable maybe with some comments                     |
-| **Deploy**            | deploy in Vercel                     |
-| **Take pictures**            | uploadd pictures of app to ReadMe              |
 

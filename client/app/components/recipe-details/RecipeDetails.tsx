@@ -9,12 +9,11 @@ import {
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Linking } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import RenderHTML from "react-native-render-html";
 import { useState, useCallback } from "react";
-import { API_URL } from "../config";
-import Comments from "../components/FoodRecipe/Comments";
-import { oldComments } from "../types/types";
+import { API_URL } from "../../config";
+import Comments from "../FoodRecipe/Comments";
+import { oldComments } from "../../types/types";
 import { useFocusEffect } from "@react-navigation/native";
 
 const size = Dimensions.get("window").width * 0.1;
@@ -34,18 +33,14 @@ const RecipeDetails = () => {
     try {
       setError("");
       setConfirmed("");
-      // const token = await AsyncStorage.getItem("token");
-      // const myId = await AsyncStorage.getItem("id");
 
       const results = await fetch(`${API_URL}/addFavorites`, {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          // userId: Number(myId),
           image: recipe.image,
           food_id: recipe.id,
           summary: recipe.summary,
@@ -56,7 +51,6 @@ const RecipeDetails = () => {
       if (!results.ok) {
         throw new Error(data.message || "Something went wrong");
       }
-      // console.log("DAAAA=>", data);
       setConfirmed(data.message);
     } catch (err: any) {
       setError(err.message || "Something went wrong");
@@ -65,13 +59,11 @@ const RecipeDetails = () => {
 
   const handleOldComment = async (id: number) => {
     try {
-      // const token = await AsyncStorage.getItem("token");
       const results = await fetch(`${API_URL}/oldComments`, {
         method: "POST",
         credentials:"include",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id,
@@ -99,8 +91,6 @@ const RecipeDetails = () => {
           style={styles.foodImage}
           resizeMode="cover"
         />
-        {/* <Text>sss{recipe.food_id}</Text> */}
-        {/* <Text>{recipe.id}</Text> */}
         <RenderHTML
           contentWidth={width}
           source={{ html: recipe.summary }}

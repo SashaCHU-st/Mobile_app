@@ -9,10 +9,10 @@ import { useLocalSearchParams } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { Linking } from "react-native";
 import { useState, useCallback } from "react";
-import { API_URL } from "../config";
-import AddComments from "../components/FoodRecipe/AddComments";
-import { oldComments } from "../types/types";
-import Comments from "../components/FoodRecipe/Comments";
+import { API_URL } from "../../config";
+import AddComments from "../FoodRecipe/AddComments";
+import { oldComments } from "../../types/types";
+import Comments from "../FoodRecipe/Comments";
 
 const { width } = Dimensions.get("window");
 

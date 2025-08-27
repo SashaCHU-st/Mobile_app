@@ -8,22 +8,26 @@ const UserInfo: React.FC<Me> = ({ id, name, email, image }) => {
   const router = useRouter();
 
   const handleEditProfile = () => {
-    router.push("/editProfile/EditProfile");
+    router.push("/components/editProfile/EditProfile");
   };
   return (
-    <View style={styles.container}>
-      {image ? (
-        <Image
-          source={{ uri: image }}
-          style={styles.userImage}
-          resizeMode="cover"
-        />
-      ) : (
-        <Image source={dog} style={styles.userImage} resizeMode="cover" />
-      )}
-      <Text style={styles.text}>Name :{name}</Text>
-      <Text style={styles.text}>Email :{email}</Text>
-      <View>
+    <View>
+      <View style={styles.userItem}>
+        {image ? (
+          <Image
+            source={{ uri: image }}
+            style={styles.userImage}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image source={dog} style={styles.userImage} resizeMode="cover" />
+        )}
+        <View>
+          <Text style={styles.text}>Name :{name}</Text>
+          <Text style={styles.text}>Email :{email}</Text>
+        </View>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.button} onPress={() => handleEditProfile()}>
           <Text>Edit Profile</Text>
         </Pressable>
@@ -46,8 +50,8 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   userImage: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     borderRadius: 75,
     alignSelf: "center",
     marginVertical: 20,
@@ -59,5 +63,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#7A85C1",
     justifyContent: "center",
     alignItems: "center",
+  },
+  userItem: {
+    flex: 1,
+    margin: 8,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
   },
 });

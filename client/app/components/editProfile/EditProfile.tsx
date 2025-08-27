@@ -7,12 +7,12 @@ import {
   Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { API_URL } from "../config";
+import { API_URL } from "../../config";
 import * as ImagePicker from "expo-image-picker";
-import { fetchMe } from "../utils/api";
-import { Me } from "../types/types";
-import dog from "../../assets/images/dog.jpg";
-import { size } from "../utils/size";
+import { fetchMe } from "../../utils/api";
+import { Me } from "../../types/types";
+import dog from "../../../assets/images/dog.jpg";
+import { size } from "../../utils/size";
 
 const EditProfile = () => {
   const [name, setName] = useState("");
@@ -89,44 +89,47 @@ const EditProfile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      {updated ? <Text style={styles.updatedText}>{updated}</Text> : null}
+    <View>
+      <View style={styles.userItem}>
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {updated ? <Text style={styles.updatedText}>{updated}</Text> : null}
+        {image ? (
+          <Image source={{ uri: image }} style={styles.userImage} />
+        ) : (
+          <Image source={dog} style={styles.userImage} />
+        )}
+        <Pressable style={styles.button} onPress={pickImage}>
+          <Text style={styles.text}>Choose Picture</Text>
+        </Pressable>
+        <TextInput
+          style={styles.input}
+          placeholder="Change a name"
+          value={name}
+          onChangeText={(text) => {
+            setName(text);
+            setUpdated("");
+            if (error) setError("");
+          }}
+        />
 
-      {image ? (
-        <Image source={{ uri: image }} style={styles.userImage} />
-      ) : (
-        <Image source={dog} style={styles.userImage} />
-      )}
-      <Pressable style={styles.button} onPress={pickImage}>
-        <Text style={styles.text}>Choose Picture</Text>
-      </Pressable>
-      <TextInput
-        style={styles.input}
-        placeholder="Change a name"
-        value={name}
-        onChangeText={(text) => {
-          setName(text);
-          if (error) setError("");
-        }}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Change a password"
+          value={password}
+          onChangeText={(text) => {
+            setPassword(text);
+            setUpdated("");
+            if (error) setError("");
+          }}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Change a password"
-        value={password}
-        onChangeText={(text) => {
-          setPassword(text);
-          if (error) setError("");
-        }}
-      />
-
-      <Pressable
-        style={styles.button}
-        onPress={() => handleEditProfile(name, password)}
-      >
-        <Text style={styles.text}>Change </Text>
-      </Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={() => handleEditProfile(name, password)}
+        >
+          <Text style={styles.text}>Change </Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -171,5 +174,18 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     alignSelf: "center",
     marginVertical: 20,
+  },
+  userItem: {
+    flex: 1,
+    margin: 8,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
   },
 });

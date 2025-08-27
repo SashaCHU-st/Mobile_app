@@ -67,7 +67,7 @@ const SharedRecipes = () => {
         data={friendsFood}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
-          <View style={{ marginBottom: 20 }}>
+          <View style={styles.titleName}>
             <Text
               style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}
             >
@@ -77,7 +77,7 @@ const SharedRecipes = () => {
               data={item.foods}
               keyExtractor={(food, index) => `${item.name}-${index}`}
               numColumns={2}
-              columnWrapperStyle={{ justifyContent: "space-between" }}
+              columnWrapperStyle={{ justifyContent: "space-between", paddingRight:15 }}
               renderItem={({ item: food }) => (
                 <Pressable
                   style={styles.foodCard}
@@ -103,6 +103,11 @@ const SharedRecipes = () => {
 
 export default SharedRecipes;
 const styles = StyleSheet.create({
+  titleName: {
+    marginBottom: 20,
+    paddingLeft: 18,
+    paddingTop: 10,
+  },
   button: {
     width: 120,
     height: 40,
@@ -120,19 +125,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#999",
     textAlign: "center",
-  },
-  foodItem: {
-    flex: 1,
-    margin: 8,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 10,
-    alignItems: "flex-end",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
   },
   foodCard: {
     flex: 1,

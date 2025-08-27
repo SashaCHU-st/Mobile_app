@@ -16,7 +16,6 @@ import { diets } from "../utils/diet";
 import { intolerances } from "../utils/intolerance";
 import { size } from "../utils/size";
 
-
 const Recepies = () => {
   const [search, setSearch] = useState("");
   const [foods, setFood] = useState<Food[]>([]);
@@ -61,7 +60,7 @@ const Recepies = () => {
         </Pressable>
       </View>
       <View style={[styles.container2, { zIndex: 1000 }]}>
-        <View style={{ zIndex: 2000, marginBottom: 10 }}>
+        <View style={styles.dropdown}>
           <Text>Diet</Text>
           <DropDownPicker
             open={open}
@@ -72,7 +71,7 @@ const Recepies = () => {
             setItems={setDietItems}
           />
         </View>
-        <View style={{ zIndex: 1000 }}>
+        <View style={styles.dropdown}>
           <Text>Intolerance</Text>
           <DropDownPicker
             open={open2}
@@ -107,8 +106,17 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   searchRow: {
+    paddingLeft: 18,
+    paddingRight: 46,
     flexDirection: "row",
     marginBottom: 12,
+    marginTop: 12,
+  },
+  dropdown: {
+    paddingLeft: 18,
+    zIndex: 2000,
+    marginBottom: 10,
+    paddingRight: 8,
   },
   input: {
     flex: 1,

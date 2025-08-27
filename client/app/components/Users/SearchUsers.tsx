@@ -36,11 +36,14 @@ export default SearchUsers;
 
 const styles = StyleSheet.create({
   searchRow: {
+    paddingLeft:18,
+    paddingRight:46,
     flexDirection: "row",
     marginBottom: 12,
+    marginTop: 12,
   },
   button: {
-    width: 120,
+    width: 115,
     height: 40,
     borderRadius: size / 4,
     backgroundColor: "#7A85C1",

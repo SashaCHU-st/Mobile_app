@@ -28,6 +28,20 @@ npm install
 npm start
 ```
 
+# Tests
+### Unit tests (Vitest)
+```
+cd client
+npm test
+```
+
+### E2E tests (Playwright, web), (not ready yet )
+```
+cd client
+npx playwright install
+npm run test:e2e
+```
+
 # Some pictures
 <img width="391" height="429" alt="image" src="https://github.com/user-attachments/assets/5a31e475-5961-49b9-80dd-5d0c2d422a97" />
 <img width="394" height="427" alt="image (1)" src="https://github.com/user-attachments/assets/b466c5e3-8364-4236-8afb-313dafbe56cc" />

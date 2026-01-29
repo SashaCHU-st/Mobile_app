@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, Text, Dimensions, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { size } from "@/app/utils/size";
+import { size } from "@/src/utils/size";
 
 const BackButton = () => {
   const navigation = useNavigation();

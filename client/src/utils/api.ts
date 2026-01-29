@@ -3,7 +3,6 @@ import { API_URL } from "../config";
 import { Me } from "../types/types";
 
 export async function fetchMe(): Promise<Me> {
-
   const results = await fetch(`${API_URL}/me`, {
     method: "GET",
     credentials: "include",
@@ -24,7 +23,6 @@ export async function fetchMe(): Promise<Me> {
 
 export async function notifications(): Promise<number> {
   try {
-
     const results = await fetch(`${API_URL}/checkRequests`, {
       method: "GET",
       credentials: "include",
@@ -55,7 +53,7 @@ export async function chats(): Promise<number> {
     const id = await AsyncStorage.getItem("id");
 
     const results = await fetch(`${API_URL}/getChats`, {
-      credentials:"include",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -66,13 +64,15 @@ export async function chats(): Promise<number> {
       return 0;
     }
     const data = JSON.parse(text);
-
-    if (
-      data.chats[0].read === false &&
-      data.chats[0].from_friend !== Number(id)
-    ) {
+    const chats = Array.isArray(data?.chats) ? data.chats : [];
+    if (chats.length === 0) {
+      return 0;
+    }
+    const first = chats[0];
+    if (first?.read === false && first?.from_friend !== Number(id)) {
       return 1;
-    } else return 0;
+    }
+    return 0;
   } catch (error) {
     console.error("Chat fetch error:", error);
     return 0;

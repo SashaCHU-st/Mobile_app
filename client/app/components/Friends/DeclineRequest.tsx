@@ -1,8 +1,8 @@
 import { Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { useState } from "react";
-import { API_URL } from "../../config";
-import { DeclineFriendProps } from "../../types/types";
-import { size } from "../../utils/size";
+import { API_URL } from "@/src/config";
+import { DeclineFriendProps } from "@/src/types/types";
+import { size } from "@/src/utils/size";
 
 const DeclineRequest: React.FC<DeclineFriendProps> = ({ id, onDecline }) => {
   const [error, setError] = useState("");

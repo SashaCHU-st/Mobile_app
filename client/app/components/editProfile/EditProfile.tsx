@@ -7,12 +7,12 @@ import {
   Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { API_URL } from "../../config";
+import { API_URL } from "@/src/config";
 import * as ImagePicker from "expo-image-picker";
-import { fetchMe } from "../../utils/api";
-import { Me } from "../../types/types";
+import { fetchMe } from "@/src/utils/api";
+import { Me } from "@/src/types/types";
 import dog from "../../../assets/images/dog.jpg";
-import { size } from "../../utils/size";
+import { size } from "@/src/utils/size";
 
 const EditProfile = () => {
   const [name, setName] = useState("");

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import dog from "../../../assets/images/dog.jpg";
 import { useRouter } from "expo-router";
-import { Food } from "../../types/types";
+import { Food } from "@/src/types/types";
 
 
 const FoodCards = ({ foods }: { foods: Food[] })=> {

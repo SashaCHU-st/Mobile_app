@@ -9,8 +9,8 @@ import {
 import dog from "../../assets/images/dog.jpg";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { API_URL } from "../config";
-import { User } from "../types/types";
+import { API_URL } from "@/src/config";
+import { User } from "@/src/types/types";
 import DeclineRequest from "../components/Friends/DeclineRequest";
 import ConfirmRequest from "../components/Friends/ConfirmRequest";
 

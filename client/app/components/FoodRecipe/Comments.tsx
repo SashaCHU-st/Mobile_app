@@ -1,40 +1,38 @@
 import {
   View,
-  FlatList,
   StyleSheet,
   Dimensions,
   Text,
 } from "react-native";
-import { OldCommentsProps } from "../../types/types";
+import { OldCommentsProps } from "@/src/types/types";
 const { width } = Dimensions.get("window");
 
 const Comments = ({oldComment}:OldCommentsProps) => {
   return (
     <View>
       <Text>Comments:</Text>
-      <FlatList
-        data={oldComment}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={1}
-        contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={<Text style={styles.emptyText}>No food found</Text>}
-        renderItem={({ item: comment }) => (
-          <View style={styles.commentItem}>
-            <Text>{comment.name}:</Text>
-            <Text>{comment.comment}</Text>
-            <Text>
-              {new Date(comment.time).toLocaleTimeString("en-GB", {
-                timeZone: "Europe/Helsinki",
-                year: "2-digit",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </Text>
-          </View>
-        )}
-      />
+      {oldComment.length === 0 ? (
+        <Text style={styles.emptyText}>No food found</Text>
+      ) : (
+        <View style={styles.listContainer}>
+          {oldComment.map((comment) => (
+            <View key={comment.id} style={styles.commentItem}>
+              <Text>{comment.name}:</Text>
+              <Text>{comment.comment}</Text>
+              <Text>
+                {new Date(comment.time).toLocaleTimeString("en-GB", {
+                  timeZone: "Europe/Helsinki",
+                  year: "2-digit",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            </View>
+          ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -61,6 +59,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#999",
     textAlign: "center",
+  },
+  listContainer: {
+    padding: 10,
   },
   commentItem: {
     flexDirection: "row",

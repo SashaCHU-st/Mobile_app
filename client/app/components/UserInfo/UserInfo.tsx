@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { useRouter } from "expo-router";
-import { Me } from "../../types/types";
+import { Me } from "@/src/types/types";
 import dog from "../../../assets/images/dog.jpg";
-import { size } from "../../utils/size";
+import { size } from "@/src/utils/size";
 
 const UserInfo: React.FC<Me> = ({ id, name, email, image }) => {
   const router = useRouter();
 
   const handleEditProfile = () => {
-    router.push("/components/editProfile/EditProfile");
+    router.push("/(protected)/EditProfile");
   };
   return (
     <View>

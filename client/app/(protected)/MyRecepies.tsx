@@ -1,20 +1,19 @@
 import {
   View,
   Image,
-  ScrollView,
   StyleSheet,
   Pressable,
   Text,
   FlatList,
 } from "react-native";
 import dog from "../../assets/images/dog.jpg";
-import { API_URL } from "../config";
+import { API_URL } from "@/src/config";
 import { useState } from "react";
-import { MyFood } from "../types/types";
+import { MyFood } from "@/src/types/types";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { size } from "../utils/size";
+import { size } from "@/src/utils/size";
 
 
 const MyRecepies = () => {
@@ -53,27 +52,25 @@ const MyRecepies = () => {
     });
   };
   return (
-    <ScrollView>
-      <FlatList
-        data={myFood}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={<Text style={styles.emptyText}>No food found</Text>}
-        renderItem={({ item: food }) => (
-          <View style={styles.foodItem}>
-            <Image
-              source={food.image ? { uri: food.image } : dog}
-              style={styles.foodImage}
-              resizeMode="cover"
-            />
-            <Pressable onPress={() => handleSummary(food)}>
-              <Text>{food.title}</Text>
-            </Pressable>
-          </View>
-        )}
-      />
-    </ScrollView>
+    <FlatList
+      data={myFood}
+      keyExtractor={(item) => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={{ padding: 10 }}
+      ListEmptyComponent={<Text style={styles.emptyText}>No food found</Text>}
+      renderItem={({ item: food }) => (
+        <View style={styles.foodItem}>
+          <Image
+            source={food.image ? { uri: food.image } : dog}
+            style={styles.foodImage}
+            resizeMode="cover"
+          />
+          <Pressable onPress={() => handleSummary(food)}>
+            <Text>{food.title}</Text>
+          </Pressable>
+        </View>
+      )}
+    />
   );
 };
 

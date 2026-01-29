@@ -8,9 +8,9 @@ import {
 import { useRoute, RouteProp } from "@react-navigation/native";
 import ChatMessage from "./ChatMessage";
 import ChatInput from "./ChatInput";
-import { useChat } from "../../hooks/ChatHooks";
-import { ChatRouteParams, Message } from "../../types/types";
-import { API_URL } from "@/app/config";
+import { useChat } from "@/src/hooks/ChatHooks";
+import { ChatRouteParams, Message } from "@/src/types/types";
+import { API_URL } from "@/src/config";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 

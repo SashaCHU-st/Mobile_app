@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Pressable, Text, StyleSheet, FlatList } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { size } from "../utils/size";
-import { API_URL } from "../config";
+import { size } from "@/src/utils/size";
+import { API_URL } from "@/src/config";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Chats } from "../types/types";
+import { Chats } from "@/src/types/types";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";

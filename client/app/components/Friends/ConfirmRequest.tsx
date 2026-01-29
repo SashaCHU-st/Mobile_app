@@ -1,7 +1,7 @@
 import { Text, StyleSheet, Pressable, Dimensions } from "react-native";
 import { useState } from "react";
-import { API_URL } from "../../config";
-import { ConfirmFriendProps } from "../../types/types";
+import { API_URL } from "@/src/config";
+import { ConfirmFriendProps } from "@/src/types/types";
 
 const size = Dimensions.get("window").width * 0.1;
 const ConfirmRequest: React.FC<ConfirmFriendProps> = ({ id, onConfirm }) => {

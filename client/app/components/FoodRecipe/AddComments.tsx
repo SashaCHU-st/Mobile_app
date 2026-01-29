@@ -6,8 +6,8 @@ import {
   Pressable,
   Text,
 } from "react-native";
-import { API_URL } from "../../config";
-import { PropsComments } from "../../types/types";
+import { API_URL } from "@/src/config";
+import { PropsComments } from "@/src/types/types";
 import { useState } from "react";
 const size = Dimensions.get("window").width * 0.1;
 

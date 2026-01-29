@@ -4,7 +4,7 @@ import Auth from "../components/Auth/Auth";
 import Header from "../components/Helpers/Header";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
-import { useAuth } from "../context/Authcontext";
+import { useAuth } from "@/src/context/Authcontext";
 
 const Home = () => {
   const { isAuthorized } = useAuth();

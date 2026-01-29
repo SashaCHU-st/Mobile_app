@@ -11,9 +11,9 @@ import { useLocalSearchParams } from "expo-router";
 import { Linking } from "react-native";
 import RenderHTML from "react-native-render-html";
 import { useState, useCallback } from "react";
-import { API_URL } from "../../config";
+import { API_URL } from "@/src/config";
 import Comments from "../FoodRecipe/Comments";
-import { oldComments } from "../../types/types";
+import { oldComments } from "@/src/types/types";
 import { useFocusEffect } from "@react-navigation/native";
 
 const size = Dimensions.get("window").width * 0.1;

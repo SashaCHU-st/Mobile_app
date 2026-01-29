@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { ChatMessageProps } from "../../types/types";
+import { ChatMessageProps } from "@/src/types/types";
 
 export default function ChatMessage({ message, myId }: ChatMessageProps) {
   const isMe = message.from.id === myId;

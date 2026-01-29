@@ -63,7 +63,7 @@ export function useChat(friendId: number) {
       }
       try {
         const res = await fetch(`${ws_address}/chat/${myId}/${friendId}`, {
-          credentials:"include",
+          credentials: "include",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export function useChat(friendId: number) {
       const ws = new WebSocket(`${ws_address}/ws?token=${token}`);
       wsRef.current = ws;
 
-      ws.onopen = () => console.log("✅ WS connected");
+      ws.onopen = () => console.log("âœ… WS connected");
       ws.onmessage = (e) => {
         if (!mounted) return;
         console.log(" message raw:", e.data);
@@ -99,17 +99,13 @@ export function useChat(friendId: number) {
           ) {
             addMessage(data);
           } else {
-            console.log(
-              "UUUU",
-              friendId,
-              data
-            );
+            console.log("UUUU", friendId, data);
           }
         } catch (err) {
           console.error("Failed to parse WS message:", err);
         }
       };
-      ws.onclose = () => console.log("❌ WS disconnected");
+      ws.onclose = () => console.log("âŒ WS disconnected");
       ws.onerror = (err) => console.log("WS error", err);
     })();
 

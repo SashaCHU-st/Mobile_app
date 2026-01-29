@@ -6,15 +6,14 @@ import {
   Image,
   FlatList,
 } from "react-native";
-import { API_URL } from "../config";
+import { API_URL } from "@/src/config";
 import { useFocusEffect } from "@react-navigation/native";
-import { User } from "../types/types";
+import { User } from "@/src/types/types";
 import AddFriend from "../components/Friends/AddFriend";
 import BackButton from "../components/Helpers/BackButton";
 import dog from "../../assets/images/dog.jpg";
-import { size } from "../utils/size";
+import { size } from "@/src/utils/size";
 import SearchUsers from "../components/Users/SearchUsers";
-import { ScrollView } from "react-native-gesture-handler";
 
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -76,39 +75,35 @@ const ShowUsers = () => {
     }
   };
   return (
-    <ScrollView>
-      <SearchUsers value={search} onChange={handleSearch} />
-      <FlatList
-        data={users}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No users found.</Text>
-        }
-        renderItem={({ item: user }) => (
-          <View style={styles.userItem}>
-            <Image
-              source={user.image ? { uri: user.image } : dog}
-              style={styles.userImage}
-              resizeMode="cover"
-            />
-            <Text style={styles.userName}>{user.name}</Text>
-            <AddFriend
-              id={user.id}
-              status={user.confirmrequest ?? null}
-              requestFrom={user.requestFrom ?? null}
-              onFriendAdded={() => handleFriendAdded(user.id)}
-            />
-          </View>
-        )}
-        ListFooterComponent={
-          <View style={{ marginTop: 20 }}>
-            <BackButton />
-          </View>
-        }
-      />
-    </ScrollView>
+    <FlatList
+      data={users}
+      keyExtractor={(item) => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={{ padding: 10 }}
+      ListHeaderComponent={<SearchUsers value={search} onChange={handleSearch} />}
+      ListEmptyComponent={<Text style={styles.emptyText}>No users found.</Text>}
+      renderItem={({ item: user }) => (
+        <View style={styles.userItem}>
+          <Image
+            source={user.image ? { uri: user.image } : dog}
+            style={styles.userImage}
+            resizeMode="cover"
+          />
+          <Text style={styles.userName}>{user.name}</Text>
+          <AddFriend
+            id={user.id}
+            status={user.confirmrequest ?? null}
+            requestFrom={user.requestFrom ?? null}
+            onFriendAdded={() => handleFriendAdded(user.id)}
+          />
+        </View>
+      )}
+      ListFooterComponent={
+        <View style={{ marginTop: 20 }}>
+          <BackButton />
+        </View>
+      }
+    />
   );
 };
 

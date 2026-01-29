@@ -5,15 +5,14 @@ import {
   Image,
   Pressable,
   Text,
-  FlatList,
 } from "react-native";
-import { API_URL } from "../config";
+import { API_URL } from "@/src/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { size } from "../utils/size";
+import { size } from "@/src/utils/size";
 import dog from "../../assets/images/dog.jpg";
 
 const SharedRecipes = () => {
@@ -63,40 +62,31 @@ const SharedRecipes = () => {
   return (
     <ScrollView>
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      <FlatList
-        data={friendsFood}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <View style={styles.titleName}>
-            <Text
-              style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}
-            >
-              {item.name}'s favorites
-            </Text>
-            <FlatList
-              data={item.foods}
-              keyExtractor={(food, index) => `${item.name}-${index}`}
-              numColumns={2}
-              columnWrapperStyle={{ justifyContent: "space-between", paddingRight:15 }}
-              renderItem={({ item: food }) => (
-                <Pressable
-                  style={styles.foodCard}
-                  onPress={() => handleDetails(food)}
-                >
-                  <Image
-                    source={food.image ? { uri: food.image } : dog}
-                    style={styles.foodImage}
-                    resizeMode="cover"
-                  />
-                  <Text style={styles.foodTitle} numberOfLines={2}>
-                    {food.title}
-                  </Text>
-                </Pressable>
-              )}
-            />
+      {friendsFood.map((item) => (
+        <View key={item.name} style={styles.titleName}>
+          <Text style={{ fontWeight: "bold", fontSize: 18, marginBottom: 10 }}>
+            {item.name}'s favorites
+          </Text>
+          <View style={styles.foodsGrid}>
+            {item.foods.map((food, index) => (
+              <Pressable
+                key={`${item.name}-${index}`}
+                style={styles.foodCard}
+                onPress={() => handleDetails(food)}
+              >
+                <Image
+                  source={food.image ? { uri: food.image } : dog}
+                  style={styles.foodImage}
+                  resizeMode="cover"
+                />
+                <Text style={styles.foodTitle} numberOfLines={2}>
+                  {food.title}
+                </Text>
+              </Pressable>
+            ))}
           </View>
-        )}
-      />
+        </View>
+      ))}
     </ScrollView>
   );
 };
@@ -127,7 +117,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   foodCard: {
-    flex: 1,
+    width: "48%",
     backgroundColor: "#fff",
     borderRadius: 16,
     margin: 6,
@@ -139,6 +129,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
     elevation: 3,
+  },
+  foodsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    paddingRight: 15,
   },
   foodImage: {
     width: "100%",

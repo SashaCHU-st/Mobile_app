@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import { ChatInputProps } from "../../types/types";
+import { ChatInputProps } from "@/src/types/types";
 
 export default function ChatInput({
   text,

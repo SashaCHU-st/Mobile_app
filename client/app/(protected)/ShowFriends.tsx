@@ -8,16 +8,15 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
-import { API_URL } from "../config";
-import { User } from "../types/types";
+import { API_URL } from "@/src/config";
+import { User } from "@/src/types/types";
 import dog from "../../assets/images/dog.jpg";
 import DeleteFriends from "../components/Friends/DeleteFriends";
 import BackButton from "../components/Helpers/BackButton";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import SearchUsers from "../components/Users/SearchUsers";
-import { ScrollView } from "react-native-gesture-handler";
-import { size } from "../utils/size";
+import { size } from "@/src/utils/size";
 import { useRouter } from "expo-router";
 
 const ShowFriends = () => {
@@ -83,40 +82,38 @@ const ShowFriends = () => {
     });
   };
   return (
-    <ScrollView>
-      <SearchUsers value={search} onChange={handleSearch} />
-      <FlatList
-        data={friends}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        contentContainerStyle={{ padding: 10 }}
-        ListEmptyComponent={<Text style={styles.emptyText}>No friends</Text>}
-        renderItem={({ item: friend }) => (
-          <View style={styles.userItem}>
-            <Image
-              source={friend.image ? { uri: friend.image } : dog}
-              style={styles.userImage}
-              resizeMode="cover"
-            />
-            <Text style={styles.userName}>{friend.name}</Text>
-            <View style={styles.buttons}>
-              <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
-              <Pressable
-                style={styles.button}
-                onPress={() => moveToChat(friend.id)}
-              >
-                <Text>Chat</Text>
-              </Pressable>
-            </View>
+    <FlatList
+      data={friends}
+      keyExtractor={(item) => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={{ padding: 10 }}
+      ListHeaderComponent={<SearchUsers value={search} onChange={handleSearch} />}
+      ListEmptyComponent={<Text style={styles.emptyText}>No friends</Text>}
+      renderItem={({ item: friend }) => (
+        <View style={styles.userItem}>
+          <Image
+            source={friend.image ? { uri: friend.image } : dog}
+            style={styles.userImage}
+            resizeMode="cover"
+          />
+          <Text style={styles.userName}>{friend.name}</Text>
+          <View style={styles.buttons}>
+            <DeleteFriends id={friend.id} onDeleteFriends={fetchFriends} />
+            <Pressable
+              style={styles.button}
+              onPress={() => moveToChat(friend.id)}
+            >
+              <Text>Chat</Text>
+            </Pressable>
           </View>
-        )}
-        ListFooterComponent={
-          <View>
-            <BackButton />
-          </View>
-        }
-      />
-    </ScrollView>
+        </View>
+      )}
+      ListFooterComponent={
+        <View>
+          <BackButton />
+        </View>
+      }
+    />
   );
 };
 

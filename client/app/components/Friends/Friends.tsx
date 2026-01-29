@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import { View, Pressable, StyleSheet, Text } from "react-native";
-import { size } from "@/app/utils/size";
+import { size } from "@/src/utils/size";
 
 const Friends = () => {
   const handleShowFriends = () => {

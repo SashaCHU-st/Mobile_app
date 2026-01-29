@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, Pressable, Dimensions } from "react-native";
-import { DeleteFriendProps } from "../../types/types";
-import { API_URL } from "../../config";
-import { size } from "../../utils/size";
+import { DeleteFriendProps } from "@/src/types/types";
+import { API_URL } from "@/src/config";
+import { size } from "@/src/utils/size";
 
 const DeleteFriends: React.FC<DeleteFriendProps> = ({
   id,

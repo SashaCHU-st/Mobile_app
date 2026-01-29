@@ -7,14 +7,14 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import { Food } from "../types/types";
+import { Food } from "@/src/types/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API, API_KEY } from "../config_key";
+import { API, API_KEY } from "@/src/config_key";
 import FoodCards from "../components/FoodRecipe/FoodCards";
 import DropDownPicker from "react-native-dropdown-picker";
-import { diets } from "../utils/diet";
-import { intolerances } from "../utils/intolerance";
-import { size } from "../utils/size";
+import { diets } from "@/src/utils/diet";
+import { intolerances } from "@/src/utils/intolerance";
+import { size } from "@/src/utils/size";
 
 const Recepies = () => {
   const [search, setSearch] = useState("");

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import UserInfo from "../components/UserInfo/UserInfo";
-import { Me } from "../types/types";
+import { Me } from "@/src/types/types";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import { fetchMe } from "../utils/api";
+import { fetchMe } from "@/src/utils/api";
 
 
 export default function UserPage() {

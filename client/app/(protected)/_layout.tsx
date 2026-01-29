@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/Authcontext";
 import { View, ActivityIndicator } from "react-native";
 import { Drawer } from "expo-router/drawer";
-import { notifications, chats } from "../utils/api";
+import { useAuth } from "@/src/context/Authcontext";
+import { notifications, chats } from "@/src/utils/api";
 
 export default function ProtectedLayout() {
   const { isAuthorized, loading } = useAuth();
@@ -15,28 +15,26 @@ export default function ProtectedLayout() {
     if (!loading && !isAuthorized) {
       router.replace("/");
     }
-  }, [isAuthorized, loading]);
+  }, [isAuthorized, loading, router]);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const notificationsData = await notifications();
-      setNotification(notificationsData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const notificationsData = await notifications();
+        setNotification(notificationsData);
 
-      const chatData = await chats();
-      setChat(chatData);
-    } catch (err) {
-      console.error("Failed to fetch data:", err);
-    }
-  };
+        const chatData = await chats();
+        setChat(chatData);
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
+      }
+    };
 
-  fetchData();
+    fetchData();
 
-  const interval = setInterval(fetchData, 5000);
-
-  return () => clearInterval(interval); 
-}, []);
-
+    const interval = setInterval(fetchData, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   if (loading) {
     return (
@@ -61,57 +59,56 @@ useEffect(() => {
         headerTintColor: "white",
       }}
     >
-      💬
       <Drawer.Screen
         name="ShowFriends"
-        options={{ drawerLabel: "🧑‍🤝‍🧑 Friends", title: "Friends" }}
+        options={{ drawerLabel: "Friends", title: "Friends" }}
       />
       <Drawer.Screen
         name="ShowUsers"
-        options={{ drawerLabel: "🧑‍🤝‍🧑 All Users", title: "Users" }}
+        options={{ drawerLabel: "All Users", title: "Users" }}
       />
       <Drawer.Screen
         name="Chat"
         options={{
-          drawerLabel: chat !== 0 ? `💬 Chat  *` : `💬 Chat`,
+          drawerLabel: chat !== 0 ? "Chat *" : "Chat",
           title: "Chat",
         }}
       />
       <Drawer.Screen
         name="Recepies"
         options={{
-          drawerLabel: "🥗 Search Recepies",
+          drawerLabel: "Search Recepies",
           title: "Search Recepies",
         }}
       />
       <Drawer.Screen
         name="MyRecepies"
-        options={{ drawerLabel: "🥗 My Recepies", title: "My Recepies" }}
+        options={{ drawerLabel: "My Recepies", title: "My Recepies" }}
       />
       <Drawer.Screen
         name="SharedRecipes"
         options={{
-          drawerLabel: "🥗 Shared Recipies",
+          drawerLabel: "Shared Recipies",
           title: "Shared Recipies",
         }}
       />
       <Drawer.Screen
         name="EditProfile"
-        options={{ drawerLabel: "⚙️ Edit Profile", title: "Edit Profile" }}
+        options={{ drawerLabel: "Edit Profile", title: "Edit Profile" }}
       />
       <Drawer.Screen
         name="Notifications"
         options={{
           drawerLabel:
             notification !== 0
-              ? `🔔Notification (${notification})`
-              : `🔔Notification  `,
+              ? `Notification (${notification})`
+              : "Notification",
           title: "Notifications",
         }}
       />
       <Drawer.Screen
         name="UserPage"
-        options={{ drawerLabel: "👤 My Page", title: "My Page" }}
+        options={{ drawerLabel: "My Page", title: "My Page" }}
       />
       <Drawer.Screen
         name="Logout"

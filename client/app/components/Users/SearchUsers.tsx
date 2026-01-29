@@ -6,7 +6,7 @@ import {
   Pressable,
 } from "react-native";
 import React from "react";
-import { size } from "../../utils/size";
+import { size } from "@/src/utils/size";
 
 
 const SearchUsers = ({

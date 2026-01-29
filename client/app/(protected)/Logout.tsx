@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
-import { useAuth } from "../context/Authcontext";
+import { useAuth } from "@/src/context/Authcontext";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 

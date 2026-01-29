@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { API_URL } from "../../config";
-import { useAuth } from "../../context/Authcontext";
-import { AuthProps } from "../../types/types";
+import { API_URL } from "@/src/config";
+import { useAuth } from "@/src/context/Authcontext";
+import { AuthProps } from "@/src/types/types";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
